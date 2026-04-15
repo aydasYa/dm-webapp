@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# (WebApp): Abschlepper - deinMotorschaden.de
+## Was tut die WebApp?
+- Abschläpper erhalten Aufträge und Provision durch die WebApp
 
-## Getting Started
+- Die Nuzer sind die Abschläpper z.B. vom ADAC, ..., Private Abschläpper.
 
-First, run the development server:
+- Ziel der WebApp ist es, das zwischen dem Abschleppen bis zur Werkstatt wir eingeschaltet werden, indem der Kunde den QR Code scannt, somit dann sich eine Partnerwerkstatt in der Nähe aussuchen kann. Damit wird garantiert, sauber gearbeitet zu werden. Wir verdienen somit im gesamt prozess von crash bis reparatur mit. Sowie der Abschlepper, welcher dann eine Provision erhält.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Was ist der Tech Stack?
+Dies ermöglicht es später mit Vercel kombiniert zu arbeiten (soweit ich es verstanden habe fürs Hosten der WebApp)
+- Next.js -> Front/Backend
+- Prisma -> ORM - Datenbankzugriff via TS (TypeScript)
+- Supabase (PostgresSQL) -> Datenbank hosting
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Das Datenbankschema
+### Models
+#### User
+Repräsentiert einen registrierten Abschlepper oder Admin in der WebApp.
+#### Workshop
+Die Werkstatt welche der Kunde ausgesucht hat und er Abschläpper das Fahrzeug hin transportiert.
+#### Lead
+Alle Informationen über den Kunden und dessen Fahrzeug, welcher den Abschläpper bestellt hat.
+#### QRScan
+Enthält die Informationen wie UTM-Paramenterl wann erstellt- und gescannt, welcher Lead er angehört.
+#### Commission
+Alle Informationen bzgl. dem Status der Provisionsauszahlung, sowie an welchen Abschlepper dieser zukommen soll. Dazu noch die rückverfolgung des Abschlepp-Status, Währung und Zahlungsmethode.
+#### AuditLog
+Repräsentiert alle Infos über Änderungen an den Tables Daten. Wann in welcher Tabelle was verändert wurde. Ob "soft-delete" oder neuer Eintrag von Abschlepper welche manuell vom Admin freigeschaltet wurden.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+### Enums
+#### Role
+Die `Role` Enum beschreibt welcher Typ der Nutzer ist (Admin oder Abschlepper). Es beschränkt den `role` Wert mit: `TOW_TRUCK_DRIVER` oder `ADMIN`. Ohne diesen Enum kann wer versehentlich auf `anderes mit viel power` setzen.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### UserStatus
+Beschreibt die einzigen Werte welche zulässig sind: `PENDING, ACTIVE, REJECTED`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### LeadStatus
+Genau wie `UseStatus` beschreibt es die einzigen Werte welche zulässig sind für den `leadStatus`. Zum Beispiel welche Partner-Werkstatt vom Kunden für den Abschlepp- sowie Reparatur-Service ausgesucht wurde. Infos weiterhing für Reparatur-Status, Abgeschlossen, ... etc.
 
-## Deploy on Vercel
+#### CommissionStatus
+Die Werte welche hinterlegt werden dürfen für den Provisionsauszahlungs-Status.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Setup
+1. Repository Klonen (zugang nötig)
+2. Node.js installieren https://nodejs.org/en/download
+3. Im geklonten Projekt-Ordner npm/pnpm init -y ausführen
+4. Supabase zugang zu der Datenbank erhalten
+5. .env Datei einrichten mit den Links von Supabase

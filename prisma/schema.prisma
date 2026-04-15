@@ -1,0 +1,180 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+// ─── ENUMS ───────────────────────────────────────────
+
+enum Role {
+  TOW_TRUCK_DRIVER // DE: Abschlepper
+  ADMIN
+  //USER_ACCOUNT
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  REJECTED
+}
+
+enum LeadStatus {
+  NEW
+  DISTRIBUTED     // customer declined workshop
+  QR_SCANNED
+  WORKSHOP_SELECTED
+  IN_REPAIR
+  REPAIR_DONE
+  VEHICLE_DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum CommissionStatus {
+  PENDING
+  APPROVED
+  PAID
+  REJECTED
+}
+
+// ─── MODELS ──────────────────────────────────────────
+
+// model für Company rechieren was noch dazu gehört
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  firstname    String
+  lastname     String
+  company      String? /* Bin mir nicht sicher, ob es nur von Unternehme (ADAC, ...) Abschlepper sind
+                        Oder auch priavte Abschlepper sein können, welche sich Registrieren dürfen */ 
+
+  // supabase
+  supabaseId   String     @unique
+
+  phone        String?
+  // passwordHash String <- remove, supabase handles it intern in auth.user
+  role         Role       @default(TOW_TRUCK_DRIVER)
+  status       UserStatus @default(PENDING)
+  qrCode       String?    @unique
+  salesforceId String?    @unique
+
+  leads        Lead[]
+  commissions  Commission[] // User 1:n Commissions (Provision), das selbe für leads und auditLogs
+  auditLogs    AuditLog[]
+
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  @@map("users")
+}
+
+model Workshop {
+  id        String   @id @default(cuid())
+  name      String
+  address   String
+  city      String
+  postcode  String // weitere noch hinzufügen zb Ansprechpartner
+  phone     String?
+  email     String?
+
+  leads     Lead[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@map("workshops")
+}
+
+model Lead {
+  id              String     @id @default(cuid())
+  
+  // Customer info
+  customerLastName String
+  vehicleMake      String
+  vehicleModel     String
+  breakdownAddress String
+  internNotice     String? // verbesser, notiz anlegen über 
+
+  // Status & tracking
+  status          LeadStatus @default(NEW)
+  salesforceId    String?    @unique
+  salesforceStatus String?
+
+  // Relations
+  towTruckDriver     User       @relation(fields: [towTruckDriverId], references: [id])
+  towTruckDriverId   String
+
+  workshop        Workshop?  @relation(fields: [workshopId], references: [id])
+  workshopId      String?
+
+  qrScan          QRScan? // denke sollte ohne ? sein, weil wir per webapp alle leads mit dem qrCode generieren / später bereden
+  commission      Commission?
+  auditLogs       AuditLog[]
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  deletedAt       DateTime // jedes model braucht das noch ausser auditLog
+  
+  @@map("leads")
+}
+
+model QRScan {
+  id          String   @id @default(cuid())
+  scannedAt   DateTime @default(now())
+  utmMedium   String?  // AccountID_Abschlepper: AccountId_TowTruckDriver
+  utmSource   String?  // ADAC_Abschlepper / ADAC_TowTruckDriver
+
+  lead        Lead     @relation(fields: [leadId], references: [id])
+  leadId      String   @unique
+
+  createdAt   DateTime @default(now())
+
+  landingpageLink  String  //defeulat: angebot seite von dm link enum erstellen
+
+  @@map("qr_scans")
+}
+
+model Commission {
+  id          String           @id @default(cuid())
+  amount      Decimal          @db.Decimal(10, 2) // maximal 10 zeichen lange zahl mit mas .2 stellen am ende
+  currency    String           @default("EUR")
+  status      CommissionStatus @default(PENDING)
+  paymentRef  String?          // Stripe / SEPA / PayPal reference
+  paidAt      DateTime?
+
+  lead        Lead             @relation(fields: [leadId], references: [id])
+  leadId      String           @unique
+
+  towTruckDriver User             @relation(fields: [towTruckDriverId], references: [id])
+  towTruckDriverId String
+  
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@map("commissions")
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // e.g. "STATUS_CHANGED", "ACCOUNT_APPROVED"
+  details   String?  // free text or JSON string
+  
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+
+  lead      Lead?    @relation(fields: [leadId], references: [id])
+  leadId    String?
+
+  createdAt DateTime @default(now())
+
+  @@map("audit_logs")
+}
