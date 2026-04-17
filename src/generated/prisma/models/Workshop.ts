@@ -29,6 +29,7 @@ export type WorkshopMinAggregateOutputType = {
   name: string | null
   address: string | null
   city: string | null
+  postcode: string | null
   phone: string | null
   email: string | null
   createdAt: Date | null
@@ -41,6 +42,7 @@ export type WorkshopMaxAggregateOutputType = {
   name: string | null
   address: string | null
   city: string | null
+  postcode: string | null
   phone: string | null
   email: string | null
   createdAt: Date | null
@@ -53,6 +55,7 @@ export type WorkshopCountAggregateOutputType = {
   name: number
   address: number
   city: number
+  postcode: number
   phone: number
   email: number
   createdAt: number
@@ -67,6 +70,7 @@ export type WorkshopMinAggregateInputType = {
   name?: true
   address?: true
   city?: true
+  postcode?: true
   phone?: true
   email?: true
   createdAt?: true
@@ -79,6 +83,7 @@ export type WorkshopMaxAggregateInputType = {
   name?: true
   address?: true
   city?: true
+  postcode?: true
   phone?: true
   email?: true
   createdAt?: true
@@ -91,6 +96,7 @@ export type WorkshopCountAggregateInputType = {
   name?: true
   address?: true
   city?: true
+  postcode?: true
   phone?: true
   email?: true
   createdAt?: true
@@ -176,6 +182,7 @@ export type WorkshopGroupByOutputType = {
   name: string
   address: string
   city: string
+  postcode: string
   phone: string | null
   email: string | null
   createdAt: Date
@@ -209,6 +216,7 @@ export type WorkshopWhereInput = {
   name?: Prisma.StringFilter<"Workshop"> | string
   address?: Prisma.StringFilter<"Workshop"> | string
   city?: Prisma.StringFilter<"Workshop"> | string
+  postcode?: Prisma.StringFilter<"Workshop"> | string
   phone?: Prisma.StringNullableFilter<"Workshop"> | string | null
   email?: Prisma.StringNullableFilter<"Workshop"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Workshop"> | Date | string
@@ -222,6 +230,7 @@ export type WorkshopOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -238,6 +247,7 @@ export type WorkshopWhereUniqueInput = Prisma.AtLeast<{
   name?: Prisma.StringFilter<"Workshop"> | string
   address?: Prisma.StringFilter<"Workshop"> | string
   city?: Prisma.StringFilter<"Workshop"> | string
+  postcode?: Prisma.StringFilter<"Workshop"> | string
   phone?: Prisma.StringNullableFilter<"Workshop"> | string | null
   email?: Prisma.StringNullableFilter<"Workshop"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Workshop"> | Date | string
@@ -251,6 +261,7 @@ export type WorkshopOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -269,6 +280,7 @@ export type WorkshopScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"Workshop"> | string
   address?: Prisma.StringWithAggregatesFilter<"Workshop"> | string
   city?: Prisma.StringWithAggregatesFilter<"Workshop"> | string
+  postcode?: Prisma.StringWithAggregatesFilter<"Workshop"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"Workshop"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Workshop"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Workshop"> | Date | string
@@ -281,6 +293,7 @@ export type WorkshopCreateInput = {
   name: string
   address: string
   city: string
+  postcode: string
   phone?: string | null
   email?: string | null
   createdAt?: Date | string
@@ -294,6 +307,7 @@ export type WorkshopUncheckedCreateInput = {
   name: string
   address: string
   city: string
+  postcode: string
   phone?: string | null
   email?: string | null
   createdAt?: Date | string
@@ -307,6 +321,7 @@ export type WorkshopUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -320,6 +335,7 @@ export type WorkshopUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -333,6 +349,7 @@ export type WorkshopCreateManyInput = {
   name: string
   address: string
   city: string
+  postcode: string
   phone?: string | null
   email?: string | null
   createdAt?: Date | string
@@ -345,6 +362,7 @@ export type WorkshopUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -357,6 +375,7 @@ export type WorkshopUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -369,6 +388,7 @@ export type WorkshopCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -381,6 +401,7 @@ export type WorkshopMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -393,6 +414,7 @@ export type WorkshopMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   address?: Prisma.SortOrder
   city?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -426,6 +448,7 @@ export type WorkshopCreateWithoutLeadsInput = {
   name: string
   address: string
   city: string
+  postcode: string
   phone?: string | null
   email?: string | null
   createdAt?: Date | string
@@ -438,6 +461,7 @@ export type WorkshopUncheckedCreateWithoutLeadsInput = {
   name: string
   address: string
   city: string
+  postcode: string
   phone?: string | null
   email?: string | null
   createdAt?: Date | string
@@ -466,6 +490,7 @@ export type WorkshopUpdateWithoutLeadsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -478,6 +503,7 @@ export type WorkshopUncheckedUpdateWithoutLeadsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   address?: Prisma.StringFieldUpdateOperationsInput | string
   city?: Prisma.StringFieldUpdateOperationsInput | string
+  postcode?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -521,6 +547,7 @@ export type WorkshopSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name?: boolean
   address?: boolean
   city?: boolean
+  postcode?: boolean
   phone?: boolean
   email?: boolean
   createdAt?: boolean
@@ -535,6 +562,7 @@ export type WorkshopSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   address?: boolean
   city?: boolean
+  postcode?: boolean
   phone?: boolean
   email?: boolean
   createdAt?: boolean
@@ -547,6 +575,7 @@ export type WorkshopSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   name?: boolean
   address?: boolean
   city?: boolean
+  postcode?: boolean
   phone?: boolean
   email?: boolean
   createdAt?: boolean
@@ -559,6 +588,7 @@ export type WorkshopSelectScalar = {
   name?: boolean
   address?: boolean
   city?: boolean
+  postcode?: boolean
   phone?: boolean
   email?: boolean
   createdAt?: boolean
@@ -566,7 +596,7 @@ export type WorkshopSelectScalar = {
   deletedAt?: boolean
 }
 
-export type WorkshopOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "city" | "phone" | "email" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["workshop"]>
+export type WorkshopOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "city" | "postcode" | "phone" | "email" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["workshop"]>
 export type WorkshopInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leads?: boolean | Prisma.Workshop$leadsArgs<ExtArgs>
   _count?: boolean | Prisma.WorkshopCountOutputTypeDefaultArgs<ExtArgs>
@@ -584,6 +614,7 @@ export type $WorkshopPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     name: string
     address: string
     city: string
+    postcode: string
     phone: string | null
     email: string | null
     createdAt: Date
@@ -1017,6 +1048,7 @@ export interface WorkshopFieldRefs {
   readonly name: Prisma.FieldRef<"Workshop", 'String'>
   readonly address: Prisma.FieldRef<"Workshop", 'String'>
   readonly city: Prisma.FieldRef<"Workshop", 'String'>
+  readonly postcode: Prisma.FieldRef<"Workshop", 'String'>
   readonly phone: Prisma.FieldRef<"Workshop", 'String'>
   readonly email: Prisma.FieldRef<"Workshop", 'String'>
   readonly createdAt: Prisma.FieldRef<"Workshop", 'DateTime'>

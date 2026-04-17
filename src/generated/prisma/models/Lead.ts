@@ -30,6 +30,7 @@ export type LeadMinAggregateOutputType = {
   vehicleMake: string | null
   vehicleModel: string | null
   breakdownAddress: string | null
+  internNotice: string | null
   status: $Enums.LeadStatus | null
   salesforceId: string | null
   salesforceStatus: string | null
@@ -37,6 +38,7 @@ export type LeadMinAggregateOutputType = {
   workshopId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type LeadMaxAggregateOutputType = {
@@ -45,6 +47,7 @@ export type LeadMaxAggregateOutputType = {
   vehicleMake: string | null
   vehicleModel: string | null
   breakdownAddress: string | null
+  internNotice: string | null
   status: $Enums.LeadStatus | null
   salesforceId: string | null
   salesforceStatus: string | null
@@ -52,6 +55,7 @@ export type LeadMaxAggregateOutputType = {
   workshopId: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
 }
 
 export type LeadCountAggregateOutputType = {
@@ -60,6 +64,7 @@ export type LeadCountAggregateOutputType = {
   vehicleMake: number
   vehicleModel: number
   breakdownAddress: number
+  internNotice: number
   status: number
   salesforceId: number
   salesforceStatus: number
@@ -67,6 +72,7 @@ export type LeadCountAggregateOutputType = {
   workshopId: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   _all: number
 }
 
@@ -77,6 +83,7 @@ export type LeadMinAggregateInputType = {
   vehicleMake?: true
   vehicleModel?: true
   breakdownAddress?: true
+  internNotice?: true
   status?: true
   salesforceId?: true
   salesforceStatus?: true
@@ -84,6 +91,7 @@ export type LeadMinAggregateInputType = {
   workshopId?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type LeadMaxAggregateInputType = {
@@ -92,6 +100,7 @@ export type LeadMaxAggregateInputType = {
   vehicleMake?: true
   vehicleModel?: true
   breakdownAddress?: true
+  internNotice?: true
   status?: true
   salesforceId?: true
   salesforceStatus?: true
@@ -99,6 +108,7 @@ export type LeadMaxAggregateInputType = {
   workshopId?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
 }
 
 export type LeadCountAggregateInputType = {
@@ -107,6 +117,7 @@ export type LeadCountAggregateInputType = {
   vehicleMake?: true
   vehicleModel?: true
   breakdownAddress?: true
+  internNotice?: true
   status?: true
   salesforceId?: true
   salesforceStatus?: true
@@ -114,6 +125,7 @@ export type LeadCountAggregateInputType = {
   workshopId?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -195,6 +207,7 @@ export type LeadGroupByOutputType = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice: string | null
   status: $Enums.LeadStatus
   salesforceId: string | null
   salesforceStatus: string | null
@@ -202,6 +215,7 @@ export type LeadGroupByOutputType = {
   workshopId: string | null
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date
   _count: LeadCountAggregateOutputType | null
   _min: LeadMinAggregateOutputType | null
   _max: LeadMaxAggregateOutputType | null
@@ -231,6 +245,7 @@ export type LeadWhereInput = {
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
   breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableFilter<"Lead"> | string | null
   salesforceStatus?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -238,6 +253,7 @@ export type LeadWhereInput = {
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -251,6 +267,7 @@ export type LeadOrderByWithRelationInput = {
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
   breakdownAddress?: Prisma.SortOrder
+  internNotice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceStatus?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -258,6 +275,7 @@ export type LeadOrderByWithRelationInput = {
   workshopId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   towTruckDriver?: Prisma.UserOrderByWithRelationInput
   workshop?: Prisma.WorkshopOrderByWithRelationInput
   qrScan?: Prisma.QRScanOrderByWithRelationInput
@@ -275,12 +293,14 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
   breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceStatus?: Prisma.StringNullableFilter<"Lead"> | string | null
   towTruckDriverId?: Prisma.StringFilter<"Lead"> | string
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -294,6 +314,7 @@ export type LeadOrderByWithAggregationInput = {
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
   breakdownAddress?: Prisma.SortOrder
+  internNotice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceStatus?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -301,6 +322,7 @@ export type LeadOrderByWithAggregationInput = {
   workshopId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   _count?: Prisma.LeadCountOrderByAggregateInput
   _max?: Prisma.LeadMaxOrderByAggregateInput
   _min?: Prisma.LeadMinOrderByAggregateInput
@@ -315,6 +337,7 @@ export type LeadScalarWhereWithAggregatesInput = {
   vehicleMake?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleModel?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   breakdownAddress?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  internNotice?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusWithAggregatesFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   salesforceStatus?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -322,6 +345,7 @@ export type LeadScalarWhereWithAggregatesInput = {
   workshopId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
 }
 
 export type LeadCreateInput = {
@@ -330,11 +354,13 @@ export type LeadCreateInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -348,6 +374,7 @@ export type LeadUncheckedCreateInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
@@ -355,6 +382,7 @@ export type LeadUncheckedCreateInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -366,11 +394,13 @@ export type LeadUpdateInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -384,6 +414,7 @@ export type LeadUncheckedUpdateInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -391,6 +422,7 @@ export type LeadUncheckedUpdateInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -402,6 +434,7 @@ export type LeadCreateManyInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
@@ -409,6 +442,7 @@ export type LeadCreateManyInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
 }
 
 export type LeadUpdateManyMutationInput = {
@@ -417,11 +451,13 @@ export type LeadUpdateManyMutationInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeadUncheckedUpdateManyInput = {
@@ -430,6 +466,7 @@ export type LeadUncheckedUpdateManyInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -437,6 +474,7 @@ export type LeadUncheckedUpdateManyInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeadListRelationFilter = {
@@ -455,6 +493,7 @@ export type LeadCountOrderByAggregateInput = {
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
   breakdownAddress?: Prisma.SortOrder
+  internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
   salesforceStatus?: Prisma.SortOrder
@@ -462,6 +501,7 @@ export type LeadCountOrderByAggregateInput = {
   workshopId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type LeadMaxOrderByAggregateInput = {
@@ -470,6 +510,7 @@ export type LeadMaxOrderByAggregateInput = {
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
   breakdownAddress?: Prisma.SortOrder
+  internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
   salesforceStatus?: Prisma.SortOrder
@@ -477,6 +518,7 @@ export type LeadMaxOrderByAggregateInput = {
   workshopId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type LeadMinOrderByAggregateInput = {
@@ -485,6 +527,7 @@ export type LeadMinOrderByAggregateInput = {
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
   breakdownAddress?: Prisma.SortOrder
+  internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
   salesforceStatus?: Prisma.SortOrder
@@ -492,6 +535,7 @@ export type LeadMinOrderByAggregateInput = {
   workshopId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type LeadScalarRelationFilter = {
@@ -642,11 +686,13 @@ export type LeadCreateWithoutTowTruckDriverInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -659,12 +705,14 @@ export type LeadUncheckedCreateWithoutTowTruckDriverInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -705,6 +753,7 @@ export type LeadScalarWhereInput = {
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
   breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableFilter<"Lead"> | string | null
   salesforceStatus?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -712,6 +761,7 @@ export type LeadScalarWhereInput = {
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
 }
 
 export type LeadCreateWithoutWorkshopInput = {
@@ -720,11 +770,13 @@ export type LeadCreateWithoutWorkshopInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -737,12 +789,14 @@ export type LeadUncheckedCreateWithoutWorkshopInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   towTruckDriverId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -780,11 +834,13 @@ export type LeadCreateWithoutQrScanInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -797,6 +853,7 @@ export type LeadUncheckedCreateWithoutQrScanInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
@@ -804,6 +861,7 @@ export type LeadUncheckedCreateWithoutQrScanInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
 }
@@ -830,11 +888,13 @@ export type LeadUpdateWithoutQrScanInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -847,6 +907,7 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -854,6 +915,7 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
 }
@@ -864,11 +926,13 @@ export type LeadCreateWithoutCommissionInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -881,6 +945,7 @@ export type LeadUncheckedCreateWithoutCommissionInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
@@ -888,6 +953,7 @@ export type LeadUncheckedCreateWithoutCommissionInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
 }
@@ -914,11 +980,13 @@ export type LeadUpdateWithoutCommissionInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -931,6 +999,7 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -938,6 +1007,7 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
 }
@@ -948,11 +1018,13 @@ export type LeadCreateWithoutAuditLogsInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -965,6 +1037,7 @@ export type LeadUncheckedCreateWithoutAuditLogsInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
@@ -972,6 +1045,7 @@ export type LeadUncheckedCreateWithoutAuditLogsInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
 }
@@ -998,11 +1072,13 @@ export type LeadUpdateWithoutAuditLogsInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -1015,6 +1091,7 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1022,6 +1099,7 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
 }
@@ -1032,12 +1110,14 @@ export type LeadCreateManyTowTruckDriverInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
 }
 
 export type LeadUpdateWithoutTowTruckDriverInput = {
@@ -1046,11 +1126,13 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1063,12 +1145,14 @@ export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -1080,12 +1164,14 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type LeadCreateManyWorkshopInput = {
@@ -1094,12 +1180,14 @@ export type LeadCreateManyWorkshopInput = {
   vehicleMake: string
   vehicleModel: string
   breakdownAddress: string
+  internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
   salesforceStatus?: string | null
   towTruckDriverId: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt: Date | string
 }
 
 export type LeadUpdateWithoutWorkshopInput = {
@@ -1108,11 +1196,13 @@ export type LeadUpdateWithoutWorkshopInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1125,12 +1215,14 @@ export type LeadUncheckedUpdateWithoutWorkshopInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -1142,12 +1234,14 @@ export type LeadUncheckedUpdateManyWithoutWorkshopInput = {
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -1187,6 +1281,7 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   vehicleMake?: boolean
   vehicleModel?: boolean
   breakdownAddress?: boolean
+  internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
   salesforceStatus?: boolean
@@ -1194,6 +1289,7 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   workshopId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
   qrScan?: boolean | Prisma.Lead$qrScanArgs<ExtArgs>
@@ -1208,6 +1304,7 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   vehicleMake?: boolean
   vehicleModel?: boolean
   breakdownAddress?: boolean
+  internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
   salesforceStatus?: boolean
@@ -1215,6 +1312,7 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   workshopId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
@@ -1225,6 +1323,7 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   vehicleMake?: boolean
   vehicleModel?: boolean
   breakdownAddress?: boolean
+  internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
   salesforceStatus?: boolean
@@ -1232,6 +1331,7 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   workshopId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
@@ -1242,6 +1342,7 @@ export type LeadSelectScalar = {
   vehicleMake?: boolean
   vehicleModel?: boolean
   breakdownAddress?: boolean
+  internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
   salesforceStatus?: boolean
@@ -1249,9 +1350,10 @@ export type LeadSelectScalar = {
   workshopId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownAddress" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownAddress" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
@@ -1284,6 +1386,7 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     vehicleMake: string
     vehicleModel: string
     breakdownAddress: string
+    internNotice: string | null
     status: $Enums.LeadStatus
     salesforceId: string | null
     salesforceStatus: string | null
@@ -1291,6 +1394,7 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     workshopId: string | null
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date
   }, ExtArgs["result"]["lead"]>
   composites: {}
 }
@@ -1724,6 +1828,7 @@ export interface LeadFieldRefs {
   readonly vehicleMake: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleModel: Prisma.FieldRef<"Lead", 'String'>
   readonly breakdownAddress: Prisma.FieldRef<"Lead", 'String'>
+  readonly internNotice: Prisma.FieldRef<"Lead", 'String'>
   readonly status: Prisma.FieldRef<"Lead", 'LeadStatus'>
   readonly salesforceId: Prisma.FieldRef<"Lead", 'String'>
   readonly salesforceStatus: Prisma.FieldRef<"Lead", 'String'>
@@ -1731,6 +1836,7 @@ export interface LeadFieldRefs {
   readonly workshopId: Prisma.FieldRef<"Lead", 'String'>
   readonly createdAt: Prisma.FieldRef<"Lead", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Lead", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Lead", 'DateTime'>
 }
     
 

@@ -31,6 +31,7 @@ export type QRScanMinAggregateOutputType = {
   utmSource: string | null
   leadId: string | null
   createdAt: Date | null
+  landingpageLink: string | null
 }
 
 export type QRScanMaxAggregateOutputType = {
@@ -40,6 +41,7 @@ export type QRScanMaxAggregateOutputType = {
   utmSource: string | null
   leadId: string | null
   createdAt: Date | null
+  landingpageLink: string | null
 }
 
 export type QRScanCountAggregateOutputType = {
@@ -49,6 +51,7 @@ export type QRScanCountAggregateOutputType = {
   utmSource: number
   leadId: number
   createdAt: number
+  landingpageLink: number
   _all: number
 }
 
@@ -60,6 +63,7 @@ export type QRScanMinAggregateInputType = {
   utmSource?: true
   leadId?: true
   createdAt?: true
+  landingpageLink?: true
 }
 
 export type QRScanMaxAggregateInputType = {
@@ -69,6 +73,7 @@ export type QRScanMaxAggregateInputType = {
   utmSource?: true
   leadId?: true
   createdAt?: true
+  landingpageLink?: true
 }
 
 export type QRScanCountAggregateInputType = {
@@ -78,6 +83,7 @@ export type QRScanCountAggregateInputType = {
   utmSource?: true
   leadId?: true
   createdAt?: true
+  landingpageLink?: true
   _all?: true
 }
 
@@ -160,6 +166,7 @@ export type QRScanGroupByOutputType = {
   utmSource: string | null
   leadId: string
   createdAt: Date
+  landingpageLink: string
   _count: QRScanCountAggregateOutputType | null
   _min: QRScanMinAggregateOutputType | null
   _max: QRScanMaxAggregateOutputType | null
@@ -190,6 +197,7 @@ export type QRScanWhereInput = {
   utmSource?: Prisma.StringNullableFilter<"QRScan"> | string | null
   leadId?: Prisma.StringFilter<"QRScan"> | string
   createdAt?: Prisma.DateTimeFilter<"QRScan"> | Date | string
+  landingpageLink?: Prisma.StringFilter<"QRScan"> | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
 }
 
@@ -200,6 +208,7 @@ export type QRScanOrderByWithRelationInput = {
   utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
   leadId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  landingpageLink?: Prisma.SortOrder
   lead?: Prisma.LeadOrderByWithRelationInput
 }
 
@@ -213,6 +222,7 @@ export type QRScanWhereUniqueInput = Prisma.AtLeast<{
   utmMedium?: Prisma.StringNullableFilter<"QRScan"> | string | null
   utmSource?: Prisma.StringNullableFilter<"QRScan"> | string | null
   createdAt?: Prisma.DateTimeFilter<"QRScan"> | Date | string
+  landingpageLink?: Prisma.StringFilter<"QRScan"> | string
   lead?: Prisma.XOR<Prisma.LeadScalarRelationFilter, Prisma.LeadWhereInput>
 }, "id" | "leadId">
 
@@ -223,6 +233,7 @@ export type QRScanOrderByWithAggregationInput = {
   utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
   leadId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  landingpageLink?: Prisma.SortOrder
   _count?: Prisma.QRScanCountOrderByAggregateInput
   _max?: Prisma.QRScanMaxOrderByAggregateInput
   _min?: Prisma.QRScanMinOrderByAggregateInput
@@ -238,6 +249,7 @@ export type QRScanScalarWhereWithAggregatesInput = {
   utmSource?: Prisma.StringNullableWithAggregatesFilter<"QRScan"> | string | null
   leadId?: Prisma.StringWithAggregatesFilter<"QRScan"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"QRScan"> | Date | string
+  landingpageLink?: Prisma.StringWithAggregatesFilter<"QRScan"> | string
 }
 
 export type QRScanCreateInput = {
@@ -246,6 +258,7 @@ export type QRScanCreateInput = {
   utmMedium?: string | null
   utmSource?: string | null
   createdAt?: Date | string
+  landingpageLink: string
   lead: Prisma.LeadCreateNestedOneWithoutQrScanInput
 }
 
@@ -256,6 +269,7 @@ export type QRScanUncheckedCreateInput = {
   utmSource?: string | null
   leadId: string
   createdAt?: Date | string
+  landingpageLink: string
 }
 
 export type QRScanUpdateInput = {
@@ -264,6 +278,7 @@ export type QRScanUpdateInput = {
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
   lead?: Prisma.LeadUpdateOneRequiredWithoutQrScanNestedInput
 }
 
@@ -274,6 +289,7 @@ export type QRScanUncheckedUpdateInput = {
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QRScanCreateManyInput = {
@@ -283,6 +299,7 @@ export type QRScanCreateManyInput = {
   utmSource?: string | null
   leadId: string
   createdAt?: Date | string
+  landingpageLink: string
 }
 
 export type QRScanUpdateManyMutationInput = {
@@ -291,6 +308,7 @@ export type QRScanUpdateManyMutationInput = {
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QRScanUncheckedUpdateManyInput = {
@@ -300,6 +318,7 @@ export type QRScanUncheckedUpdateManyInput = {
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QRScanNullableScalarRelationFilter = {
@@ -314,6 +333,7 @@ export type QRScanCountOrderByAggregateInput = {
   utmSource?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  landingpageLink?: Prisma.SortOrder
 }
 
 export type QRScanMaxOrderByAggregateInput = {
@@ -323,6 +343,7 @@ export type QRScanMaxOrderByAggregateInput = {
   utmSource?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  landingpageLink?: Prisma.SortOrder
 }
 
 export type QRScanMinOrderByAggregateInput = {
@@ -332,6 +353,7 @@ export type QRScanMinOrderByAggregateInput = {
   utmSource?: Prisma.SortOrder
   leadId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  landingpageLink?: Prisma.SortOrder
 }
 
 export type QRScanCreateNestedOneWithoutLeadInput = {
@@ -372,6 +394,7 @@ export type QRScanCreateWithoutLeadInput = {
   utmMedium?: string | null
   utmSource?: string | null
   createdAt?: Date | string
+  landingpageLink: string
 }
 
 export type QRScanUncheckedCreateWithoutLeadInput = {
@@ -380,6 +403,7 @@ export type QRScanUncheckedCreateWithoutLeadInput = {
   utmMedium?: string | null
   utmSource?: string | null
   createdAt?: Date | string
+  landingpageLink: string
 }
 
 export type QRScanCreateOrConnectWithoutLeadInput = {
@@ -404,6 +428,7 @@ export type QRScanUpdateWithoutLeadInput = {
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type QRScanUncheckedUpdateWithoutLeadInput = {
@@ -412,6 +437,7 @@ export type QRScanUncheckedUpdateWithoutLeadInput = {
   utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  landingpageLink?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 
@@ -423,6 +449,7 @@ export type QRScanSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   utmSource?: boolean
   leadId?: boolean
   createdAt?: boolean
+  landingpageLink?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["qRScan"]>
 
@@ -433,6 +460,7 @@ export type QRScanSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   utmSource?: boolean
   leadId?: boolean
   createdAt?: boolean
+  landingpageLink?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["qRScan"]>
 
@@ -443,6 +471,7 @@ export type QRScanSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   utmSource?: boolean
   leadId?: boolean
   createdAt?: boolean
+  landingpageLink?: boolean
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["qRScan"]>
 
@@ -453,9 +482,10 @@ export type QRScanSelectScalar = {
   utmSource?: boolean
   leadId?: boolean
   createdAt?: boolean
+  landingpageLink?: boolean
 }
 
-export type QRScanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scannedAt" | "utmMedium" | "utmSource" | "leadId" | "createdAt", ExtArgs["result"]["qRScan"]>
+export type QRScanOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "scannedAt" | "utmMedium" | "utmSource" | "leadId" | "createdAt" | "landingpageLink", ExtArgs["result"]["qRScan"]>
 export type QRScanInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   lead?: boolean | Prisma.LeadDefaultArgs<ExtArgs>
 }
@@ -478,6 +508,7 @@ export type $QRScanPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     utmSource: string | null
     leadId: string
     createdAt: Date
+    landingpageLink: string
   }, ExtArgs["result"]["qRScan"]>
   composites: {}
 }
@@ -908,6 +939,7 @@ export interface QRScanFieldRefs {
   readonly utmSource: Prisma.FieldRef<"QRScan", 'String'>
   readonly leadId: Prisma.FieldRef<"QRScan", 'String'>
   readonly createdAt: Prisma.FieldRef<"QRScan", 'DateTime'>
+  readonly landingpageLink: Prisma.FieldRef<"QRScan", 'String'>
 }
     
 

@@ -1,7 +1,7 @@
-import { SignupForm } from "./ui/signup-form";
+import { SayHello } from "./ui/say-hello";
 
 export default function Home() {
   return (
-    <SignupForm />
+    <SayHello />
   )
 }

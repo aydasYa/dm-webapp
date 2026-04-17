@@ -78,10 +78,11 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
-  name: 'name',
+  firstname: 'firstname',
+  lastname: 'lastname',
   company: 'company',
+  supabaseId: 'supabaseId',
   phone: 'phone',
-  passwordHash: 'passwordHash',
   role: 'role',
   status: 'status',
   qrCode: 'qrCode',
@@ -99,6 +100,7 @@ export const WorkshopScalarFieldEnum = {
   name: 'name',
   address: 'address',
   city: 'city',
+  postcode: 'postcode',
   phone: 'phone',
   email: 'email',
   createdAt: 'createdAt',
@@ -115,13 +117,15 @@ export const LeadScalarFieldEnum = {
   vehicleMake: 'vehicleMake',
   vehicleModel: 'vehicleModel',
   breakdownAddress: 'breakdownAddress',
+  internNotice: 'internNotice',
   status: 'status',
   salesforceId: 'salesforceId',
   salesforceStatus: 'salesforceStatus',
   towTruckDriverId: 'towTruckDriverId',
   workshopId: 'workshopId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
 } as const
 
 export type LeadScalarFieldEnum = (typeof LeadScalarFieldEnum)[keyof typeof LeadScalarFieldEnum]
@@ -133,7 +137,8 @@ export const QRScanScalarFieldEnum = {
   utmMedium: 'utmMedium',
   utmSource: 'utmSource',
   leadId: 'leadId',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  landingpageLink: 'landingpageLink'
 } as const
 
 export type QRScanScalarFieldEnum = (typeof QRScanScalarFieldEnum)[keyof typeof QRScanScalarFieldEnum]
