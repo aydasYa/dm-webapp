@@ -31,7 +31,7 @@ export default async function DashboardPage() {
 
 	// 4. Rolle prüfen und richtige Component rendern
 	if (user.role === Role.ADMIN) {
-		return <AdminFeatures firstname={ user.firstname } lastname={ user.lastname } />
+		return <AdminFeatures firstname={ user.firstname } lastname={ user.lastname } drivers={drivers} />
 	}
 	
 	// else -> User (Abschlepper/tow-truck-driver)
