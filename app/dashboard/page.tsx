@@ -2,7 +2,8 @@ import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Role } from '@/src/generated/prisma/enums'
-import AdminFeatures from '../components/AdminFeatures'
+import AdminFeatures from '@/app/components/AdminFeatures'
+import UserFeatures from '@/app/components/UserFeatures'
 
 export const dynamic = 'force-dynamic'
 
@@ -21,18 +22,8 @@ export default async function DashboardPage() {
   if (!user) redirect('/login')
 
   // Render based on role admin or user (tow-truck-driver)
-  if (user.role === Role.ADMIN) return <AdminFeatures firstname={ user.firstname } lastname={ user.lastname }/>
+  if (user.role === Role.ADMIN) return <AdminFeatures firstname={ user.firstname } lastname={ user.lastname } />
   
-  // TOW_TRUCK_DRIVER
-  return (
-    <main className="p-8">
-      <h1 className="text-2xl font-semibold">Abschlepper Dashboard</h1>
-      <p className="text-muted-foreground mt-1">
-        Willkommen, {user.firstname} {user.lastname}
-      </p>
-      <p className="text-sm text-muted-foreground mt-1">
-        Status: {user.status}
-      </p>
-    </main>
-  )
+  // else -> User (Abschlepper/tow-truck-driver)
+  return <UserFeatures firstname={ user.firstname } lastname={ user.lastname } status={ user.status } />
 }
