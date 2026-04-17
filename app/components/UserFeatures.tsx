@@ -8,11 +8,15 @@ type Props = {
 
 export default function UserFeatures({ firstname, lastname, status }: Props) {
     return (
-        <main>
-            <div className="m-8">
-                <h1 className="text-4xl">Abschlepper</h1>
-                <p  className="text-xl"> Willkommen, {firstname}, {lastname}!</p>
-            </div>
+        <main className="p-8">
+            <h1 className="text-2xl font-semibold">Abschlepper Dashboard</h1>
+            <p className="text-muted-foreground mt-1">
+                Willkommen, <span className="font-semibold">{firstname} {lastname}</span>
+            </p>
+
+            <p className="text-sm text-muted-foreground mt-1">
+                Status: {status}
+            </p>
         </main>
     )
 }
