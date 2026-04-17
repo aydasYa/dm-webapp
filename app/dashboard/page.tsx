@@ -19,7 +19,9 @@ export default async function DashboardPage() {
 		select: { role: true, firstname: true, lastname: true, status: true }
 	})
 
-	if (!user) redirect('/login')
+	if (!user) {
+		redirect('/login')
+	}
 
 	// 3. Alle fahrer aus der Datenbank holen
 	const drivers = await prisma.user.findMany({
