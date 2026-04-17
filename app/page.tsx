@@ -4,7 +4,7 @@ import DashboardPage from "./dashboard/page";
 export default function Home() {
   return (
     <>
-      // kommt noch mehr bald rein
+      {/* Der rest der UI kommt später */}
       <SayHello />  
     </>
   )
