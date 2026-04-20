@@ -1,4 +1,5 @@
 import { login } from './actions'
+import Link from "next/link"
 
 export default function LoginPage() {
   return (
@@ -46,7 +47,7 @@ export default function LoginPage() {
           >
             Anmelden
           </button>
-
+          <Link href="/" className="self-start rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity cursor-pointer">Abbrechen und zurück</Link>
         </form>
       </div>
     </div>
