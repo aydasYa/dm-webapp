@@ -52,38 +52,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
-/*
-
--- Admin user
-INSERT INTO users (id, "supabaseId", email, firstname, lastname, role, status, "createdAt", "updatedAt")
-VALUES (
-  gen_random_uuid()::text,
-  '1b0d2f6f-a75c-4264-abb6-5c6b3cb30ac0',
-  'admin@test.com',
-  'Admin',
-  'User',
-  'ADMIN',
-  'ACTIVE',
-  now(),
-  now()
-);
-
--- Tow truck driver user
-INSERT INTO users (id, "supabaseId", email, firstname, lastname, role, status, "createdAt", "updatedAt")
-VALUES (
-  gen_random_uuid()::text,
-  '55faaa4e-e6b3-4160-8388-a3297b661ba3',
-  'driver@test.com',
-  'Max',
-  'Mustermann',
-  'TOW_TRUCK_DRIVER',
-  'ACTIVE',
-  now(),
-  now()
-);
-
-
-
-
-*/
