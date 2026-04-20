@@ -4,8 +4,15 @@ export default function Home() {
     return (
         <div className="m-8 h-full">
             <div>
-                <h1 className="text-3xl">Willkommen auf dem Abschlepper Dashboard!</h1>
-                <p>Eine App von <span className="text-green-500 font-bold">Dein Motorschaden</span></p>
+                <h1 
+                className="text-3xl"
+                >
+                    Willkommen auf dem Abschlepper Dashboard!
+                </h1>
+                <p>
+                    Eine App von <span className="text-green-500 font-bold">Dein Motorschaden
+                    </span>
+                </p>
             </div>
 
             {/* // Registration & Login from redirect with link */}

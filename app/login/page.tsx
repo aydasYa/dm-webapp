@@ -14,7 +14,7 @@ export default function LoginPage() {
         <form className="flex flex-col gap-4">
 
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="text-sm font-medium text-foreground">
+            <label htmlFor="email" className="text-sm font-medium text-card-foreground">
               Email
             </label>
             <input
@@ -23,12 +23,12 @@ export default function LoginPage() {
               type="email"
               placeholder="name@firma.de"
               required
-              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-card-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="password" className="text-sm font-medium text-foreground">
+            <label htmlFor="password" className="text-sm font-medium text-card-foreground">
               Passwort
             </label>
             <input
