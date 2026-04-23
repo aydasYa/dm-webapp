@@ -47,7 +47,11 @@ export default function LoginPage() {
           >
             Anmelden
           </button>
+          {/* Anmelden */}
           <Link href="/" className="self-start rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity cursor-pointer">Abbrechen und zurück</Link>
+          
+          {/* Zur registration, falls nutzer kein Konto hat */}
+          <Link href="/signup" className="self-start rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity cursor-pointer">Noch kein Konto? Jetzt Registrieren!</Link>
         </form>
       </div>
     </div>
