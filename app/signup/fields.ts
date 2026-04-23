@@ -1,21 +1,12 @@
 // Die Bauanleitung vom Registrationsformular, easy erweiterbar
-
-type FieldDefinition = {
-  id: string
-  label: string
-  type?: string
-  required?: boolean
-  minLength?: number
-  autoComplete?: string
-}
+import type { FieldDefinition } from "@/components/form/FormField"
 
 export const signupFields: FieldDefinition[] = [
 	{ 
 		id: 'firstname', 
 		label: 'Vorname', 
 		required: true, 
-		autoComplete: 
-		'given-name' 
+		autoComplete: 'given-name' 
 	},
   { 
 		id: 'lastname', 
@@ -45,3 +36,4 @@ export const signupFields: FieldDefinition[] = [
 		autoComplete: 'tel' 
 	},
 ]
+
