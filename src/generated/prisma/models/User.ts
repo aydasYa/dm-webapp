@@ -29,13 +29,19 @@ export type UserMinAggregateOutputType = {
   email: string | null
   firstname: string | null
   lastname: string | null
-  company: string | null
-  supabaseId: string | null
   phone: string | null
+  supabaseId: string | null
   role: $Enums.Role | null
   status: $Enums.UserStatus | null
   qrCode: string | null
   salesforceId: string | null
+  companyName: string | null
+  companyAddress: string | null
+  companyCity: string | null
+  companyPostcode: string | null
+  companyPhone: string | null
+  companyEmail: string | null
+  companyContactPerson: string | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -46,13 +52,19 @@ export type UserMaxAggregateOutputType = {
   email: string | null
   firstname: string | null
   lastname: string | null
-  company: string | null
-  supabaseId: string | null
   phone: string | null
+  supabaseId: string | null
   role: $Enums.Role | null
   status: $Enums.UserStatus | null
   qrCode: string | null
   salesforceId: string | null
+  companyName: string | null
+  companyAddress: string | null
+  companyCity: string | null
+  companyPostcode: string | null
+  companyPhone: string | null
+  companyEmail: string | null
+  companyContactPerson: string | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -63,13 +75,19 @@ export type UserCountAggregateOutputType = {
   email: number
   firstname: number
   lastname: number
-  company: number
-  supabaseId: number
   phone: number
+  supabaseId: number
   role: number
   status: number
   qrCode: number
   salesforceId: number
+  companyName: number
+  companyAddress: number
+  companyCity: number
+  companyPostcode: number
+  companyPhone: number
+  companyEmail: number
+  companyContactPerson: number
   createdAt: number
   updatedAt: number
   deletedAt: number
@@ -82,13 +100,19 @@ export type UserMinAggregateInputType = {
   email?: true
   firstname?: true
   lastname?: true
-  company?: true
-  supabaseId?: true
   phone?: true
+  supabaseId?: true
   role?: true
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyName?: true
+  companyAddress?: true
+  companyCity?: true
+  companyPostcode?: true
+  companyPhone?: true
+  companyEmail?: true
+  companyContactPerson?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -99,13 +123,19 @@ export type UserMaxAggregateInputType = {
   email?: true
   firstname?: true
   lastname?: true
-  company?: true
-  supabaseId?: true
   phone?: true
+  supabaseId?: true
   role?: true
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyName?: true
+  companyAddress?: true
+  companyCity?: true
+  companyPostcode?: true
+  companyPhone?: true
+  companyEmail?: true
+  companyContactPerson?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -116,13 +146,19 @@ export type UserCountAggregateInputType = {
   email?: true
   firstname?: true
   lastname?: true
-  company?: true
-  supabaseId?: true
   phone?: true
+  supabaseId?: true
   role?: true
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyName?: true
+  companyAddress?: true
+  companyCity?: true
+  companyPostcode?: true
+  companyPhone?: true
+  companyEmail?: true
+  companyContactPerson?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -206,13 +242,19 @@ export type UserGroupByOutputType = {
   email: string
   firstname: string
   lastname: string
-  company: string | null
-  supabaseId: string
   phone: string | null
+  supabaseId: string
   role: $Enums.Role
   status: $Enums.UserStatus
   qrCode: string | null
   salesforceId: string | null
+  companyName: string | null
+  companyAddress: string | null
+  companyCity: string | null
+  companyPostcode: string | null
+  companyPhone: string | null
+  companyEmail: string | null
+  companyContactPerson: string | null
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
@@ -244,13 +286,19 @@ export type UserWhereInput = {
   email?: Prisma.StringFilter<"User"> | string
   firstname?: Prisma.StringFilter<"User"> | string
   lastname?: Prisma.StringFilter<"User"> | string
-  company?: Prisma.StringNullableFilter<"User"> | string | null
-  supabaseId?: Prisma.StringFilter<"User"> | string
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  supabaseId?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   qrCode?: Prisma.StringNullableFilter<"User"> | string | null
   salesforceId?: Prisma.StringNullableFilter<"User"> | string | null
+  companyName?: Prisma.StringNullableFilter<"User"> | string | null
+  companyAddress?: Prisma.StringNullableFilter<"User"> | string | null
+  companyCity?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPostcode?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  companyEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  companyContactPerson?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -264,13 +312,19 @@ export type UserOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrderInput | Prisma.SortOrder
-  supabaseId?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  supabaseId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyName?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyPostcode?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyContactPerson?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -290,10 +344,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[]
   firstname?: Prisma.StringFilter<"User"> | string
   lastname?: Prisma.StringFilter<"User"> | string
-  company?: Prisma.StringNullableFilter<"User"> | string | null
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  companyName?: Prisma.StringNullableFilter<"User"> | string | null
+  companyAddress?: Prisma.StringNullableFilter<"User"> | string | null
+  companyCity?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPostcode?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  companyEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  companyContactPerson?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
@@ -307,13 +367,19 @@ export type UserOrderByWithAggregationInput = {
   email?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrderInput | Prisma.SortOrder
-  supabaseId?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  supabaseId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyName?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyPostcode?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyPhone?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyEmail?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyContactPerson?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -330,13 +396,19 @@ export type UserScalarWhereWithAggregatesInput = {
   email?: Prisma.StringWithAggregatesFilter<"User"> | string
   firstname?: Prisma.StringWithAggregatesFilter<"User"> | string
   lastname?: Prisma.StringWithAggregatesFilter<"User"> | string
-  company?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  supabaseId?: Prisma.StringWithAggregatesFilter<"User"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  supabaseId?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   qrCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   salesforceId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyAddress?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyCity?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyPostcode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyPhone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyEmail?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyContactPerson?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
@@ -347,13 +419,19 @@ export type UserCreateInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -367,13 +445,19 @@ export type UserUncheckedCreateInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -387,13 +471,19 @@ export type UserUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -407,13 +497,19 @@ export type UserUncheckedUpdateInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -427,13 +523,19 @@ export type UserCreateManyInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -444,13 +546,19 @@ export type UserUpdateManyMutationInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -461,13 +569,19 @@ export type UserUncheckedUpdateManyInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -478,13 +592,19 @@ export type UserCountOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
-  supabaseId?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  supabaseId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyPostcode?: Prisma.SortOrder
+  companyPhone?: Prisma.SortOrder
+  companyEmail?: Prisma.SortOrder
+  companyContactPerson?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -495,13 +615,19 @@ export type UserMaxOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
-  supabaseId?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  supabaseId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyPostcode?: Prisma.SortOrder
+  companyPhone?: Prisma.SortOrder
+  companyEmail?: Prisma.SortOrder
+  companyContactPerson?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -512,13 +638,19 @@ export type UserMinOrderByAggregateInput = {
   email?: Prisma.SortOrder
   firstname?: Prisma.SortOrder
   lastname?: Prisma.SortOrder
-  company?: Prisma.SortOrder
-  supabaseId?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  supabaseId?: Prisma.SortOrder
   role?: Prisma.SortOrder
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyName?: Prisma.SortOrder
+  companyAddress?: Prisma.SortOrder
+  companyCity?: Prisma.SortOrder
+  companyPostcode?: Prisma.SortOrder
+  companyPhone?: Prisma.SortOrder
+  companyEmail?: Prisma.SortOrder
+  companyContactPerson?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -607,13 +739,19 @@ export type UserCreateWithoutLeadsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -626,13 +764,19 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -661,13 +805,19 @@ export type UserUpdateWithoutLeadsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -680,13 +830,19 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -699,13 +855,19 @@ export type UserCreateWithoutCommissionsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -718,13 +880,19 @@ export type UserUncheckedCreateWithoutCommissionsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -753,13 +921,19 @@ export type UserUpdateWithoutCommissionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -772,13 +946,19 @@ export type UserUncheckedUpdateWithoutCommissionsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -791,13 +971,19 @@ export type UserCreateWithoutAuditLogsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -810,13 +996,19 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   email: string
   firstname: string
   lastname: string
-  company?: string | null
-  supabaseId: string
   phone?: string | null
+  supabaseId: string
   role?: $Enums.Role
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -845,13 +1037,19 @@ export type UserUpdateWithoutAuditLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -864,13 +1062,19 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
   lastname?: Prisma.StringFieldUpdateOperationsInput | string
-  company?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -932,13 +1136,19 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   email?: boolean
   firstname?: boolean
   lastname?: boolean
-  company?: boolean
-  supabaseId?: boolean
   phone?: boolean
+  supabaseId?: boolean
   role?: boolean
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyName?: boolean
+  companyAddress?: boolean
+  companyCity?: boolean
+  companyPostcode?: boolean
+  companyPhone?: boolean
+  companyEmail?: boolean
+  companyContactPerson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -953,13 +1163,19 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   firstname?: boolean
   lastname?: boolean
-  company?: boolean
-  supabaseId?: boolean
   phone?: boolean
+  supabaseId?: boolean
   role?: boolean
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyName?: boolean
+  companyAddress?: boolean
+  companyCity?: boolean
+  companyPostcode?: boolean
+  companyPhone?: boolean
+  companyEmail?: boolean
+  companyContactPerson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -970,13 +1186,19 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   email?: boolean
   firstname?: boolean
   lastname?: boolean
-  company?: boolean
-  supabaseId?: boolean
   phone?: boolean
+  supabaseId?: boolean
   role?: boolean
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyName?: boolean
+  companyAddress?: boolean
+  companyCity?: boolean
+  companyPostcode?: boolean
+  companyPhone?: boolean
+  companyEmail?: boolean
+  companyContactPerson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -987,19 +1209,25 @@ export type UserSelectScalar = {
   email?: boolean
   firstname?: boolean
   lastname?: boolean
-  company?: boolean
-  supabaseId?: boolean
   phone?: boolean
+  supabaseId?: boolean
   role?: boolean
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyName?: boolean
+  companyAddress?: boolean
+  companyCity?: boolean
+  companyPostcode?: boolean
+  companyPhone?: boolean
+  companyEmail?: boolean
+  companyContactPerson?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstname" | "lastname" | "company" | "supabaseId" | "phone" | "role" | "status" | "qrCode" | "salesforceId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstname" | "lastname" | "phone" | "supabaseId" | "role" | "status" | "qrCode" | "salesforceId" | "companyName" | "companyAddress" | "companyCity" | "companyPostcode" | "companyPhone" | "companyEmail" | "companyContactPerson" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
@@ -1021,17 +1249,19 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     email: string
     firstname: string
     lastname: string
-    /**
-     * Bin mir nicht sicher, ob es nur von Unternehme (ADAC, ...) Abschlepper sind
-     *                         Oder auch priavte Abschlepper sein können, welche sich Registrieren dürfen
-     */
-    company: string | null
-    supabaseId: string
     phone: string | null
+    supabaseId: string
     role: $Enums.Role
     status: $Enums.UserStatus
     qrCode: string | null
     salesforceId: string | null
+    companyName: string | null
+    companyAddress: string | null
+    companyCity: string | null
+    companyPostcode: string | null
+    companyPhone: string | null
+    companyEmail: string | null
+    companyContactPerson: string | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -1465,13 +1695,19 @@ export interface UserFieldRefs {
   readonly email: Prisma.FieldRef<"User", 'String'>
   readonly firstname: Prisma.FieldRef<"User", 'String'>
   readonly lastname: Prisma.FieldRef<"User", 'String'>
-  readonly company: Prisma.FieldRef<"User", 'String'>
-  readonly supabaseId: Prisma.FieldRef<"User", 'String'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly supabaseId: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly qrCode: Prisma.FieldRef<"User", 'String'>
   readonly salesforceId: Prisma.FieldRef<"User", 'String'>
+  readonly companyName: Prisma.FieldRef<"User", 'String'>
+  readonly companyAddress: Prisma.FieldRef<"User", 'String'>
+  readonly companyCity: Prisma.FieldRef<"User", 'String'>
+  readonly companyPostcode: Prisma.FieldRef<"User", 'String'>
+  readonly companyPhone: Prisma.FieldRef<"User", 'String'>
+  readonly companyEmail: Prisma.FieldRef<"User", 'String'>
+  readonly companyContactPerson: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"User", 'DateTime'>
