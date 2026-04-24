@@ -7,9 +7,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
 }
-
 
 // ─── ENUMS ───────────────────────────────────────────
 
@@ -47,40 +46,29 @@ enum CommissionStatus {
 // ─── MODELS ──────────────────────────────────────────
 
 // model für Company rechieren was noch dazu gehört
-// Rahmi oder Yakup müssen das noch mir erklären.
+
 model User {
   id           String     @id @default(cuid())
-  
-  // ─── Personal (Fahrer-Daten) ───
   email        String     @unique
   firstname    String
   lastname     String
-  phone        String?
-  
-  // ─── Supabase & Tech ───
+  company      String? /* Bin mir nicht sicher, ob es nur von Unternehme (ADAC, ...) Abschlepper sind
+                        Oder auch priavte Abschlepper sein können, welche sich Registrieren dürfen */ 
+
+  // supabase
   supabaseId   String     @unique
+
+  phone        String?
+  // passwordHash String <- remove, supabase handles it intern in auth.user
   role         Role       @default(TOW_TRUCK_DRIVER)
   status       UserStatus @default(PENDING)
   qrCode       String?    @unique
   salesforceId String?    @unique
-  
-  // ─── Company (TODO: in eigenes Model auslagern) ───
-  // Wenn aufgeteilt: alle companyXyz-Felder in neues Company-Model,
-  // User bekommt companyId + Relation zu Company.
-  companyName          String?
-  companyAddress       String?
-  companyCity          String?
-  companyPostcode      String?
-  companyPhone         String?
-  companyEmail         String?
-  companyContactPerson String?
-  
-  // ─── Relations ───
+
   leads        Lead[]
-  commissions  Commission[]
+  commissions  Commission[] // User 1:n Commissions (Provision), das selbe für leads und auditLogs
   auditLogs    AuditLog[]
-  
-  // ─── Timestamps ───
+
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   deletedAt    DateTime?

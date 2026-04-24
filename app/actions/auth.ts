@@ -3,14 +3,25 @@
 import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+import { Role } from '@/src/generated/prisma/enums'
 
 export async function signup(formData: FormData) {
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
+  // Personen felder (sptäter: model <User>)
+  const email     = formData.get('email') as string
+  const password  = formData.get('password') as string
   const firstname = formData.get('firstname') as string
-  const lastname = formData.get('lastname') as string
+  const lastname  = formData.get('lastname') as string
+  const phone     = formData.get('phone') as string
 
-  // 1. Supabase Auth User anlegen
+  // Personen felder (sptäter: model <Company>)
+  const companyName          = formData.get('companyName') as string
+  const companyAddress       = formData.get('companyAddress') as string
+  const companyPostcode      = formData.get('companyPostcode') as string
+  const companyCity          = formData.get('companyCity') as string
+  const companyPhone         = formData.get('companyPhone') as string
+  const companyEmail         = formData.get('companyEmail') as string
+  const companyContactPerson = formData.get('companyContactPerson') as string
+
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signUp({
     email,
@@ -26,7 +37,6 @@ export async function signup(formData: FormData) {
     redirect('/signup?error=signup_failed')
   }
 
-  // 2. Prisma User anlegen (mit Rollback bei Fehler)
   try {
     await prisma.user.create({
       data: {
@@ -34,11 +44,19 @@ export async function signup(formData: FormData) {
         email,
         firstname,
         lastname,
+        phone,
+        role: Role.TOW_TRUCK_DRIVER,
+        companyName,
+        companyAddress,
+        companyPostcode,
+        companyCity,
+        companyPhone,
+        companyEmail,
+        companyContactPerson,
       },
     })
   } catch (prismaError) {
     console.error('Prisma create error, rolling back Supabase user:', prismaError)
-    // Rollback: Supabase User wieder löschen
     const { createAdminClient } = await import('@/lib/supabase/admin')
     const admin = createAdminClient()
     await admin.auth.admin.deleteUser(data.user.id)

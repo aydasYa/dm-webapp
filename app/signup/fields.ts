@@ -6,21 +6,21 @@ export const signupFields: FieldDefinition[] = [
 		id: 'firstname', 
 		label: 'Vorname', 
 		required: true, 
-		autoComplete: 'given-name' 
+		autoComplete: 'given-name', 
 	},
-  { 
+  	{ 
 		id: 'lastname', 
 		label: 'Nachname', 
 		required: true, 
-		autoComplete:'family-name' 
+		autoComplete:'family-name',
 	},
-  { 
+  	{ 
 		id: 'password', 
 		label: 'Passwort', 
 		type: 'password', 
 		required: true, 
 		minLength:8, 
-		autoComplete: 'new-password' 
+		autoComplete: 'new-password',
 	},
 	{
 		id: 'email',
@@ -29,11 +29,53 @@ export const signupFields: FieldDefinition[] = [
 		required: true,
 		autoComplete: 'email',
 	},
-  { id: 'phone', 
+	{ 
+		id: 'phone', 
 		label: 'Telefonnummer', 
 		type: 'tel', 
 		required: true, 
-		autoComplete: 'tel' 
+		autoComplete: 'tel',
+	},
+	{
+		id: 'companyName',
+		label: 'Firmenname',
+		required: true,
+		autoComplete: 'organization',
+	},
+	{
+		id: 'companyAddress',
+		label: 'Straße und Hausnummer der Niederlassung',
+		required: true,
+		autoComplete: 'street-address',
+	},
+	{
+		id: 'companyPostcode',
+		label: 'PLZ der Niederlassung',
+		required: true,
+		autoComplete: 'postal-code',
+	},
+	{
+		id: 'companyCity', 
+		label: 'Ort der Niederlassung',
+		required: true,
+		autoComplete: 'address-level2',
+	},
+	{
+		id: 'companyPhone',
+		label: 'Telefonnummer der Firma',
+		type: 'tel',
+		required: true,
+	},
+	{
+		id: 'companyEmail',
+		label: 'Email der Firma',
+		type: 'email',
+		required: true,
+	},
+	{
+		id: 'companyContactPerson',
+		label: 'Ansprechpartner (Name)',
+		required: true,
 	},
 ]
 
