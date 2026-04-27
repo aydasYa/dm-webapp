@@ -4,6 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Role } from '@/src/generated/prisma/enums'
+import { UserStatus } from '@/src/generated/prisma/enums'
+import { revalidatePath } from 'next/cache'
 
 export async function signup(formData: FormData) {
   // Personen felder (sptäter: model <User>)
@@ -64,4 +66,23 @@ export async function signup(formData: FormData) {
   }
 
   redirect('/signup/success')
+}
+
+// Alle server actions, besser: in getrennte files legen für übersicht
+export async function signout() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/login')
+}
+
+export async function updateUserStatus(formData: FormData) {
+  const userId = formData.get("userId") as string
+  const newStatus = formData.get("newStatus") as UserStatus
+  
+  await prisma.user.update({
+    where: { id: userId },
+    data:  { status: newStatus },
+  })
+
+  revalidatePath("/dashboard")
 }

@@ -1,5 +1,7 @@
 // user features dashboard, contains each element the user (abschlepper/Tow-truck-drive
 // can see and their possible interactions with the webapp
+import LogoutButton from "./LogoutButton"
+
 type Props = {
     firstname: string
     lastname: string
@@ -17,6 +19,7 @@ export default function UserFeatures({ firstname, lastname, status }: Props) {
             <p className="text-sm text-muted-foreground mt-1">
                 Status: {status}
             </p>
+            <LogoutButton />
         </main>
     )
 }
