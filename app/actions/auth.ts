@@ -86,3 +86,27 @@ export async function updateUserStatus(formData: FormData) {
 
   revalidatePath("/dashboard")
 }
+
+export async function generateQrCode(formData: FormData) {
+  const userId = formData.get("userId") as string
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { companyName: true },
+  })
+
+  if (!user) {
+    throw new Error("User nicht gefunden")
+  }
+  
+  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unkown"
+
+  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { qrCode: url },
+  })
+
+  revalidatePath("/dashboard")
+}

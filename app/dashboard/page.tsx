@@ -15,7 +15,22 @@ export default async function DashboardPage() {
 
   const user = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
-    select: { role: true, firstname: true, lastname: true, status: true },
+    select: { 
+      role: true, 
+      firstname: true, 
+      lastname: true, 
+      status: true,
+      email: true,
+      phone: true,
+      qrCode: true,
+      companyName: true,
+      companyAddress: true,
+      companyPostcode: true,
+      companyCity: true,
+      companyPhone: true,
+      companyEmail: true,
+      companyContactPerson: true,
+    },
   })
 
   if (!user) redirect('/login')
@@ -44,8 +59,17 @@ export default async function DashboardPage() {
 
   // Ab hier: status === ACTIVE
   const drivers = await prisma.user.findMany({
-    where: { role: Role.TOW_TRUCK_DRIVER },
-    select: { id: true, firstname: true, lastname: true },
+    where: {
+      role: Role.TOW_TRUCK_DRIVER,
+      status: UserStatus.ACTIVE,
+    },
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      qrCode: true,
+      companyName: true,
+    },
   })
 
   // PendingUsers
@@ -70,14 +94,9 @@ export default async function DashboardPage() {
       lastname={user.lastname} 
       drivers={drivers}
       pendingUsers={pendingUsers}
+      role={user.role}
     />
   }
 
-  return (
-    <UserFeatures
-      firstname={user.firstname}
-      lastname={user.lastname}
-      status={user.status}
-    />
-  )
+  return <UserFeatures user={ user }/>
 }

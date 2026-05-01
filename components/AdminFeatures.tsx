@@ -1,14 +1,16 @@
-// Admin Dashboard page, qr code generator
-
 'use client'
+
 import LogoutButton from './LogoutButton'
 import { QRCodeSVG } from 'qrcode.react'
-import { updateUserStatus } from '../actions/auth'
+import { updateUserStatus, generateQrCode } from '@/app/actions/auth'
+import { Button } from './ui/button'
 
 type Driver = {
   id: string
   firstname: string
   lastname: string
+  qrCode: string | null
+  companyName: string | null
 }
 
 type PendingUser = {
@@ -23,21 +25,21 @@ type PendingUser = {
 type Props = {
   firstname: string
   lastname: string
+  role: string
   drivers: Driver[]
   pendingUsers: PendingUser[]
 }
 
-export default function AdminFeatures({ firstname, lastname, drivers, pendingUsers }: Props) {
+export default function AdminFeatures({ firstname, lastname, drivers, role, pendingUsers }: Props) {
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-semibold">Admin Dashboard</h1>
-      <p className="text-muted-foreground mt-1">
-        Willkommen, {firstname} {lastname}
+      <h1 className="text-2xl font-semibold">Admin - Dashboard</h1>
+      <p className="mt-1 text-muted-foreground">
+        Willkommen, {firstname} {lastname} | Rolle: {role}
       </p>
       <LogoutButton />
 
-
-      <h2 className="text-lg font-semibold mt-8 mb-4">
+      <h2 className="mb-4 mt-8 text-lg font-semibold">
         Ausstehende Freigaben ({pendingUsers.length})
       </h2>
 
@@ -46,13 +48,15 @@ export default function AdminFeatures({ firstname, lastname, drivers, pendingUse
       ) : (
         <div className="flex flex-col gap-4">
           {pendingUsers.map((pu) => (
-            <div key={pu.id} className="border border-border rounded-lg p-4">
-              <p className="font-medium">{pu.firstname} {pu.lastname}</p>
+            <div key={pu.id} className="rounded-lg border border-border p-4">
+              <p className="font-medium">
+                {pu.firstname} {pu.lastname}
+              </p>
               <p className="text-sm text-muted-foreground">{pu.email}</p>
               {pu.companyName && (
                 <p className="text-sm text-muted-foreground">Firma: {pu.companyName}</p>
               )}
-              <div className="flex gap-2 mt-3">
+              <div className="mt-3 flex gap-2">
                 <form action={updateUserStatus}>
                   <input type="hidden" name="userId" value={pu.id} />
                   <input type="hidden" name="newStatus" value="ACTIVE" />
@@ -69,27 +73,37 @@ export default function AdminFeatures({ firstname, lastname, drivers, pendingUse
         </div>
       )}
 
+      <h2 className="mb-4 mt-8 text-lg font-semibold">QR Codes — Abschlepper</h2>
 
-
-
-      <h2 className="text-lg font-semibold mt-8 mb-4">QR Codes — Abschlepper</h2>
-
+      {/* QR Codes werden auf Adming Dashboard gerendert, falls dieser
+          Abschlepper Freigegeben wurde, mit Button wird der QR Code dann generiert */}
       <div className="flex flex-col gap-8">
-        {drivers.map((driver) => {
-          const url = `https://angebot.deinmotorschaden.de?utm_medium=${driver.id}&utm_source=ADAC_Abschlepper`
+        {drivers.map((driver) => (
+          <div key={driver.id} className="flex flex-col gap-2">
+            <p className="text-sm font-medium">
+              {driver.firstname} {driver.lastname}
+              {driver.companyName && (
+                <span className="text-muted-foreground"> 
+                — {driver.companyName}
+                </span>
+              )}
+            </p>
 
-          return (
-            <div key={driver.id} className="flex flex-col gap-2">
-              <p className="text-sm font-medium">
-                {driver.firstname} {driver.lastname}
-              </p>
-              <div className="p-4 border border-border rounded-lg inline-block bg-white">
-                <QRCodeSVG value={url} size={180} />
-              </div>
-              <p className="text-xs text-muted-foreground">{url}</p>
-            </div>
-          )
-        })}
+            {driver.qrCode ? (
+              <>
+                <div className="inline-block rounded-lg border border-border bg-white p-4">
+                  <QRCodeSVG value={driver.qrCode} size={180} />
+                </div>
+                <p className="text-xs text-muted-foreground">{driver.qrCode}</p>
+              </>
+            ) : (
+              <form action={generateQrCode}>
+                <input type="hidden" name="userId" value={driver.id} />
+                <Button type="submit" >QR-Code generieren</Button>
+              </form>
+            )}
+          </div>
+        ))}
       </div>
     </main>
   )

@@ -1,9 +1,10 @@
 import { signout } from "@/app/actions/auth"
+import { Button } from "./ui/button"
 
 export default function LogoutButton() {
     return (
         <form action={signout}>
-            <button type="submit">Abmelden</button>
+            <Button type="submit" variant="destructive">Abmelden</Button>
         </form>
     )
 }
