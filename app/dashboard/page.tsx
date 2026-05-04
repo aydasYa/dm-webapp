@@ -82,7 +82,7 @@ export default async function DashboardPage() {
         lastname: true,
         email: true,
         companyName: true,
-        createdAt: true,
+        createdAt: true, 
       },
       orderBy: { createdAt: 'desc' },
     })
