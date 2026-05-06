@@ -88,14 +88,9 @@ export default async function DashboardPage() {
     })
   : []
 
-  if (user.role === Role.ADMIN) {
-    return <AdminFeatures 
-      firstname={user.firstname} 
-      lastname={user.lastname} 
-      drivers={drivers}
-      pendingUsers={pendingUsers}
-      role={user.role}
-    />
+  // whoever is logged in, render their dashboard (User vs Admin - Dashbaords)
+  if ( user.role === Role.ADMIN ) {
+    return <AdminFeatures user={  user } drivers={ drivers } pendingUsers={ pendingUsers }/>
   }
 
   return <UserFeatures user={ user }/>
