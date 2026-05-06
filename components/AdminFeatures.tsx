@@ -13,6 +13,8 @@ type Driver = {
   companyName: string | null
 }
 
+ 
+
 type PendingUser = {
   id: string
   firstname: string
@@ -23,19 +25,22 @@ type PendingUser = {
 }
 
 type Props = {
-  firstname: string
-  lastname: string
-  role: string
+  user: {
+    firstname: string
+    lastname: string
+    role: string
+  }
+
   drivers: Driver[]
   pendingUsers: PendingUser[]
 }
 
-export default function AdminFeatures({ firstname, lastname, drivers, role, pendingUsers }: Props) {
+export default function AdminFeatures({ user, drivers, pendingUsers }: Props) {
   return (
     <main className="p-8">
       <h1 className="text-2xl font-semibold">Admin - Dashboard</h1>
       <p className="mt-1 text-muted-foreground">
-        Willkommen, {firstname} {lastname} | Rolle: {role}
+        Willkommen, {user.firstname} {user.lastname}
       </p>
       <LogoutButton />
 
