@@ -215,7 +215,7 @@ export type LeadGroupByOutputType = {
   workshopId: string | null
   createdAt: Date
   updatedAt: Date
-  deletedAt: Date
+  deletedAt: Date | null
   _count: LeadCountAggregateOutputType | null
   _min: LeadMinAggregateOutputType | null
   _max: LeadMaxAggregateOutputType | null
@@ -253,7 +253,7 @@ export type LeadWhereInput = {
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
-  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -275,7 +275,7 @@ export type LeadOrderByWithRelationInput = {
   workshopId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   towTruckDriver?: Prisma.UserOrderByWithRelationInput
   workshop?: Prisma.WorkshopOrderByWithRelationInput
   qrScan?: Prisma.QRScanOrderByWithRelationInput
@@ -300,7 +300,7 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
-  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -322,7 +322,7 @@ export type LeadOrderByWithAggregationInput = {
   workshopId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  deletedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.LeadCountOrderByAggregateInput
   _max?: Prisma.LeadMaxOrderByAggregateInput
   _min?: Prisma.LeadMinOrderByAggregateInput
@@ -345,7 +345,7 @@ export type LeadScalarWhereWithAggregatesInput = {
   workshopId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
-  deletedAt?: Prisma.DateTimeWithAggregatesFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
 }
 
 export type LeadCreateInput = {
@@ -360,7 +360,7 @@ export type LeadCreateInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -382,7 +382,7 @@ export type LeadUncheckedCreateInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -400,7 +400,7 @@ export type LeadUpdateInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -422,7 +422,7 @@ export type LeadUncheckedUpdateInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -442,7 +442,7 @@ export type LeadCreateManyInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type LeadUpdateManyMutationInput = {
@@ -457,7 +457,7 @@ export type LeadUpdateManyMutationInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type LeadUncheckedUpdateManyInput = {
@@ -474,7 +474,7 @@ export type LeadUncheckedUpdateManyInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type LeadListRelationFilter = {
@@ -692,7 +692,7 @@ export type LeadCreateWithoutTowTruckDriverInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -712,7 +712,7 @@ export type LeadUncheckedCreateWithoutTowTruckDriverInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -761,7 +761,7 @@ export type LeadScalarWhereInput = {
   workshopId?: Prisma.StringNullableFilter<"Lead"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
-  deletedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
 }
 
 export type LeadCreateWithoutWorkshopInput = {
@@ -776,7 +776,7 @@ export type LeadCreateWithoutWorkshopInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -796,7 +796,7 @@ export type LeadUncheckedCreateWithoutWorkshopInput = {
   towTruckDriverId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
@@ -840,7 +840,7 @@ export type LeadCreateWithoutQrScanInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -861,7 +861,7 @@ export type LeadUncheckedCreateWithoutQrScanInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
 }
@@ -894,7 +894,7 @@ export type LeadUpdateWithoutQrScanInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -915,7 +915,7 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
 }
@@ -932,7 +932,7 @@ export type LeadCreateWithoutCommissionInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -953,7 +953,7 @@ export type LeadUncheckedCreateWithoutCommissionInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
 }
@@ -986,7 +986,7 @@ export type LeadUpdateWithoutCommissionInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -1007,7 +1007,7 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
 }
@@ -1024,7 +1024,7 @@ export type LeadCreateWithoutAuditLogsInput = {
   salesforceStatus?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -1045,7 +1045,7 @@ export type LeadUncheckedCreateWithoutAuditLogsInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
   qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
 }
@@ -1078,7 +1078,7 @@ export type LeadUpdateWithoutAuditLogsInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -1099,7 +1099,7 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
 }
@@ -1117,7 +1117,7 @@ export type LeadCreateManyTowTruckDriverInput = {
   workshopId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type LeadUpdateWithoutTowTruckDriverInput = {
@@ -1132,7 +1132,7 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1152,7 +1152,7 @@ export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -1171,7 +1171,7 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type LeadCreateManyWorkshopInput = {
@@ -1187,7 +1187,7 @@ export type LeadCreateManyWorkshopInput = {
   towTruckDriverId: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  deletedAt: Date | string
+  deletedAt?: Date | string | null
 }
 
 export type LeadUpdateWithoutWorkshopInput = {
@@ -1202,7 +1202,7 @@ export type LeadUpdateWithoutWorkshopInput = {
   salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1222,7 +1222,7 @@ export type LeadUncheckedUpdateWithoutWorkshopInput = {
   towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
@@ -1241,7 +1241,7 @@ export type LeadUncheckedUpdateManyWithoutWorkshopInput = {
   towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  deletedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1394,7 +1394,7 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     workshopId: string | null
     createdAt: Date
     updatedAt: Date
-    deletedAt: Date
+    deletedAt: Date | null
   }, ExtArgs["result"]["lead"]>
   composites: {}
 }
