@@ -136,7 +136,7 @@ model Lead {
 
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
-  deletedAt       DateTime // jedes model braucht das noch ausser auditLog
+  deletedAt       DateTime?
   
   @@map("leads")
 }
