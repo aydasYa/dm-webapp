@@ -1,0 +1,65 @@
+import Link from "next/link"
+import prisma from "@/lib/prisma"
+import { createClient } from "@/lib/supabase/server"
+import { redirect,  } from "next/navigation"
+
+export const dynamic = "force-dynamic"
+
+export default async function LeadsPage() {
+    const supabase = await createClient()
+    const { data } = await supabase.auth.getClaims()
+
+    if (!data?.claims) {
+        redirect("/login")
+    }
+
+    // prisma user finden per id
+    const driver = await prisma.user.findUnique({
+        where: { supabaseId: data.claims.sub },
+        select: { id: true },
+    })
+
+    if (!driver) redirect("/login")
+
+    // leads holen mit prisma
+    const driverLeads = await prisma.lead.findMany({
+        where: { 
+            towTruckDriverId: driver.id,
+            deletedAt: null,
+        },
+        select: {
+            id: true,
+            customerLastName: true,
+            vehicleMake: true,
+            vehicleModel: true,
+            breakdownAddress: true,
+            status: true,
+            createdAt: true,
+        },
+        orderBy: { createdAt: 'desc' }
+    })
+
+    // UI
+    return (
+    <main className="p-8">
+        <h1>Alle Leads in einer Übersicht</h1>
+        <Link href="/leads/new">Neuen Lead anlegen + </Link>
+        
+        {driverLeads.length === 0 ? (
+        <p>Noch keine Leads erfasst</p>
+        ) : (
+        <div>
+            {driverLeads.map((lead) => (
+            <div key={lead.id}>
+                {/* Felder anzeigen */}
+                <p>Kunde: {lead.customerLastName}</p>
+                <p>Fahrzeug: {lead.vehicleMake} {lead.vehicleModel}</p>
+                <p>Unfall Adresse: {lead.breakdownAddress}</p>
+                <p>Status: {lead.status}</p>
+            </div>
+            ))}
+        </div>
+        )}
+    </main>
+    )
+}
