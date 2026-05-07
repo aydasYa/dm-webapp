@@ -24,18 +24,35 @@ type PendingUser = {
   createdAt: Date
 }
 
+type Lead = {
+  id: string,
+  customerLastName: string,
+  vehicleMake: string,
+  vehicleModel: string,
+  breakdownAddress: string,
+  status: string,
+  createdAt: Date,
+  towTruckDriver: {
+    select: { 
+      firstname: string, 
+      lastname: string, 
+      companyName: string | null 
+    }
+  },
+}
+
 type Props = {
   user: {
     firstname: string
     lastname: string
     role: string
   }
-
   drivers: Driver[]
   pendingUsers: PendingUser[]
+  allLeads: Lead[]
 }
 
-export default function AdminFeatures({ user, drivers, pendingUsers }: Props) {
+export default function AdminFeatures({ user, drivers, pendingUsers, allLeads }: Props) {
   return (
     <main className="p-8">
       <h1 className="text-2xl font-semibold">Admin - Dashboard</h1>
