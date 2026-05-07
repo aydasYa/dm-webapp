@@ -2,6 +2,7 @@
 // can see and their possible interactions with the webapp
 import LogoutButton from "./LogoutButton"
 import { QRCodeSVG } from "qrcode.react"
+import Link from "next/link"
 
 // Updated props for new user dashboard
 type Props = {
@@ -45,6 +46,11 @@ export default function UserFeatures({ user }: Props) {
                 {user.firstname} {user.lastname}
                 </span>
             </p>
+
+            <div>
+                <Link href="/leads/new" className="bg-black text-white rounded px-4 py-2">Neuer Lead</Link>
+                <Link href="/leads" className="border rounded px-4 py-2">Meine Leads</Link>
+            </div>
 
             <p className="text-sm text-muted-foreground mt-1">
                 Status: {user.status}
