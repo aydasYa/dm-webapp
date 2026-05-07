@@ -63,6 +63,9 @@ export default async function LeadsPage() {
             ))}
         </div>
         )}
+
+        {/* navigation back to dashbaord user */}
+        <Link href="/dashboard" className="bg-black text-white rounded px-4 py-2">Zurück zum Dashboard</Link>
     </main>
     )
 }
