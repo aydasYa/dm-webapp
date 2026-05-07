@@ -87,11 +87,37 @@ export default async function DashboardPage() {
       orderBy: { createdAt: 'desc' },
     })
   : []
+  
+    // alle leads holen
+    const allLeads = user.role === Role.ADMIN
+      ? await prisma.lead.findMany({
+          where: { deletedAt: null },
+          select: {
+            id: true,
+            customerLastName: true,
+            vehicleMake: true,
+            vehicleModel: true,
+            breakdownAddress: true,
+            status: true,
+            createdAt: true,
+            towTruckDriver: {
+              select: { firstname: true, lastname: true, companyName: true }
+            },
+            orderBy: { createdAt: 'desc' },
+          }
+      }) : []
+
+    console.log(allLeads);
 
   // whoever is logged in, render their dashboard (User vs Admin - Dashbaords)
   if ( user.role === Role.ADMIN ) {
-    return <AdminFeatures user={  user } drivers={ drivers } pendingUsers={ pendingUsers }/>
-  }
+    return <AdminFeatures 
+      user={  user } 
+      drivers={ drivers } 
+      pendingUsers={ pendingUsers }
+      allLeads={ allLeads }
+    }
+    />
 
   return <UserFeatures user={ user }/>
 }
