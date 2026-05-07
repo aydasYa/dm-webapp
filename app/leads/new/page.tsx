@@ -62,7 +62,9 @@ export default function NewLead() {
             </form>
 
             <p className="mt-6">
-                <Link href="/leads" className="underline">Zurück zur Übersicht</Link>
+                <Link href="/leads" className="underline">Zurück zu Leads-Übersicht</Link>
+                <Link href="/dashboard" className="underline">Zurück zum Dashboard</Link>
+
             </p>
         </div>
     )
