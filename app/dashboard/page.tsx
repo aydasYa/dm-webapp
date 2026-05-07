@@ -103,8 +103,8 @@ export default async function DashboardPage() {
             towTruckDriver: {
               select: { firstname: true, lastname: true, companyName: true }
             },
-            orderBy: { createdAt: 'desc' },
-          }
+          },
+          orderBy: { createdAt: 'desc' },
       }) : []
 
     console.log(allLeads);
@@ -116,8 +116,8 @@ export default async function DashboardPage() {
       drivers={ drivers } 
       pendingUsers={ pendingUsers }
       allLeads={ allLeads }
-    }
     />
+    }
 
   return <UserFeatures user={ user }/>
 }
