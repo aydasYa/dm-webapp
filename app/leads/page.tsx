@@ -2,6 +2,7 @@ import Link from "next/link"
 import prisma from "@/lib/prisma"
 import { createClient } from "@/lib/supabase/server"
 import { redirect,  } from "next/navigation"
+import { Button } from "@/components/ui/button"
 
 export const dynamic = "force-dynamic"
 
@@ -43,7 +44,9 @@ export default async function LeadsPage() {
     return (
     <main className="p-8">
         <h1>Alle Leads in einer Übersicht</h1>
-        <Link href="/leads/new">Neuen Lead anlegen + </Link>
+        <Button asChild>
+            <Link href="/leads/new">Neuen Lead anlegen + </Link>
+        </Button>
         
         {driverLeads.length === 0 ? (
         <p>Noch keine Leads erfasst</p>
