@@ -33,12 +33,10 @@ type Lead = {
   status: string,
   createdAt: Date,
   towTruckDriver: {
-    select: { 
-      firstname: string, 
-      lastname: string, 
-      companyName: string | null 
-    }
-  },
+    firstname: string, 
+    lastname: string, 
+    companyName: string | null 
+  }
 }
 
 type Props = {
@@ -127,6 +125,30 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads }:
           </div>
         ))}
       </div>
+
+      {/* Leads von allen abschleppern */}
+      <h2 className="mb-4 mt-8 text-lg font-semibold">
+        Alle Leads ({allLeads.length})
+      </h2>
+
+      {allLeads.length === 0 ? (
+        <p className="text-muted-foreground">Noch keine Leads.</p>
+      ) : (
+        <div className="flex flex-col gap-4">
+          {allLeads.map((lead) => (
+            <div key={lead.id} className="rounded-lg border border-border p-4">
+              <p className="font-medium">{lead.customerLastName}</p>
+              <p className="text-sm">{lead.vehicleMake} {lead.vehicleModel}</p>
+              <p className="text-sm text-muted-foreground">{lead.breakdownAddress}</p>
+              <p className="text-sm">Status: {lead.status}</p>
+              <p className="text-sm text-muted-foreground">
+                Driver: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}
+                {lead.towTruckDriver.companyName && ` — ${lead.towTruckDriver.companyName}`}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </main>
   )
 }
