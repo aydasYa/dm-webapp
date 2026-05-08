@@ -53,13 +53,16 @@ export default async function LeadsPage() {
         ) : (
         <div>
             {driverLeads.map((lead) => (
-            <div key={lead.id}>
-                {/* Felder anzeigen */}
+            <Link 
+                key={lead.id} 
+                href={`/leads/${lead.id}`}
+                className="block hover:bg-muted/50 rounded-lg p-2"
+            >
                 <p>Kunde: {lead.customerLastName}</p>
                 <p>Fahrzeug: {lead.vehicleMake} {lead.vehicleModel}</p>
-                <p>Unfall Adresse: {lead.breakdownAddress}</p>
+                <p>Adresse: {lead.breakdownAddress}</p>
                 <p>Status: {lead.status}</p>
-            </div>
+            </Link>
             ))}
         </div>
         )}
