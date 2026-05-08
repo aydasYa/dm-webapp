@@ -2,13 +2,18 @@ import Link from "next/link"
 import prisma from "@/lib/prisma"
 import { createClient } from "@/lib/supabase/server"
 import { redirect,  } from "next/navigation"
+import { LeadStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
 
 export const dynamic = "force-dynamic"
+type SearchParams ={
+    status?: string,
+}
 
-export default async function LeadsPage() {
+export default async function LeadsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
+    const { status } = await searchParams
 
     if (!data?.claims) {
         redirect("/login")
@@ -27,6 +32,7 @@ export default async function LeadsPage() {
         where: { 
             towTruckDriverId: driver.id,
             deletedAt: null,
+            ...(status && { status: status as LeadStatus }),
         },
         select: {
             id: true,
@@ -48,6 +54,28 @@ export default async function LeadsPage() {
             <Link href="/leads/new">Neuen Lead anlegen + </Link>
         </Button>
         
+        <form action="/leads" method="get" className="mb-6">
+            <label htmlFor="status" className="mr-2">Status:</label>
+            <select 
+                id="status" 
+                name="status" 
+                defaultValue={status ?? ''}
+                className="border rounded px-2 py-1"
+            >
+                <option value="">Alle</option>
+                <option value="NEW">NEW</option>
+                <option value="DISTRIBUTED">DISTRIBUTED</option>
+                <option value="QR_SCANNED">QR_SCANNED</option>
+                <option value="WORKSHOP_SELECTED">WORKSHOP_SELECTED</option>
+                <option value="IN_REPAIR">IN_REPAIR</option>
+                <option value="REPAIR_DONE">REPAIR_DONE</option>
+                <option value="VEHICLE_DELIVERED">VEHICLE_DELIVERED</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="CANCELLED">CANCELLED</option>
+            </select>
+            <button type="submit" className="ml-2 underline">Filtern</button>
+        </form>
+
         {driverLeads.length === 0 ? (
         <p>Noch keine Leads erfasst</p>
         ) : (
