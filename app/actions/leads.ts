@@ -11,6 +11,8 @@ export async function createLead(formData: FormData) {
     const vehicleModel      = formData.get("vehicleModel") as string
     const breakdownAddress  = formData.get("breakdownAddress") as string
 
+    const internNotice = formData.get("internNotice") as string | null
+
     // check user supabase logged-in user
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
@@ -35,6 +37,7 @@ export async function createLead(formData: FormData) {
             vehicleModel,
             breakdownAddress,
             towTruckDriverId: driver.id,
+            internNotice,
         },
     })
 

@@ -13,8 +13,6 @@ type Driver = {
   companyName: string | null
 }
 
- 
-
 type PendingUser = {
   id: string
   firstname: string
@@ -32,6 +30,7 @@ type Lead = {
   breakdownAddress: string,
   status: string,
   createdAt: Date,
+  internNotice: string | null,
   towTruckDriver: {
     firstname: string, 
     lastname: string, 
@@ -47,10 +46,11 @@ type Props = {
   }
   drivers: Driver[]
   pendingUsers: PendingUser[]
-  allLeads: Lead[]
+  allLeads: Lead[],
+  selectedStatus?: string
 }
 
-export default function AdminFeatures({ user, drivers, pendingUsers, allLeads }: Props) {
+export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, selectedStatus }: Props) {
   return (
     <main className="p-8">
       <h1 className="text-2xl font-semibold">Admin - Dashboard</h1>
@@ -127,6 +127,26 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads }:
       </div>
 
       {/* Leads von allen abschleppern */}
+      <form action="/dashboard" method="get" className="mb-4">
+        <label htmlFor="status" className="mr-2">Status:</label>
+        <select 
+          id="status" 
+          name="status" 
+          defaultValue={selectedStatus ?? ''}
+          className="border rounded px-2 py-1">
+          <option value="">Alle</option>
+          <option value="NEW">NEW</option>
+          <option value="DISTRIBUTED">DISTRIBUTED</option>
+          <option value="QR_SCANNED">QR_SCANNED</option>
+          <option value="WORKSHOP_SELECTED">WORKSHOP_SELECTED</option>
+          <option value="IN_REPAIR">IN_REPAIR</option>
+          <option value="REPAIR_DONE">REPAIR_DONE</option>
+          <option value="VEHICLE_DELIVERED">VEHICLE_DELIVERED</option>
+          <option value="COMPLETED">COMPLETED</option>
+          <option value="CANCELLED">CANCELLED</option>
+        </select>
+        <button type="submit" className="ml-2 underline">Filtern</button>
+      </form>
       <h2 className="mb-4 mt-8 text-lg font-semibold">
         Alle Leads ({allLeads.length})
       </h2>
@@ -145,6 +165,9 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads }:
                 Driver: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}
                 {lead.towTruckDriver.companyName && ` — ${lead.towTruckDriver.companyName}`}
               </p>
+              {lead.internNotice && (
+                <p className="text-sm text-muted-foreground">Notiz: {lead.internNotice}</p>
+              )}
             </div>
           ))}
         </div>

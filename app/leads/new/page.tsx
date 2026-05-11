@@ -52,6 +52,15 @@ export default function NewLead() {
                         className="border rounded px-3 py-2"
                     />
                 </div>
+                
+                <div className="flex flex-col gap-1">
+                    <label htmlFor="internNotice">Interne Notiz (optional)</label>
+                    <textarea
+                        id="internNotice"
+                        name="internNotice"
+                        rows={3}
+                        className="border rounded px-3 py-2"/>
+                </div>
 
                 <button
                     type="submit"

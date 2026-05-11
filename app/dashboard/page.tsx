@@ -2,13 +2,17 @@ import LogoutButton from '@/components/LogoutButton'
 import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
-import { Role, UserStatus } from '@/src/generated/prisma/enums'
+import { Role, UserStatus, LeadStatus } from '@/src/generated/prisma/enums'
 import AdminFeatures from '@/components/AdminFeatures'
 import UserFeatures from '@/components/UserFeatures'
 
+
 export const dynamic = 'force-dynamic'
 
-export default async function DashboardPage() {
+type SearchParams = { status?: string }
+
+export default async function DashboardPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
+  const { status } = await searchParams
   const supabase = await createClient()
   const { data } = await supabase.auth.getClaims()
   if (!data?.claims) redirect('/login')
@@ -91,7 +95,10 @@ export default async function DashboardPage() {
     // alle leads holen
     const allLeads = user.role === Role.ADMIN
       ? await prisma.lead.findMany({
-          where: { deletedAt: null },
+          where: { 
+            deletedAt: null,
+            ...(status && { status: status as LeadStatus }),
+          },
           select: {
             id: true,
             customerLastName: true,
@@ -100,6 +107,7 @@ export default async function DashboardPage() {
             breakdownAddress: true,
             status: true,
             createdAt: true,
+            internNotice: true,
             towTruckDriver: {
               select: { firstname: true, lastname: true, companyName: true }
             },
@@ -116,6 +124,7 @@ export default async function DashboardPage() {
       drivers={ drivers } 
       pendingUsers={ pendingUsers }
       allLeads={ allLeads }
+      selectedStatus={status}
     />
     }
 

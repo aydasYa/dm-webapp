@@ -37,6 +37,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
             status: true,
             createdAt: true,
             towTruckDriverId: true,
+            internNotice: true,
          },
     })
 
@@ -56,6 +57,11 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
             <p className="text-sm text-muted-foreground">
                 Erstellt: {lead.createdAt.toLocaleString('de-DE')}
             </p>
+            {lead.internNotice && (
+                <p className="text-sm text-muted-foreground">
+                    Notiz: {lead.internNotice}
+                    </p>
+            )}
             </div>
 
             <p className="mt-6">
