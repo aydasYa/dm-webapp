@@ -80,12 +80,12 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
                 <form action={updateUserStatus}>
                   <input type="hidden" name="userId" value={pu.id} />
                   <input type="hidden" name="newStatus" value="ACTIVE" />
-                  <button type="submit">Freigeben</button>
+                  <Button type="submit">Freigeben</Button>
                 </form>
                 <form action={updateUserStatus}>
                   <input type="hidden" name="userId" value={pu.id} />
                   <input type="hidden" name="newStatus" value="REJECTED" />
-                  <button type="submit">Ablehnen</button>
+                  <Button type="submit" variant="destructive">Ablehnen</Button>
                 </form>
               </div>
             </div>
@@ -127,8 +127,8 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
       </div>
 
       {/* Leads von allen abschleppern */}
-      <form action="/dashboard" method="get" className="mb-4">
-        <label htmlFor="status" className="mr-2">Status:</label>
+      <form action="/dashboard" method="get" className="mb-4 mt-8 flex items-center gap-2">
+        <label htmlFor="status">Status:</label>
         <select 
           id="status" 
           name="status" 
@@ -145,9 +145,9 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
           <option value="COMPLETED">COMPLETED</option>
           <option value="CANCELLED">CANCELLED</option>
         </select>
-        <button type="submit" className="ml-2 underline">Filtern</button>
+        <Button type="submit" variant="outline">Filtern</Button>
       </form>
-      <h2 className="mb-4 mt-8 text-lg font-semibold">
+      <h2 className="mb-4 text-lg font-semibold">
         Alle Leads ({allLeads.length})
       </h2>
 
