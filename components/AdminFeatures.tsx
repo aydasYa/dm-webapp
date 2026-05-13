@@ -1,5 +1,8 @@
 'use client'
 
+// Admin-Dashboard: zeigt ausstehende Nutzer-Freigaben, QR-Codes aller Abschlepper und alle Leads
+// Alles auf einer Seite – bei Wachstum in separate Komponenten aufteilen
+
 import LogoutButton from './LogoutButton'
 import { QRCodeSVG } from 'qrcode.react'
 import { updateUserStatus, generateQrCode } from '@/app/actions/auth'
@@ -95,8 +98,8 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
 
       <h2 className="mb-4 mt-8 text-lg font-semibold">QR Codes — Abschlepper</h2>
 
-      {/* QR Codes werden auf Adming Dashboard gerendert, falls dieser
-          Abschlepper Freigegeben wurde, mit Button wird der QR Code dann generiert */}
+      {/* QR-Code wird nur angezeigt, wenn er bereits generiert wurde.
+          Falls noch keiner existiert, erscheint ein Button zum Generieren. */}
       <div className="flex flex-col gap-8">
         {drivers.map((driver) => (
           <div key={driver.id} className="flex flex-col gap-2">
@@ -126,7 +129,7 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
         ))}
       </div>
 
-      {/* Leads von allen abschleppern */}
+      {/* Alle Leads aller Abschlepper – filterbar nach Status über das Formular */}
       <form action="/dashboard" method="get" className="mb-4 mt-8 flex items-center gap-2">
         <label htmlFor="status">Status:</label>
         <select 

@@ -27,6 +27,7 @@ type Props = {
 }
 
 export default function UserFeatures({ user }: Props) {
+    // Prüfen ob überhaupt Firmendaten vorhanden sind – falls nicht, wird ein Hinweis angezeigt
     const hasCompanyData = !!(
         user.companyName ||
         user.companyAddress ||

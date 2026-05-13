@@ -7,6 +7,8 @@ export const dynamic = "force-dynamic"
 
 type Params = { id:string }
 
+// Detailansicht eines einzelnen Leads
+// Sicherheitscheck: Abschlepper darf nur seine eigenen Leads sehen – fremde IDs werden auf /leads umgeleitet
 export default async function LeadDetailPage({ params }: { params: Promise<Params> }) {
     const { id } = await params
 
@@ -41,6 +43,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
          },
     })
 
+    // Gehört der Lead nicht zum eingeloggten Abschlepper, wird er weggeschickt
     if (!lead || lead.towTruckDriverId !== driver.id) {
         redirect("/leads")
     }

@@ -5,21 +5,27 @@ import { redirect,  } from "next/navigation"
 import { LeadStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
 
+// force-dynamic: neue Leads sollen sofort sichtbar sein, kein Caching
 export const dynamic = "force-dynamic"
+
 type SearchParams ={
     status?: string,
 }
 
+// Leads-Übersicht für den eingeloggten Abschlepper
+// Zeigt nur seine eigenen Leads – optional nach Status filterbar via URL-Parameter
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
     const { status } = await searchParams
 
+    // data.claims enthält die Session-Infos des eingeloggten Nutzers
     if (!data?.claims) {
         redirect("/login")
     }
 
-    // Prisma-Nutzer anhand der ID suchen
+    // data.claims.sub ist die eindeutige Supabase-Nutzer-ID (UUID)
+    // damit holen wir den passenden Eintrag aus unserer eigenen Datenbank
     const driver = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
         select: { id: true },
@@ -29,9 +35,10 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
 
     // Leads per Prisma laden
     const driverLeads = await prisma.lead.findMany({
-        where: { 
+        where: {
             towTruckDriverId: driver.id,
             deletedAt: null,
+            // falls ein Status-Filter gesetzt ist, wird er hier dynamisch ergänzt
             ...(status && { status: status as LeadStatus }),
         },
         select: {

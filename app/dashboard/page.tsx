@@ -7,10 +7,14 @@ import AdminFeatures from '@/components/AdminFeatures'
 import UserFeatures from '@/components/UserFeatures'
 
 
+// force-dynamic: Seite wird bei jedem Aufruf neu geladen – wichtig, da sich Status und Leads laufend ändern
 export const dynamic = 'force-dynamic'
 
 type SearchParams = { status?: string }
 
+// Einstiegspunkt fürs Dashboard – lädt den Nutzer und entscheidet, welches Dashboard gezeigt wird
+// Admin sieht: alle Leads, ausstehende Freigaben, QR-Codes
+// Abschlepper sieht: eigene Daten, QR-Code, Links zu seinen Leads
 export default async function DashboardPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const { status } = await searchParams
   const supabase = await createClient()
@@ -76,7 +80,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     },
   })
 
-  // Ausstehende Nutzer
+  // Ausstehende Nutzer – nur für Admins relevant, sonst leeres Array
   const pendingUsers = user.role === Role.ADMIN
     ? await prisma.user.findMany({
       where: { status: UserStatus.PENDING },
@@ -92,7 +96,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     })
   : []
   
-    // Alle Leads laden
+    // Alle Leads laden – optional nach Status gefiltert (kommt aus der URL als ?status=...)
     const allLeads = user.role === Role.ADMIN
       ? await prisma.lead.findMany({
           where: { 

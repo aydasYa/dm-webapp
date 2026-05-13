@@ -8,6 +8,8 @@ export default function NewLead() {
                 <h1 className="text-2xl font-semibold">Neuen Lead erstellen</h1>
             </div>
 
+            {/* action={createLead} → beim Absenden wird die Server Action direkt aufgerufen,
+                kein manuelles fetch/API nötig – Next.js erledigt das im Hintergrund */}
             <form action={createLead} className="flex flex-col gap-4 mt-6 max-w-md">
                 <div className="flex flex-col gap-1">
                     <label htmlFor="customerLastName">Nachname des Kunden</label>

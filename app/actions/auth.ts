@@ -1,5 +1,8 @@
 "use server"
 
+// Alle Auth-bezogenen Server-Aktionen: Registrierung, Login, Abmelden, Freigabe, QR-Code
+// Tipp für später: jede Funktion in eine eigene Datei auslagern, wenn es mehr wird
+
 import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
@@ -7,6 +10,10 @@ import { Role } from '@/src/generated/prisma/enums'
 import { UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 
+// Registrierung: läuft in zwei Schritten
+// 1. Supabase-Account anlegen (für Auth/Login)
+// 2. Nutzer-Datensatz in der Datenbank speichern (für App-Daten)
+// Schlägt Schritt 2 fehl, wird der Supabase-Account automatisch wieder gelöscht – kein halb-angelegter Nutzer
 export async function signup(formData: FormData) {
   // Persönliche Felder (später: Model <User>)
   const email     = formData.get('email') as string
@@ -47,7 +54,7 @@ export async function signup(formData: FormData) {
         firstname,
         lastname,
         phone,
-        role: Role.TOW_TRUCK_DRIVER,
+        role: Role.TOW_TRUCK_DRIVER, // neue Nutzer sind immer Abschlepper – Admins werden manuell gesetzt
         companyName,
         companyAddress,
         companyPostcode,
@@ -58,6 +65,7 @@ export async function signup(formData: FormData) {
       },
     })
   } catch (prismaError) {
+    // DB-Fehler: Supabase-Account zurückrollen, damit kein verwaister Auth-Nutzer entsteht
     console.error('Prisma Fehler, Supabase-Nutzer wird zurückgesetzt:', prismaError)
     const { createAdminClient } = await import('@/lib/supabase/admin')
     const admin = createAdminClient()
@@ -68,17 +76,19 @@ export async function signup(formData: FormData) {
   redirect('/signup/success')
 }
 
-// Alle Server-Aktionen – besser: in separate Dateien auslagern für mehr Übersicht
+// Abmelden: Session bei Supabase beenden und zurück zum Login
 export async function signout() {
   const supabase = await createClient()
   await supabase.auth.signOut()
   redirect('/login')
 }
 
+// Admin-Aktion: Nutzer freigeben (ACTIVE) oder ablehnen (REJECTED)
+// Wird direkt aus dem Admin-Dashboard aufgerufen
 export async function updateUserStatus(formData: FormData) {
   const userId = formData.get("userId") as string
   const newStatus = formData.get("newStatus") as UserStatus
-  
+
   await prisma.user.update({
     where: { id: userId },
     data:  { status: newStatus },
@@ -87,6 +97,9 @@ export async function updateUserStatus(formData: FormData) {
   revalidatePath("/dashboard")
 }
 
+// QR-Code für einen Abschlepper generieren
+// Der Code ist eine UTM-URL zur Angebotsseite – damit kann später nachverfolgt werden,
+// welcher Abschlepper den Kunden gebracht hat (utm_medium = userId, utm_source = Firmenname)
 export async function generateQrCode(formData: FormData) {
   const userId = formData.get("userId") as string
 
@@ -98,7 +111,7 @@ export async function generateQrCode(formData: FormData) {
   if (!user) {
     throw new Error("Benutzer nicht gefunden")
   }
-  
+
   const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unbekannt"
 
   const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
