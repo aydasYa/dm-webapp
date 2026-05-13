@@ -10,10 +10,10 @@ export default function Login03() {
       <div className="flex flex-1 flex-col justify-center px-4 py-10 lg:px-6">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h3 className="text-balance text-center text-lg font-semibold text-foreground dark:text-foreground">
-            Welcome Back
+            Willkommen zurück
           </h3>
           <p className="text-pretty text-center text-sm text-muted-foreground dark:text-muted-foreground">
-            Enter your credentials to access your account.
+            Gib deine Zugangsdaten ein, um dich anzumelden.
           </p>
           <form action="#" method="post" className="mt-6 space-y-4">
             <div>
@@ -37,7 +37,7 @@ export default function Login03() {
                 htmlFor="password-login-03"
                 className="text-sm font-medium text-foreground dark:text-foreground"
               >
-                Password
+                Passwort
               </Label>
               <Input
                 type="password"
@@ -49,16 +49,16 @@ export default function Login03() {
               />
             </div>
             <Button type="submit" className="mt-4 w-full py-2 font-medium">
-              Sign in
+              Anmelden
             </Button>
           </form>
           <p className="text-pretty mt-6 text-sm text-muted-foreground dark:text-muted-foreground">
-            Forgot your password?{" "}
+            Passwort vergessen?{" "}
             <a
               href="#"
               className="font-medium text-primary hover:text-primary/90 dark:text-primary dark:hover:text-primary/90"
             >
-              Reset password
+              Passwort zurücksetzen
             </a>
           </p>
         </div>

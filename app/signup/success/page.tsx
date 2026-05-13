@@ -10,7 +10,7 @@ export default function SignupSuccessPage() {
                 Registrierung abzuschließen.
             </p>
             <p>
-                Nahc der Bestätigung muss dein Konto noch von 
+                Nach der Bestätigung muss dein Konto noch von
                 einem Admin freigegeben werden.
             </p>
             <Link href="/login">Zurück zum Login</Link>

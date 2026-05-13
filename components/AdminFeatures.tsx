@@ -162,7 +162,7 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
               <p className="text-sm text-muted-foreground">{lead.breakdownAddress}</p>
               <p className="text-sm">Status: {lead.status}</p>
               <p className="text-sm text-muted-foreground">
-                Driver: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}
+                Fahrer: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}
                 {lead.towTruckDriver.companyName && ` — ${lead.towTruckDriver.companyName}`}
               </p>
               {lead.internNotice && (
