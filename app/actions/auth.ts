@@ -8,14 +8,14 @@ import { UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 
 export async function signup(formData: FormData) {
-  // Personen felder (sptäter: model <User>)
+  // Persönliche Felder (später: Model <User>)
   const email     = formData.get('email') as string
   const password  = formData.get('password') as string
   const firstname = formData.get('firstname') as string
   const lastname  = formData.get('lastname') as string
   const phone     = formData.get('phone') as string
 
-  // Personen felder (sptäter: model <Company>)
+  // Firmendaten (später: Model <Company>)
   const companyName          = formData.get('companyName') as string
   const companyAddress       = formData.get('companyAddress') as string
   const companyPostcode      = formData.get('companyPostcode') as string
@@ -35,7 +35,7 @@ export async function signup(formData: FormData) {
   })
 
   if (error || !data.user) {
-    console.error('Supabase signUp error:', error)
+    console.error('Supabase Registrierungsfehler:', error)
     redirect('/signup?error=signup_failed')
   }
 
@@ -58,7 +58,7 @@ export async function signup(formData: FormData) {
       },
     })
   } catch (prismaError) {
-    console.error('Prisma create error, rolling back Supabase user:', prismaError)
+    console.error('Prisma Fehler, Supabase-Nutzer wird zurückgesetzt:', prismaError)
     const { createAdminClient } = await import('@/lib/supabase/admin')
     const admin = createAdminClient()
     await admin.auth.admin.deleteUser(data.user.id)
@@ -68,7 +68,7 @@ export async function signup(formData: FormData) {
   redirect('/signup/success')
 }
 
-// Alle server actions, besser: in getrennte files legen für übersicht
+// Alle Server-Aktionen – besser: in separate Dateien auslagern für mehr Übersicht
 export async function signout() {
   const supabase = await createClient()
   await supabase.auth.signOut()
@@ -96,10 +96,10 @@ export async function generateQrCode(formData: FormData) {
   })
 
   if (!user) {
-    throw new Error("User nicht gefunden")
+    throw new Error("Benutzer nicht gefunden")
   }
   
-  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unkown"
+  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unbekannt"
 
   const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
 

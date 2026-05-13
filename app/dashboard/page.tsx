@@ -39,7 +39,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
   if (!user) redirect('/login')
 
-  // STATUS-GATE: nur ACTIVE darf rein
+  // Status-Sperre: nur ACTIVE-Nutzer dürfen rein
   if (user.status === UserStatus.PENDING) {
     return (
       <main>
@@ -61,7 +61,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     )
   }
 
-  // Ab hier: status === ACTIVE
+  // Ab hier: Status === ACTIVE
   const drivers = await prisma.user.findMany({
     where: {
       role: Role.TOW_TRUCK_DRIVER,
@@ -76,7 +76,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     },
   })
 
-  // PendingUsers
+  // Ausstehende Nutzer
   const pendingUsers = user.role === Role.ADMIN
     ? await prisma.user.findMany({
       where: { status: UserStatus.PENDING },
@@ -92,7 +92,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     })
   : []
   
-    // alle leads holen
+    // Alle Leads laden
     const allLeads = user.role === Role.ADMIN
       ? await prisma.lead.findMany({
           where: { 
@@ -117,7 +117,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
 
     console.log(allLeads);
 
-  // whoever is logged in, render their dashboard (User vs Admin - Dashbaords)
+  // Je nach Rolle das passende Dashboard rendern (Nutzer vs. Admin)
   if ( user.role === Role.ADMIN ) {
     return <AdminFeatures 
       user={  user } 

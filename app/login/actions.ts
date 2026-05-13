@@ -1,4 +1,4 @@
-// Server component for login
+// Server-Aktion für den Login
 "use server"
 
 import { createClient } from "@/lib/supabase/server";

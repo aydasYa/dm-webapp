@@ -13,7 +13,7 @@ export async function createLead(formData: FormData) {
 
     const internNotice = formData.get("internNotice") as string | null
 
-    // check user supabase logged-in user
+    // Supabase-Login des Nutzers prüfen
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
 

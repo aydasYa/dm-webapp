@@ -1,13 +1,12 @@
-// user features dashboard, contains each element the user (abschlepper/Tow-truck-drive
-// can see and their possible interactions with the webapp
+// Nutzer-Dashboard: zeigt alle Elemente für den Abschlepper und seine Interaktionen
 import LogoutButton from "./LogoutButton"
 import { QRCodeSVG } from "qrcode.react"
 import Link from "next/link"
 
-// Updated props for new user dashboard
+// Props für das Nutzer-Dashboard
 type Props = {
   user: {
-    // User (Abschlepper information)
+    // Persönliche Daten des Abschleppfahrers
     email: string
     firstname: string
     lastname: string
@@ -16,7 +15,7 @@ type Props = {
     status: string
     qrCode: string | null
 
-    // Company information
+    // Firmendaten
     companyName: string | null
     companyAddress: string | null
     companyCity: string | null

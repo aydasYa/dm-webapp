@@ -11,14 +11,14 @@ export default function Home() {
                     Willkommen auf dem Abschlepper Dashboard!
                 </h1>
                 
-                {/* tesing stuff */}
+                {/* Testbereich */}
                 <p>
                     Eine App von <span className="text-green-500 font-bold">Dein Motorschaden
                     </span>
                 </p>
             </div>
 
-            {/* // Registration & Login from redirect with link */}
+            {/* Registrierung & Login per Link */}
             <Link href="/login" className="mt-6 inline-block bg-green-500 rounded-full px-6 py-3">Zum Login</Link>
         </div>
     )

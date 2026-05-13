@@ -19,7 +19,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
         redirect("/login")
     }
 
-    // prisma user finden per id
+    // Prisma-Nutzer anhand der ID suchen
     const driver = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
         select: { id: true },
@@ -27,7 +27,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
 
     if (!driver) redirect("/login")
 
-    // leads holen mit prisma
+    // Leads per Prisma laden
     const driverLeads = await prisma.lead.findMany({
         where: { 
             towTruckDriverId: driver.id,
@@ -46,7 +46,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
         orderBy: { createdAt: 'desc' }
     })
 
-    // UI
+    // Darstellung
     return (
     <main className="p-8">
         <h1>Alle Leads in einer Übersicht</h1>
@@ -95,7 +95,7 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
         </div>
         )}
 
-        {/* navigation back to dashbaord user */}
+        {/* Navigation zurück zum Dashboard */}
         <Link href="/dashboard" className="bg-black text-white rounded px-4 py-2">Zurück zum Dashboard</Link>
     </main>
     )

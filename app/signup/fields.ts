@@ -1,4 +1,4 @@
-// Die Bauanleitung vom Registrationsformular, easy erweiterbar
+// Felddefinitionen für das Registrierungsformular – einfach erweiterbar
 import type { FieldDefinition } from "@/components/form/FormField"
 
 export const signupFields: FieldDefinition[] = [

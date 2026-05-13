@@ -10,7 +10,7 @@ type Params = { id:string }
 export default async function LeadDetailPage({ params }: { params: Promise<Params> }) {
     const { id } = await params
 
-    // verify login
+    // Login prüfen
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
 
@@ -18,7 +18,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
     redirect("/login")
     }
 
-    // prisma user finden per id
+    // Prisma-Nutzer anhand der ID suchen
     const driver = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
     select: { id: true, },
