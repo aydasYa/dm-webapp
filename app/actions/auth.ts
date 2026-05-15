@@ -37,7 +37,7 @@ export async function signup(formData: FormData) {
     password,
     options: {
       data: { firstname, lastname },
-      emailRedirectTo: 'http://localhost:3000/auth/confirm',
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/confirm`,
     },
   })
 
@@ -86,6 +86,17 @@ export async function signout() {
 // Admin-Aktion: Nutzer freigeben (ACTIVE) oder ablehnen (REJECTED)
 // Wird direkt aus dem Admin-Dashboard aufgerufen
 export async function updateUserStatus(formData: FormData) {
+  // Erst prüfen ob der Aufrufer wirklich Admin ist – Server Actions sind öffentliche Endpunkte
+  const supabase = await createClient()
+  const { data: sessionData } = await supabase.auth.getClaims()
+  if (!sessionData?.claims) redirect('/login')
+
+  const caller = await prisma.user.findUnique({
+    where: { supabaseId: sessionData.claims.sub },
+    select: { role: true },
+  })
+  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+
   const userId = formData.get("userId") as string
   const newStatus = formData.get("newStatus") as UserStatus
 
@@ -101,6 +112,17 @@ export async function updateUserStatus(formData: FormData) {
 // Der Code ist eine UTM-URL zur Angebotsseite – damit kann später nachverfolgt werden,
 // welcher Abschlepper den Kunden gebracht hat (utm_medium = userId, utm_source = Firmenname)
 export async function generateQrCode(formData: FormData) {
+  // Gleiche Admin-Prüfung wie bei updateUserStatus
+  const supabase = await createClient()
+  const { data: sessionData } = await supabase.auth.getClaims()
+  if (!sessionData?.claims) redirect('/login')
+
+  const caller = await prisma.user.findUnique({
+    where: { supabaseId: sessionData.claims.sub },
+    select: { role: true },
+  })
+  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+
   const userId = formData.get("userId") as string
 
   const user = await prisma.user.findUnique({
