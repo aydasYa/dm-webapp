@@ -119,7 +119,6 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
           orderBy: { createdAt: 'desc' },
       }) : []
 
-    console.log(allLeads);
 
   // Je nach Rolle das passende Dashboard rendern (Nutzer vs. Admin)
   if ( user.role === Role.ADMIN ) {
