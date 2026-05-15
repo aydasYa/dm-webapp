@@ -1,82 +1,104 @@
 import Link from "next/link"
 import { createLead } from "@/app/actions/leads"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldDescription,
+} from "@/components/ui/field"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 export default function NewLead() {
-    return (
-        <div className="p-8">
-            <div>
-                <h1 className="text-2xl font-semibold">Neuen Lead erstellen</h1>
-            </div>
+  return (
+    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+      <div className="flex w-full max-w-md flex-col gap-6">
+        <Link href="/" className="flex items-center gap-2 self-center font-medium">
+        </Link>
 
-            {/* action={createLead} → beim Absenden wird die Server Action direkt aufgerufen,
-                kein manuelles fetch/API nötig – Next.js erledigt das im Hintergrund */}
-            <form action={createLead} className="flex flex-col gap-4 mt-6 max-w-md">
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="customerLastName">Nachname des Kunden</label>
-                    <input
-                        id="customerLastName"
-                        name="customerLastName"
-                        type="text"
-                        required
-                        className="border rounded px-3 py-2"
-                    />
-                </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold">Neuen Lead erstellen</CardTitle>
+            <CardDescription>Erfasse einen neuen Lead aus deinem Einsatz</CardDescription>
+          </CardHeader>
 
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="vehicleMake">Fahrzeug-Marke</label>
-                    <input
-                        id="vehicleMake"
-                        name="vehicleMake"
-                        type="text"
-                        required
-                        className="border rounded px-3 py-2"
-                    />
-                </div>
+          <form action={createLead}>
+            <CardContent className="flex flex-col gap-6">
+              <FieldGroup>
+                <Field>
+                  <FieldLabel htmlFor="customerLastName">Nachname des Kunden</FieldLabel>
+                  <Input
+                    id="customerLastName"
+                    name="customerLastName"
+                    type="text"
+                    required
+                  />
+                </Field>
 
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="vehicleModel">Fahrzeug-Modell</label>
-                    <input
-                        id="vehicleModel"
-                        name="vehicleModel"
-                        type="text"
-                        required
-                        className="border rounded px-3 py-2"
-                    />
-                </div>
+                <Field>
+                  <FieldLabel htmlFor="vehicleMake">Fahrzeug-Marke</FieldLabel>
+                  <Input
+                    id="vehicleMake"
+                    name="vehicleMake"
+                    type="text"
+                    required
+                  />
+                </Field>
 
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="breakdownAddress">Pannen-Adresse</label>
-                    <input
-                        id="breakdownAddress"
-                        name="breakdownAddress"
-                        type="text"
-                        required
-                        className="border rounded px-3 py-2"
-                    />
-                </div>
-                
-                <div className="flex flex-col gap-1">
-                    <label htmlFor="internNotice">Interne Notiz (optional)</label>
-                    <textarea
-                        id="internNotice"
-                        name="internNotice"
-                        rows={3}
-                        className="border rounded px-3 py-2"/>
-                </div>
+                <Field>
+                  <FieldLabel htmlFor="vehicleModel">Fahrzeug-Modell</FieldLabel>
+                  <Input
+                    id="vehicleModel"
+                    name="vehicleModel"
+                    type="text"
+                    required
+                  />
+                </Field>
 
-                <button
-                    type="submit"
-                    className="bg-black text-white rounded px-4 py-2 mt-2"
-                >
-                    Lead speichern
-                </button>
-            </form>
+                <Field>
+                  <FieldLabel htmlFor="breakdownAddress">Pannen-Adresse</FieldLabel>
+                  <Input
+                    id="breakdownAddress"
+                    name="breakdownAddress"
+                    type="text"
+                    required
+                  />
+                </Field>
 
-            <p className="mt-6">
-                <Link href="/leads" className="underline">Zurück zu Leads-Übersicht</Link>
-                <Link href="/dashboard" className="underline">Zurück zum Dashboard</Link>
+                <Field>
+                  <FieldLabel htmlFor="internNotice">Interne Notiz (Optional)</FieldLabel>
+                  <Textarea
+                    id="internNotice"
+                    name="internNotice"
+                    rows={3}
+                  />
+                </Field>
+              </FieldGroup>
 
-            </p>
-        </div>
-    )
+              <Button type="submit" className="w-full">
+                Lead speichern
+              </Button>
+
+              <div className="flex justify-center gap-4 text-sm text-muted-foreground">
+                <Link href="/leads" className="underline underline-offset-4">
+                  Zur Lead-Übersicht
+                </Link>
+                <Link href="/dashboard" className="underline underline-offset-4">
+                  Zum Dashboard
+                </Link>
+              </div>
+            </CardContent>
+          </form>
+        </Card>
+      </div>
+    </div>
+  )
 }
