@@ -2,25 +2,28 @@
 import type { FieldDefinition } from "@/components/form/FormField"
 
 export const signupFields: FieldDefinition[] = [
-	{ 
-		id: 'firstname', 
-		label: 'Vorname', 
-		required: true, 
-		autoComplete: 'given-name', 
+	{
+		id: 'firstname',
+		label: 'Vorname',
+		required: true,
+		autoComplete: 'given-name',
+		group: "personal",
 	},
-  	{ 
-		id: 'lastname', 
-		label: 'Nachname', 
-		required: true, 
+  	{
+		id: 'lastname',
+		label: 'Nachname',
+		required: true,
 		autoComplete:'family-name',
+		group: "personal",
 	},
-  	{ 
-		id: 'password', 
-		label: 'Passwort', 
-		type: 'password', 
-		required: true, 
-		minLength:8, 
+  	{
+		id: 'password',
+		label: 'Passwort',
+		type: 'password',
+		required: true,
+		minLength:8,
 		autoComplete: 'new-password',
+		group: "personal",
 	},
 	{
 		id: 'email',
@@ -28,54 +31,62 @@ export const signupFields: FieldDefinition[] = [
 		type: 'email',
 		required: true,
 		autoComplete: 'email',
+		group: "personal",
 	},
-	{ 
-		id: 'phone', 
-		label: 'Telefonnummer', 
-		type: 'tel', 
-		required: true, 
+	{
+		id: 'phone',
+		label: 'Telefonnummer',
+		type: 'tel',
+		required: true,
 		autoComplete: 'tel',
+		group: "personal",
 	},
 	{
 		id: 'companyName',
 		label: 'Firmenname',
 		required: true,
 		autoComplete: 'organization',
+		group: "company",
 	},
 	{
 		id: 'companyAddress',
 		label: 'Straße und Hausnummer der Niederlassung',
 		required: true,
 		autoComplete: 'street-address',
+		group: "company",
 	},
 	{
 		id: 'companyPostcode',
 		label: 'PLZ der Niederlassung',
 		required: true,
 		autoComplete: 'postal-code',
+		group: "company",
 	},
 	{
-		id: 'companyCity', 
+		id: 'companyCity',
 		label: 'Ort der Niederlassung',
 		required: true,
 		autoComplete: 'address-level2',
+		group: "company",
 	},
 	{
 		id: 'companyPhone',
 		label: 'Telefonnummer der Firma',
 		type: 'tel',
 		required: true,
+		group: "company",
 	},
 	{
 		id: 'companyEmail',
 		label: 'Email der Firma',
 		type: 'email',
 		required: true,
+		group: "company",
 	},
 	{
 		id: 'companyContactPerson',
 		label: 'Ansprechpartner (Name)',
 		required: true,
+		group: "company",
 	},
 ]
-
