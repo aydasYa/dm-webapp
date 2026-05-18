@@ -43,5 +43,53 @@ export async function createLead(formData: FormData) {
     })
 
     redirect("/leads")
+}
 
+
+// updateLead: Updaten von leads vom User (Abschlepper)
+export async function updateLead(formData: FormData) {
+    const leadId            = formData.get("leadId") as string
+    const customerLastName  = formData.get("customerLastName") as string
+    const vehicleMake       = formData.get("vehiclemake") as string
+    const vehicleModel      = formData.get("vehicleModel") as string
+    const breakdownAddress  = formData.get("breakdownAddress") as string
+    const internNotice      = formData.get("internNotice") as string
+
+    // 1. Login Prüfen
+    // Supabase-Login des Nutzers prüfen
+    const supabase = await createClient()
+    const { data } = await supabase.auth.getClaims()
+    if (!data?.claims) redirect("/login")
+
+    // 2. Prisma user laden
+    // Prisma-Nuzer anhand der Supabase-ID laden, um die 
+    // interne DB-ID zu bekommen
+    const driver = await prisma.user.findUnique({
+        where: { supabaseId: data.claims.sub },
+        select: { id: true },
+    })
+    if (!driver) redirect("/login")
+
+    // 3. Dann erst Prisma-Operation
+    const existingLead = await prisma.lead.findUnique({
+        where: { id: leadId },
+        select: { towTruckDriverId: true },
+    })
+    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+        redirect("/leads")
+    }
+
+    // 4. Update
+    await prisma.lead.update({
+        where: { id: leadId },
+        data: {
+            customerLastName,
+            vehicleMake,
+            vehicleModel,
+            breakdownAddress,
+            internNotice,
+        },
+    })
+
+    redirect("/leads/${leadId}")
 }
