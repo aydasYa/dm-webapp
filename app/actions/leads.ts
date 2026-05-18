@@ -16,24 +16,21 @@ export async function createLead(formData: FormData) {
     const breakdownAddress  = formData.get("breakdownAddress") as string
     const internNotice      = formData.get("internNotice") as string | null
 
+    // 1. Login prüfen
     // Supabase-Login des Nutzers prüfen
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
-
-    if (!data?.claims) {
-        redirect("/login")
-    }
-
+    if (!data?.claims) redirect("/login")
+    
+    // 2. Prsima user Laden
     // Prisma-Nutzer anhand der Supabase-ID laden, um die interne DB-ID zu bekommen
     const driver = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
         select: { id: true },
     })
+    if (!driver) redirect("/login")
 
-    if (!driver) {
-        redirect("/login")
-    }
-
+        // 3. Dann erst Prisma-Operation
     await prisma.lead.create({
         data: {
             customerLastName,
@@ -46,4 +43,5 @@ export async function createLead(formData: FormData) {
     })
 
     redirect("/leads")
+
 }
