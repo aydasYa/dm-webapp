@@ -50,10 +50,10 @@ export async function createLead(formData: FormData) {
 export async function updateLead(formData: FormData) {
     const leadId            = formData.get("leadId") as string
     const customerLastName  = formData.get("customerLastName") as string
-    const vehicleMake       = formData.get("vehiclemake") as string
+    const vehicleMake       = formData.get("vehicleMake") as string
     const vehicleModel      = formData.get("vehicleModel") as string
     const breakdownAddress  = formData.get("breakdownAddress") as string
-    const internNotice      = formData.get("internNotice") as string
+    const internNotice      = formData.get("internNotice") as string | null
 
     // 1. Login Prüfen
     // Supabase-Login des Nutzers prüfen
@@ -91,5 +91,5 @@ export async function updateLead(formData: FormData) {
         },
     })
 
-    redirect("/leads/${leadId}")
+    redirect(`/leads/${leadId}`)
 }
