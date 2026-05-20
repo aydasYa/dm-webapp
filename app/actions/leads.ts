@@ -6,6 +6,7 @@
 import { createClient } from "@/lib/supabase/server"
 import prisma from '@/lib/prisma'
 import { redirect } from "next/navigation"
+import { LeadStatus } from "@/src/generated/prisma/enums"
 
 // Neuen Lead anlegen – nur für eingeloggte Abschlepper
 // Der Lead wird automatisch mit der ID des aktuellen Nutzers verknüpft
@@ -91,5 +92,41 @@ export async function updateLead(formData: FormData) {
         },
     })
 
+    redirect(`/leads/${leadId}`)
+}
+
+export async function updateLeadStatus(formData: FormData) {
+    // 1. FormData lesen - nur leadId + status
+    const leadId    = formData.get("leadId") as string
+    const newStatus = formData.get("status") as LeadStatus
+
+    // 2. Login prüfen
+    const supabase = await createClient()
+    const { data } = await supabase.auth.getClaims()
+    if (!data?.claims) redirect("/login")
+    
+    // 3. Driver laden
+    const driver = await prisma.user.findUnique({
+        where:  { supabaseId: data.claims.sub },
+        select: { id: true },
+    })
+    if(!driver) redirect("/login")
+    
+    // 4. Lead laden + Owner-Check
+    const existingLead = await prisma.lead.findUnique({
+    where:  { id: leadId },
+    select: { towTruckDriverId: true },
+    })
+    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+        redirect("/leads")
+    }
+
+    // 5. Update: Diesmal NUR das status-Feld
+    await prisma.lead.update({
+        where:  { id: leadId },
+        data:   { status: newStatus },
+    })
+
+    // 6. redirect zur Detail-Seite
     redirect(`/leads/${leadId}`)
 }
