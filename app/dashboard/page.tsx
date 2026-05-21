@@ -1,138 +1,142 @@
-import LogoutButton from '@/components/LogoutButton'
-import { createClient } from '@/lib/supabase/server'
-import prisma from '@/lib/prisma'
-import { redirect } from 'next/navigation'
-import { Role, UserStatus, LeadStatus } from '@/src/generated/prisma/enums'
-import AdminFeatures from '@/components/AdminFeatures'
-import UserFeatures from '@/components/UserFeatures'
+import { createClient } from "@/lib/supabase/server"
+import prisma from "@/lib/prisma"
+import { redirect } from "next/navigation"
+import { Role, UserStatus } from "@/src/generated/prisma/enums"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+export const dynamic = "force-dynamic"
 
-// force-dynamic: Seite wird bei jedem Aufruf neu geladen – wichtig, da sich Status und Leads laufend ändern
-export const dynamic = 'force-dynamic'
+export default async function DashboardPage() {
+	const supabase = await createClient()
+	const { data } = await supabase.auth.getClaims()
+	if (!data?.claims) redirect("/login")
 
-type SearchParams = { status?: string }
+	const user = await prisma.user.findUnique({
+		where: { supabaseId: data.claims.sub },
+		select: { firstname: true, role: true, status: true },
+	})
+	if (!user) redirect("/login")
 
-// Einstiegspunkt fürs Dashboard – lädt den Nutzer und entscheidet, welches Dashboard gezeigt wird
-// Admin sieht: alle Leads, ausstehende Freigaben, QR-Codes
-// Abschlepper sieht: eigene Daten, QR-Code, Links zu seinen Leads
-export default async function DashboardPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const { status } = await searchParams
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getClaims()
-  if (!data?.claims) redirect('/login')
+	if (user.status === UserStatus.PENDING) {
+		return <p>Konto wartet auf Freigabe.</p>
+	}
+	if (user.status === UserStatus.REJECTED) {
+		return <p>Registrierung abgelehnt.</p>
+	}
 
-  const user = await prisma.user.findUnique({
-    where: { supabaseId: data.claims.sub },
-    select: { 
-      role: true, 
-      firstname: true, 
-      lastname: true, 
-      status: true,
-      email: true,
-      phone: true,
-      qrCode: true,
-      companyName: true,
-      companyAddress: true,
-      companyPostcode: true,
-      companyCity: true,
-      companyPhone: true,
-      companyEmail: true,
-      companyContactPerson: true,
-    },
-  })
+	const isAdmin = user.role === Role.ADMIN
 
-  if (!user) redirect('/login')
+	const totalLeads = await prisma.lead.count({
+		where: {
+			deletedAt: null,
+			...(isAdmin ? {} : { towTruckDriver: { supabaseId: data.claims.sub } }),
+		},
+	})
 
-  // Status-Sperre: nur ACTIVE-Nutzer dürfen rein
-  if (user.status === UserStatus.PENDING) {
-    return (
-      <main>
-        <h1>Konto wartet auf Freigabe</h1>
-        <p>Hallo {user.firstname}, dein Konto wurde erfolgreich registriert und deine E-Mail bestätigt.</p>
-        <p>Ein Admin muss dein Konto noch freigeben, bevor du die App nutzen kannst.</p>
-        <LogoutButton />
-      </main>
-    )
-  }
+	const totalActiveDrivers = isAdmin
+		? await prisma.user.count({
+			where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE },
+		})
+		: 0
 
-  if (user.status === UserStatus.REJECTED) {
-    return (
-      <main>
-        <h1>Registrierung abgelehnt</h1>
-        <p>Leider wurde deine Registrierung abgelehnt.</p>
-        <LogoutButton />
-      </main>
-    )
-  }
+	const totalInactiveDrivers = isAdmin
+		? await prisma.user.count({
+			where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE },
+		})
+		: 0
 
-  // Ab hier: Status === ACTIVE
-  const drivers = await prisma.user.findMany({
-    where: {
-      role: Role.TOW_TRUCK_DRIVER,
-      status: UserStatus.ACTIVE,
-    },
-    select: {
-      id: true,
-      firstname: true,
-      lastname: true,
-      qrCode: true,
-      companyName: true,
-    },
-  })
+	const totalRejectedDrivers = isAdmin
+		? await prisma.user.count({
+			where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.REJECTED },
+		})
+		: 0
 
-  // Ausstehende Nutzer – nur für Admins relevant, sonst leeres Array
-  const pendingUsers = user.role === Role.ADMIN
-    ? await prisma.user.findMany({
-      where: { status: UserStatus.PENDING },
-      select: {
-        id: true,
-        firstname: true,
-        lastname: true,
-        email: true,
-        companyName: true,
-        createdAt: true, 
-      },
-      orderBy: { createdAt: 'desc' },
-    })
-  : []
-  
-    // Alle Leads laden – optional nach Status gefiltert (kommt aus der URL als ?status=...)
-    const allLeads = user.role === Role.ADMIN
-      ? await prisma.lead.findMany({
-          where: { 
-            deletedAt: null,
-            ...(status && { status: status as LeadStatus }),
-          },
-          select: {
-            id: true,
-            customerLastName: true,
-            vehicleMake: true,
-            vehicleModel: true,
-            // breakdownAddress: true,
-            breakdownStreet: true,
-            breakdownPostcode: true,
-            breakdownCity: true,
-            status: true,
-            createdAt: true,
-            internNotice: true,
-            towTruckDriver: {
-              select: { firstname: true, lastname: true, companyName: true }
-            },
-          },
-          orderBy: { createdAt: 'desc' },
-      }) : []
+	const registeredDrivers = isAdmin
+		? await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER } })
+		: 0
 
+	const pendingUsers = isAdmin
+		? await prisma.user.count({ where: { status: UserStatus.PENDING } })
+		: 0
 
-  // Je nach Rolle das passende Dashboard rendern (Nutzer vs. Admin)
-  if ( user.role === Role.ADMIN ) {
-    return <AdminFeatures 
-      user={  user } 
-      drivers={ drivers } 
-      pendingUsers={ pendingUsers }
-      allLeads={ allLeads }
-      selectedStatus={status}
-    />
-    }
+	return (
+		<div className="space-y-6">
+			<div>
+				<h1 className="text-2xl font-bold">Willkommen, {user.firstname}</h1>
+				<p className="text-muted-foreground">Übersicht deiner Aktivitäten</p>
+			</div>
 
-  return <UserFeatures user={ user }/>
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">
+							{isAdmin ? "Alle Leads" : "Meine Leads"}
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<p className="text-2xl font-bold">{totalLeads}</p>
+					</CardContent>
+				</Card>
+
+				{isAdmin && (
+					<>
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-base font-semibold">
+									Aktive Abschlepper
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-2xl font-bold">{totalActiveDrivers}</p>
+							</CardContent>
+						</Card>
+
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-base font-semibold">
+									Inaktive Abschlepper
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-2xl font-bold">{totalInactiveDrivers}</p>
+							</CardContent>
+						</Card>
+
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-base font-semibold">
+									Abgelehnte Abschlepper
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-2xl font-bold">{totalRejectedDrivers}</p>
+							</CardContent>
+						</Card>
+
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-base font-semibold">
+									Alle registrierten Abschlepper
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-2xl font-bold">{registeredDrivers}</p>
+							</CardContent>
+						</Card>
+
+						<Card>
+							<CardHeader>
+								<CardTitle className="text-base font-semibold">
+									Warten auf Freigabe
+								</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<p className="text-2xl font-bold">{pendingUsers}</p>
+							</CardContent>
+						</Card>
+					</>
+				)}
+			</div>
+		</div>
+	)
 }

@@ -56,7 +56,7 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
         },
     })
     if (!lead || lead.towTruckDriverId !== driver.id) {
-        redirect("/leads")
+        redirect("/dashboard/leads")
     }
 
     // Return JSX
@@ -159,7 +159,7 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
 
                 <div className="flex gap-3">
                     <Button asChild variant="outline" className="flex-1">
-                        <Link href={`/leads/${lead.id}`}>Abbrechen</Link>
+                        <Link href={`/dashboard/leads/${lead.id}`}>Abbrechen</Link>
                     </Button>
                     <Button type="submit" className="flex-1">Speichern</Button>
                 </div>

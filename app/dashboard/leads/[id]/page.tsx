@@ -51,7 +51,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 
 	// Gehört der Lead nicht zum eingeloggten Abschlepper, wird er weggeschickt
 	if (!lead || lead.towTruckDriverId !== driver.id) {
-		redirect("/leads")
+		redirect("/dashboard/leads")
 	}
 
 	return (
@@ -59,7 +59,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 			<h1 className="text-2xl font-semibold">Lead Details</h1>
 			{lead.status !== "CANCELLED" && (
 				<Button asChild variant="outline">
-					<Link href={`/leads/${lead.id}/edit`}>Bearbeiten</Link>
+					<Link href={`/dashboard/leads/${lead.id}/edit`}>Bearbeiten</Link>
 				</Button>
 			)}
 			<div className="mt-6 flex flex-col gap-2 max-w-md">
@@ -110,7 +110,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 			)}
 
 			<p className="mt-6">
-				<Link href="/leads" className="underline">Zurück zur Übersicht</Link>
+				<Link href="/dashboard/leads" className="underline">Zurück zur Übersicht</Link>
 			</p>
 		</main>
 	)

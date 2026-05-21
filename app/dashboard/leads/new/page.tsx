@@ -107,7 +107,7 @@ export default function NewLead() {
               </Button>
 
               <div className="flex justify-center gap-4 text-sm text-muted-foreground">
-                <Link href="/leads" className="underline underline-offset-4">
+                <Link href="/dashboard/leads" className="underline underline-offset-4">
                   Zur Lead-Übersicht
                 </Link>
                 <Link href="/dashboard" className="underline underline-offset-4">
