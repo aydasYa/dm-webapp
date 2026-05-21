@@ -48,7 +48,7 @@ export async function createLead(formData: FormData) {
         },
     })
 
-    redirect("/leads")
+    redirect("/dashboard/leads")
 }
 
 
@@ -85,7 +85,7 @@ export async function updateLead(formData: FormData) {
         select: { towTruckDriverId: true },
     })
     if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
-        redirect("/leads")
+        redirect("/dashboard/leads")
     }
 
     // 4. Update
@@ -102,7 +102,7 @@ export async function updateLead(formData: FormData) {
         },
     })
 
-    redirect(`/leads/${leadId}`)
+    redirect(`/dashboard/leads/${leadId}`)
 }
 
 export async function updateLeadStatus(formData: FormData) {
@@ -128,7 +128,7 @@ export async function updateLeadStatus(formData: FormData) {
     select: { towTruckDriverId: true },
     })
     if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
-        redirect("/leads")
+        redirect("/dashboard/leads")
     }
 
     // 5. Update: Diesmal NUR das status-Feld
@@ -138,7 +138,7 @@ export async function updateLeadStatus(formData: FormData) {
     })
 
     // 6. redirect zur Detail-Seite
-    redirect(`/leads/${leadId}`)
+    redirect(`/dashboard/leads/${leadId}`)
 }
 
 // lead stonierung vom abschlepper
@@ -163,7 +163,7 @@ export async function cancelLead(formData: FormData) {
     select: { towTruckDriverId: true },
     })
     if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
-        redirect("/leads")
+        redirect("/dashboard/leads")
     }
 
     // 5. Update: Diesmal NUR das status-Feld
@@ -176,5 +176,5 @@ export async function cancelLead(formData: FormData) {
     })
 
     // 6. redirect zur Detail-Seite
-    redirect(`/leads`)
+    redirect(`/dashboard/leads`)
 }

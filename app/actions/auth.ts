@@ -184,5 +184,5 @@ export async function updateProfile(formData: FormData) {
   })
 
     // 5. Redirect zurück zum Dashbaord
-    redirect("/dashboard")
+    redirect("/dashboard/profile")
 }
