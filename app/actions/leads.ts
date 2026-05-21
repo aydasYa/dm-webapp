@@ -130,3 +130,41 @@ export async function updateLeadStatus(formData: FormData) {
     // 6. redirect zur Detail-Seite
     redirect(`/leads/${leadId}`)
 }
+
+// lead stonierung vom abschlepper
+export async function cancelLead(formData: FormData) {
+    const leadId = formData.get("leadId") as string
+
+    const supabase = await createClient()
+    const { data } = await supabase.auth.getClaims()
+
+    if (!data?.claims) redirect("/login")
+
+    // driver laden
+    const driver = await prisma.user.findUnique({
+        where: { supabaseId: data.claims.sub },
+        select: { id: true },
+    })
+    if (!driver) redirect("/login")
+
+    // db abgleich leadId und prisma user
+    const existingLead = await prisma.lead.findUnique({
+    where:  { id: leadId },
+    select: { towTruckDriverId: true },
+    })
+    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+        redirect("/leads")
+    }
+
+    // 5. Update: Diesmal NUR das status-Feld
+    await prisma.lead.update({
+        where:  { id: leadId },
+        data:   {
+            status: LeadStatus.CANCELLED,
+            deletedAt: new Date(),
+        },
+    })
+
+    // 6. redirect zur Detail-Seite
+    redirect(`/leads`)
+}
