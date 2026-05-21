@@ -120,16 +120,24 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
       }) : []
 
 
-  // Je nach Rolle das passende Dashboard rendern (Nutzer vs. Admin)
-  if ( user.role === Role.ADMIN ) {
-    return <AdminFeatures 
-      user={  user } 
-      drivers={ drivers } 
-      pendingUsers={ pendingUsers }
-      allLeads={ allLeads }
-      selectedStatus={status}
-    />
-    }
+  // User-Objekt mit email für die Dashboard-Shell
+  const userWithEmail = {
+    ...user,
+    email: user.email,
+  }
 
-  return <UserFeatures user={ user }/>
+  // Je nach Rolle das passende Dashboard rendern (Nutzer vs. Admin)
+  if (user.role === Role.ADMIN) {
+    return (
+      <AdminFeatures
+        user={userWithEmail}
+        drivers={drivers}
+        pendingUsers={pendingUsers}
+        allLeads={allLeads}
+        selectedStatus={status}
+      />
+    )
+  }
+
+  return <UserFeatures user={userWithEmail} />
 }

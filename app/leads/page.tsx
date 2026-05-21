@@ -7,27 +7,40 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { StatusBadge, statusOptions } from "@/components/ui/status-badge"
+import { Plus, ArrowLeft, FileText } from "lucide-react"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 
 export const dynamic = "force-dynamic"
 
 type SearchParams = {
   status?: string
-}
-
-// Status-Farben: jeder Status erhält ein bestimmten Farb-code für bessere UX
-const statusStyles: Record<string, string> = {
-  NEW:               "bg-violet-100 text-violet-700 ring-violet-200",
-  DISTRIBUTED:       "bg-blue-100 text-blue-700 ring-blue-200",
-  QR_SCANNED:        "bg-cyan-100 text-cyan-700 ring-cyan-200",
-  WORKSHOP_SELECTED: "bg-indigo-100 text-indigo-700 ring-indigo-200",
-  IN_REPAIR:         "bg-yellow-100 text-yellow-700 ring-yellow-200",
-  REPAIR_DONE:       "bg-orange-100 text-orange-700 ring-orange-200",
-  VEHICLE_DELIVERED: "bg-teal-100 text-teal-700 ring-teal-200",
-  COMPLETED:         "bg-emerald-100 text-emerald-800 ring-emerald-300",
-  CANCELLED:         "bg-red-100 text-red-700 ring-red-200",
 }
 
 export default async function LeadsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
@@ -59,89 +72,179 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
       status: true,
       createdAt: true,
     },
-    orderBy: { createdAt: 'desc' }
+    orderBy: { createdAt: "desc" },
   })
 
   return (
-    <main className="min-h-svh bg-muted p-6 md:p-10">
-      <div className="mx-auto flex max-w-3xl flex-col gap-6">
-        
+    <div className="min-h-screen bg-muted/30">
+      <div className="mx-auto max-w-5xl p-4 md:p-6 lg:p-8">
+        {/* Breadcrumb */}
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Meine Leads</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Meine Leads</h1>
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Meine Leads</h1>
+            <p className="text-muted-foreground">
+              {driverLeads.length} {driverLeads.length === 1 ? "Lead" : "Leads"} erfasst
+            </p>
+          </div>
           <Button asChild>
-            <Link href="/leads/new">+ Neuer Lead</Link>
+            <Link href="/leads/new">
+              <Plus className="mr-2 h-4 w-4" />
+              Neuer Lead
+            </Link>
           </Button>
         </div>
 
-        {/* Filter */}
-        <Card>
-          <CardContent className="pt-6">
-            <form action="/leads" method="get" className="flex items-center gap-3">
-              <label htmlFor="status" className="text-sm font-medium">Status:</label>
-              <select 
-                id="status" 
-                name="status" 
-                defaultValue={status ?? ''}
-                className="border rounded-md px-3 py-1.5 text-sm bg-background"
-              >
-                <option value="">Alle</option>
-                <option value="NEW">NEW</option>
-                <option value="DISTRIBUTED">DISTRIBUTED</option>
-                <option value="QR_SCANNED">QR_SCANNED</option>
-                <option value="WORKSHOP_SELECTED">WORKSHOP_SELECTED</option>
-                <option value="IN_REPAIR">IN_REPAIR</option>
-                <option value="REPAIR_DONE">REPAIR_DONE</option>
-                <option value="VEHICLE_DELIVERED">VEHICLE_DELIVERED</option>
-                <option value="COMPLETED">COMPLETED</option>
-                <option value="CANCELLED">CANCELLED</option>
-              </select>
-              <Button type="submit" variant="outline" size="sm">Filtern</Button>
+        {/* Filter Card */}
+        <Card className="mb-6">
+          <CardContent className="py-4">
+            <form action="/leads" method="get" className="flex flex-wrap items-center gap-3">
+              <span className="text-sm font-medium text-muted-foreground">Filtern nach:</span>
+              <Select name="status" defaultValue={status ?? "all"}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Alle Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Alle Status</SelectItem>
+                  {statusOptions.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Button type="submit" variant="secondary" size="sm">
+                Anwenden
+              </Button>
+              {status && (
+                <Button variant="ghost" size="sm" asChild>
+                  <Link href="/leads">Filter zurücksetzen</Link>
+                </Button>
+              )}
             </form>
           </CardContent>
         </Card>
 
-        {/* Lead-Liste */}
+        {/* Leads Table/Cards */}
         {driverLeads.length === 0 ? (
           <Card>
-            <CardContent className="pt-6">
-              <p className="text-center text-muted-foreground">Noch keine Leads erfasst</p>
+            <CardContent className="flex flex-col items-center justify-center py-12">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                <FileText className="h-8 w-8 text-muted-foreground" />
+              </div>
+              <h3 className="mt-4 text-lg font-semibold">Keine Leads gefunden</h3>
+              <p className="mt-1 text-sm text-muted-foreground text-center">
+                {status
+                  ? "Keine Leads mit diesem Status vorhanden."
+                  : "Du hast noch keine Leads erfasst."}
+              </p>
+              <Button asChild className="mt-4">
+                <Link href="/leads/new">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Ersten Lead anlegen
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         ) : (
-          <div className="flex flex-col gap-3">
-            {driverLeads.map((lead) => (
-              <Link 
-                key={lead.id} 
-                href={`/leads/${lead.id}`}
-                className="block"
-              >
-                <Card className="transition-colors hover:bg-accent">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">{lead.customerLastName}</CardTitle>
-                        <span className={`text-xs font-medium rounded-full px-2 py-1 ring-1 ring-inset ${statusStyles[lead.status] ?? statusStyles.NEW}`}>
-                        {lead.status}
-                        </span>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex flex-col gap-1 text-sm text-muted-foreground">
-                    <p>{lead.vehicleMake} {lead.vehicleModel}</p>
-                    <p>{lead.breakdownAddress}</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <>
+            {/* Desktop Table */}
+            <Card className="hidden md:block">
+              <CardHeader>
+                <CardTitle className="text-base">Übersicht</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Kunde</TableHead>
+                      <TableHead>Fahrzeug</TableHead>
+                      <TableHead>Standort</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Datum</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {driverLeads.map((lead) => (
+                      <TableRow key={lead.id} className="cursor-pointer hover:bg-muted/50">
+                        <TableCell>
+                          <Link
+                            href={`/leads/${lead.id}`}
+                            className="font-medium hover:underline"
+                          >
+                            {lead.customerLastName}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          {lead.vehicleMake} {lead.vehicleModel}
+                        </TableCell>
+                        <TableCell className="max-w-[200px] truncate">
+                          {lead.breakdownAddress}
+                        </TableCell>
+                        <TableCell>
+                          <StatusBadge status={lead.status} />
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">
+                          {new Date(lead.createdAt).toLocaleDateString("de-DE")}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+
+            {/* Mobile Cards */}
+            <div className="flex flex-col gap-3 md:hidden">
+              {driverLeads.map((lead) => (
+                <Link key={lead.id} href={`/leads/${lead.id}`} className="block">
+                  <Card className="transition-colors hover:bg-muted/50">
+                    <CardHeader className="pb-2">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-base">{lead.customerLastName}</CardTitle>
+                        <StatusBadge status={lead.status} />
+                      </div>
+                      <CardDescription>
+                        {lead.vehicleMake} {lead.vehicleModel}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <p className="text-sm text-muted-foreground truncate">
+                        {lead.breakdownAddress}
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {new Date(lead.createdAt).toLocaleDateString("de-DE")}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </>
         )}
 
-        {/* Footer */}
-        <div className="flex justify-center">
-          <Button asChild variant="ghost">
-            <Link href="/dashboard" className="underline underline-offset-4 text-sm text-muted-foreground">Zurück zum Dashboard</Link>
+        {/* Back Link */}
+        <div className="mt-6 flex justify-center">
+          <Button variant="ghost" asChild>
+            <Link href="/dashboard">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Zurück zum Dashboard
+            </Link>
           </Button>
         </div>
       </div>
-    </main>
+    </div>
   )
 }
