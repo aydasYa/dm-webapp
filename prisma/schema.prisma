@@ -10,7 +10,6 @@ datasource db {
   provider = "postgresql"
 }
 
-
 // ─── ENUMS ───────────────────────────────────────────
 
 enum Role {
@@ -27,7 +26,7 @@ enum UserStatus {
 
 enum LeadStatus {
   NEW
-  DISTRIBUTED     // customer declined workshop
+  DISTRIBUTED // customer declined workshop
   QR_SCANNED
   WORKSHOP_SELECTED
   IN_REPAIR
@@ -49,21 +48,21 @@ enum CommissionStatus {
 // model für Company rechieren was noch dazu gehört
 // Rahmi oder Yakup müssen das noch mir erklären.
 model User {
-  id           String     @id @default(cuid())
-  
+  id String @id @default(cuid())
+
   // ─── Personal (Fahrer-Daten) ───
-  email        String     @unique
-  firstname    String
-  lastname     String
-  phone        String?
-  
+  email     String  @unique
+  firstname String
+  lastname  String
+  phone     String?
+
   // ─── Supabase & Tech ───
   supabaseId   String     @unique
   role         Role       @default(TOW_TRUCK_DRIVER)
   status       UserStatus @default(PENDING)
   qrCode       String?    @unique
   salesforceId String?    @unique
-  
+
   // ─── Company (TODO: in eigenes Model auslagern) ───
   // Wenn aufgeteilt: alle companyXyz-Felder in neues Company-Model,
   // User bekommt companyId + Relation zu Company.
@@ -74,16 +73,16 @@ model User {
   companyPhone         String?
   companyEmail         String?
   companyContactPerson String?
-  
+
   // ─── Relations ───
-  leads        Lead[]
-  commissions  Commission[]
-  auditLogs    AuditLog[]
-  
+  leads       Lead[]
+  commissions Commission[]
+  auditLogs   AuditLog[]
+
   // ─── Timestamps ───
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  deletedAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   @@map("users")
 }
@@ -91,102 +90,106 @@ model User {
 // bin mir immernoch nicht 100% sicher.
 // Werkstatt (welche alle in der liste für den Kunden angezeigt werden zum auswählen)
 model Workshop {
-  id        String   @id @default(cuid())
-  name      String
-  address   String
-  city      String
-  postcode  String // weitere noch hinzufügen zb Ansprechpartner
-  phone     String?
-  email     String?
+  id       String  @id @default(cuid())
+  name     String
+  address  String
+  city     String
+  postcode String // weitere noch hinzufügen zb Ansprechpartner
+  phone    String?
+  email    String?
 
-  leads     Lead[]
+  leads Lead[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   @@map("workshops")
 }
 
 model Lead {
-  id              String     @id @default(cuid())
-  
+  id String @id @default(cuid())
+
   // Customer info
-  customerLastName String
-  vehicleMake      String
-  vehicleModel     String
-  breakdownAddress String
-  internNotice     String? // verbesser, notiz anlegen über 
+  customerLastName  String
+  vehicleMake       String
+  vehicleModel      String
+  // breakdownAddress String (veraltet)
+  breakdownStreet   String
+  breakdownPostcode String
+  breakdownCity     String
+
+  internNotice      String?
 
   // Status & tracking
-  status          LeadStatus @default(NEW)
-  salesforceId    String?    @unique
+  status           LeadStatus @default(NEW)
+  salesforceId     String?    @unique
   salesforceStatus String?
 
   // Relations
-  towTruckDriver     User       @relation(fields: [towTruckDriverId], references: [id])
-  towTruckDriverId   String
+  towTruckDriver   User   @relation(fields: [towTruckDriverId], references: [id])
+  towTruckDriverId String
 
-  workshop        Workshop?  @relation(fields: [workshopId], references: [id])
-  workshopId      String?
+  workshop   Workshop? @relation(fields: [workshopId], references: [id])
+  workshopId String?
 
-  qrScan          QRScan? // denke sollte ohne ? sein, weil wir per webapp alle leads mit dem qrCode generieren / später bereden
-  commission      Commission?
-  auditLogs       AuditLog[]
+  qrScan     QRScan? // denke sollte ohne ? sein, weil wir per webapp alle leads mit dem qrCode generieren / später bereden
+  commission Commission?
+  auditLogs  AuditLog[]
 
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
-  deletedAt       DateTime?
-  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
   @@map("leads")
 }
 
 model QRScan {
-  id          String   @id @default(cuid())
-  scannedAt   DateTime @default(now())
-  utmMedium   String?  // AccountID_Abschlepper: AccountId_TowTruckDriver
-  utmSource   String?  // ADAC_Abschlepper / ADAC_TowTruckDriver
+  id        String   @id @default(cuid())
+  scannedAt DateTime @default(now())
+  utmMedium String? // AccountID_Abschlepper: AccountId_TowTruckDriver
+  utmSource String? // ADAC_Abschlepper / ADAC_TowTruckDriver
 
-  lead        Lead     @relation(fields: [leadId], references: [id])
-  leadId      String   @unique
+  lead   Lead   @relation(fields: [leadId], references: [id])
+  leadId String @unique
 
-  createdAt   DateTime @default(now())
+  createdAt DateTime @default(now())
 
-  landingpageLink  String  //defeulat: angebot seite von dm link enum erstellen
+  landingpageLink String //defeulat: angebot seite von dm link enum erstellen
 
   @@map("qr_scans")
 }
 
 model Commission {
-  id          String           @id @default(cuid())
-  amount      Decimal          @db.Decimal(10, 2) // maximal 10 zeichen lange zahl mit mas .2 stellen am ende
-  currency    String           @default("EUR")
-  status      CommissionStatus @default(PENDING)
-  paymentRef  String?          // Stripe / SEPA / PayPal reference
-  paidAt      DateTime?
+  id         String           @id @default(cuid())
+  amount     Decimal          @db.Decimal(10, 2) // maximal 10 zeichen lange zahl mit mas .2 stellen am ende
+  currency   String           @default("EUR")
+  status     CommissionStatus @default(PENDING)
+  paymentRef String? // Stripe / SEPA / PayPal reference
+  paidAt     DateTime?
 
-  lead        Lead             @relation(fields: [leadId], references: [id])
-  leadId      String           @unique
+  lead   Lead   @relation(fields: [leadId], references: [id])
+  leadId String @unique
 
-  towTruckDriver User             @relation(fields: [towTruckDriverId], references: [id])
+  towTruckDriver   User   @relation(fields: [towTruckDriverId], references: [id])
   towTruckDriverId String
-  
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("commissions")
 }
 
 model AuditLog {
-  id        String   @id @default(cuid())
-  action    String   // e.g. "STATUS_CHANGED", "ACCOUNT_APPROVED"
-  details   String?  // free text or JSON string
-  
-  user      User?    @relation(fields: [userId], references: [id])
-  userId    String?
+  id      String  @id @default(cuid())
+  action  String // e.g. "STATUS_CHANGED", "ACCOUNT_APPROVED"
+  details String? // free text or JSON string
 
-  lead      Lead?    @relation(fields: [leadId], references: [id])
-  leadId    String?
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  lead   Lead?   @relation(fields: [leadId], references: [id])
+  leadId String?
 
   createdAt DateTime @default(now())
 

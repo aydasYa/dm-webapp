@@ -29,7 +29,9 @@ export type LeadMinAggregateOutputType = {
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
-  breakdownAddress: string | null
+  breakdownStreet: string | null
+  breakdownPostcode: string | null
+  breakdownCity: string | null
   internNotice: string | null
   status: $Enums.LeadStatus | null
   salesforceId: string | null
@@ -46,7 +48,9 @@ export type LeadMaxAggregateOutputType = {
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
-  breakdownAddress: string | null
+  breakdownStreet: string | null
+  breakdownPostcode: string | null
+  breakdownCity: string | null
   internNotice: string | null
   status: $Enums.LeadStatus | null
   salesforceId: string | null
@@ -63,7 +67,9 @@ export type LeadCountAggregateOutputType = {
   customerLastName: number
   vehicleMake: number
   vehicleModel: number
-  breakdownAddress: number
+  breakdownStreet: number
+  breakdownPostcode: number
+  breakdownCity: number
   internNotice: number
   status: number
   salesforceId: number
@@ -82,7 +88,9 @@ export type LeadMinAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
-  breakdownAddress?: true
+  breakdownStreet?: true
+  breakdownPostcode?: true
+  breakdownCity?: true
   internNotice?: true
   status?: true
   salesforceId?: true
@@ -99,7 +107,9 @@ export type LeadMaxAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
-  breakdownAddress?: true
+  breakdownStreet?: true
+  breakdownPostcode?: true
+  breakdownCity?: true
   internNotice?: true
   status?: true
   salesforceId?: true
@@ -116,7 +126,9 @@ export type LeadCountAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
-  breakdownAddress?: true
+  breakdownStreet?: true
+  breakdownPostcode?: true
+  breakdownCity?: true
   internNotice?: true
   status?: true
   salesforceId?: true
@@ -206,7 +218,9 @@ export type LeadGroupByOutputType = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice: string | null
   status: $Enums.LeadStatus
   salesforceId: string | null
@@ -244,7 +258,9 @@ export type LeadWhereInput = {
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
-  breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  breakdownStreet?: Prisma.StringFilter<"Lead"> | string
+  breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
+  breakdownCity?: Prisma.StringFilter<"Lead"> | string
   internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -266,7 +282,9 @@ export type LeadOrderByWithRelationInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
-  breakdownAddress?: Prisma.SortOrder
+  breakdownStreet?: Prisma.SortOrder
+  breakdownPostcode?: Prisma.SortOrder
+  breakdownCity?: Prisma.SortOrder
   internNotice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -292,7 +310,9 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
-  breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  breakdownStreet?: Prisma.StringFilter<"Lead"> | string
+  breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
+  breakdownCity?: Prisma.StringFilter<"Lead"> | string
   internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceStatus?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -313,7 +333,9 @@ export type LeadOrderByWithAggregationInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
-  breakdownAddress?: Prisma.SortOrder
+  breakdownStreet?: Prisma.SortOrder
+  breakdownPostcode?: Prisma.SortOrder
+  breakdownCity?: Prisma.SortOrder
   internNotice?: Prisma.SortOrderInput | Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -336,7 +358,9 @@ export type LeadScalarWhereWithAggregatesInput = {
   customerLastName?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleMake?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleModel?: Prisma.StringWithAggregatesFilter<"Lead"> | string
-  breakdownAddress?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  breakdownStreet?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  breakdownPostcode?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  breakdownCity?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   internNotice?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusWithAggregatesFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
@@ -353,7 +377,9 @@ export type LeadCreateInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -373,7 +399,9 @@ export type LeadUncheckedCreateInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -393,7 +421,9 @@ export type LeadUpdateInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -413,7 +443,9 @@ export type LeadUncheckedUpdateInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -433,7 +465,9 @@ export type LeadCreateManyInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -450,7 +484,9 @@ export type LeadUpdateManyMutationInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -465,7 +501,9 @@ export type LeadUncheckedUpdateManyInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -492,7 +530,9 @@ export type LeadCountOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
-  breakdownAddress?: Prisma.SortOrder
+  breakdownStreet?: Prisma.SortOrder
+  breakdownPostcode?: Prisma.SortOrder
+  breakdownCity?: Prisma.SortOrder
   internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
@@ -509,7 +549,9 @@ export type LeadMaxOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
-  breakdownAddress?: Prisma.SortOrder
+  breakdownStreet?: Prisma.SortOrder
+  breakdownPostcode?: Prisma.SortOrder
+  breakdownCity?: Prisma.SortOrder
   internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
@@ -526,7 +568,9 @@ export type LeadMinOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
-  breakdownAddress?: Prisma.SortOrder
+  breakdownStreet?: Prisma.SortOrder
+  breakdownPostcode?: Prisma.SortOrder
+  breakdownCity?: Prisma.SortOrder
   internNotice?: Prisma.SortOrder
   status?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
@@ -685,7 +729,9 @@ export type LeadCreateWithoutTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -704,7 +750,9 @@ export type LeadUncheckedCreateWithoutTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -752,7 +800,9 @@ export type LeadScalarWhereInput = {
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
-  breakdownAddress?: Prisma.StringFilter<"Lead"> | string
+  breakdownStreet?: Prisma.StringFilter<"Lead"> | string
+  breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
+  breakdownCity?: Prisma.StringFilter<"Lead"> | string
   internNotice?: Prisma.StringNullableFilter<"Lead"> | string | null
   status?: Prisma.EnumLeadStatusFilter<"Lead"> | $Enums.LeadStatus
   salesforceId?: Prisma.StringNullableFilter<"Lead"> | string | null
@@ -769,7 +819,9 @@ export type LeadCreateWithoutWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -788,7 +840,9 @@ export type LeadUncheckedCreateWithoutWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -833,7 +887,9 @@ export type LeadCreateWithoutQrScanInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -852,7 +908,9 @@ export type LeadUncheckedCreateWithoutQrScanInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -887,7 +945,9 @@ export type LeadUpdateWithoutQrScanInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -906,7 +966,9 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -925,7 +987,9 @@ export type LeadCreateWithoutCommissionInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -944,7 +1008,9 @@ export type LeadUncheckedCreateWithoutCommissionInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -979,7 +1045,9 @@ export type LeadUpdateWithoutCommissionInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -998,7 +1066,9 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1017,7 +1087,9 @@ export type LeadCreateWithoutAuditLogsInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -1036,7 +1108,9 @@ export type LeadUncheckedCreateWithoutAuditLogsInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -1071,7 +1145,9 @@ export type LeadUpdateWithoutAuditLogsInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1090,7 +1166,9 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1109,7 +1187,9 @@ export type LeadCreateManyTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -1125,7 +1205,9 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1144,7 +1226,9 @@ export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1163,7 +1247,9 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1179,7 +1265,9 @@ export type LeadCreateManyWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
-  breakdownAddress: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
   internNotice?: string | null
   status?: $Enums.LeadStatus
   salesforceId?: string | null
@@ -1195,7 +1283,9 @@ export type LeadUpdateWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1214,7 +1304,9 @@ export type LeadUncheckedUpdateWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1233,7 +1325,9 @@ export type LeadUncheckedUpdateManyWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
-  breakdownAddress?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
   internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1280,7 +1374,9 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
-  breakdownAddress?: boolean
+  breakdownStreet?: boolean
+  breakdownPostcode?: boolean
+  breakdownCity?: boolean
   internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
@@ -1303,7 +1399,9 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
-  breakdownAddress?: boolean
+  breakdownStreet?: boolean
+  breakdownPostcode?: boolean
+  breakdownCity?: boolean
   internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
@@ -1322,7 +1420,9 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
-  breakdownAddress?: boolean
+  breakdownStreet?: boolean
+  breakdownPostcode?: boolean
+  breakdownCity?: boolean
   internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
@@ -1341,7 +1441,9 @@ export type LeadSelectScalar = {
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
-  breakdownAddress?: boolean
+  breakdownStreet?: boolean
+  breakdownPostcode?: boolean
+  breakdownCity?: boolean
   internNotice?: boolean
   status?: boolean
   salesforceId?: boolean
@@ -1353,7 +1455,7 @@ export type LeadSelectScalar = {
   deletedAt?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownAddress" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownStreet" | "breakdownPostcode" | "breakdownCity" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
@@ -1385,7 +1487,9 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     customerLastName: string
     vehicleMake: string
     vehicleModel: string
-    breakdownAddress: string
+    breakdownStreet: string
+    breakdownPostcode: string
+    breakdownCity: string
     internNotice: string | null
     status: $Enums.LeadStatus
     salesforceId: string | null
@@ -1827,7 +1931,9 @@ export interface LeadFieldRefs {
   readonly customerLastName: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleMake: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleModel: Prisma.FieldRef<"Lead", 'String'>
-  readonly breakdownAddress: Prisma.FieldRef<"Lead", 'String'>
+  readonly breakdownStreet: Prisma.FieldRef<"Lead", 'String'>
+  readonly breakdownPostcode: Prisma.FieldRef<"Lead", 'String'>
+  readonly breakdownCity: Prisma.FieldRef<"Lead", 'String'>
   readonly internNotice: Prisma.FieldRef<"Lead", 'String'>
   readonly status: Prisma.FieldRef<"Lead", 'LeadStatus'>
   readonly salesforceId: Prisma.FieldRef<"Lead", 'String'>

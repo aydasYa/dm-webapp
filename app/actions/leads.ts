@@ -12,9 +12,12 @@ import { LeadStatus } from "@/src/generated/prisma/enums"
 // Der Lead wird automatisch mit der ID des aktuellen Nutzers verknüpft
 export async function createLead(formData: FormData) {
     const customerLastName  = formData.get("customerLastName") as string
-    const vehicleMake      = formData.get("vehicleMake") as string
+    const vehicleMake       = formData.get("vehicleMake") as string
     const vehicleModel      = formData.get("vehicleModel") as string
-    const breakdownAddress  = formData.get("breakdownAddress") as string
+    // const breakdownAddress  = formData.get("breakdownAddress") as string
+    const breakdownStreet   = formData.get("breakdownStreet") as string
+    const breakdownPostcode = formData.get("breakdownPostcode") as string
+    const breakdownCity     = formData.get("breakdownCity") as string
     const internNotice      = formData.get("internNotice") as string | null
 
     // 1. Login prüfen
@@ -37,7 +40,9 @@ export async function createLead(formData: FormData) {
             customerLastName,
             vehicleMake,
             vehicleModel,
-            breakdownAddress,
+            breakdownStreet,
+            breakdownPostcode,
+            breakdownCity,
             towTruckDriverId: driver.id,
             internNotice,
         },
@@ -53,7 +58,10 @@ export async function updateLead(formData: FormData) {
     const customerLastName  = formData.get("customerLastName") as string
     const vehicleMake       = formData.get("vehicleMake") as string
     const vehicleModel      = formData.get("vehicleModel") as string
-    const breakdownAddress  = formData.get("breakdownAddress") as string
+    // const breakdownAddress  = formData.get("breakdownAddress") as string
+    const breakdownStreet   = formData.get("breakdownStreet") as string
+    const breakdownPostcode   = formData.get("breakdownPostcode") as string
+    const breakdownCity   = formData.get("breakdownCity") as string
     const internNotice      = formData.get("internNotice") as string | null
 
     // 1. Login Prüfen
@@ -87,7 +95,9 @@ export async function updateLead(formData: FormData) {
             customerLastName,
             vehicleMake,
             vehicleModel,
-            breakdownAddress,
+            breakdownStreet,
+            breakdownPostcode,
+            breakdownCity,
             internNotice,
         },
     })
