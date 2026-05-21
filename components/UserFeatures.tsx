@@ -2,7 +2,7 @@
 import LogoutButton from "./LogoutButton"
 import { QRCodeSVG } from "qrcode.react"
 import Link from "next/link"
-
+import { Button } from "./ui/button"
 // Props für das Nutzer-Dashboard
 type Props = {
   user: {
@@ -46,6 +46,10 @@ export default function UserFeatures({ user }: Props) {
                 {user.firstname} {user.lastname}
                 </span>
             </p>
+
+            <Button asChild variant="outline">
+                <Link href="/profile/edit">Profil Bearbeiten</Link>
+            </Button>
 
             <div>
                 <Link href="/leads/new" className="bg-black text-white rounded px-4 py-2">Neuer Lead</Link>
