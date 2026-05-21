@@ -55,7 +55,10 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
       customerLastName: true,
       vehicleMake: true,
       vehicleModel: true,
-      breakdownAddress: true,
+      // breakdownAddress: true,
+      breakdownStreet: true,
+      breakdownPostcode: true,
+      breakdownCity: true,
       status: true,
       createdAt: true,
     },
@@ -127,7 +130,9 @@ export default async function LeadsPage({ searchParams }: { searchParams: Promis
                   </CardHeader>
                   <CardContent className="flex flex-col gap-1 text-sm text-muted-foreground">
                     <p>{lead.vehicleMake} {lead.vehicleModel}</p>
-                    <p>{lead.breakdownAddress}</p>
+                    <p>{lead.breakdownStreet}</p>
+                    <p>{lead.breakdownPostcode}</p>
+                    <p>{lead.breakdownCity}</p>
                   </CardContent>
                 </Card>
               </Link>

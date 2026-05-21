@@ -38,7 +38,10 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 			customerLastName: true,
 			vehicleMake: true,
 			vehicleModel: true,
-			breakdownAddress: true,
+			// breakdownAddress: true,
+			breakdownStreet: true,
+			breakdownPostcode: true,
+			breakdownCity: true,
 			status: true,
 			createdAt: true,
 			towTruckDriverId: true,
@@ -62,7 +65,9 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 			<div className="mt-6 flex flex-col gap-2 max-w-md">
 				<p>Kunde: {lead.customerLastName}</p>
 				<p>Fahrzeug: {lead.vehicleMake} {lead.vehicleModel}</p>
-				<p>Adresse: {lead.breakdownAddress}</p>
+				<p>Straße: {lead.breakdownStreet}</p>
+				<p>PLZ: {lead.breakdownPostcode}</p>
+				<p>Ort: {lead.breakdownCity}</p>
 				<p>Status: {lead.status}</p>
 				{/* Dorpdown menü um den Status zu ändern */}
 				{lead.status !== "CANCELLED" && (

@@ -47,7 +47,10 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
             customerLastName: true,
             vehicleMake: true,
             vehicleModel: true,
-            breakdownAddress: true,
+            // breakdownAddress: true,
+            breakdownStreet: true,
+            breakdownPostcode: true,
+            breakdownCity: true,
             towTruckDriverId: true,
             internNotice: true,
         },
@@ -106,13 +109,35 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
                     </Field>
 
                     <Field>
-                    <FieldLabel htmlFor="breakdownAddress">Pannen-Adresse</FieldLabel>
+                    <FieldLabel htmlFor="breakdownStreet">Pannen-Straße</FieldLabel>
                     <Input
-                        id="breakdownAddress"
-                        name="breakdownAddress"
+                        id="breakdownStreet"
+                        name="breakdownStreet"
                         type="text"
                         required
-                        defaultValue={lead.breakdownAddress}
+                        defaultValue={lead.breakdownStreet}
+                    />
+                    </Field>
+
+                    <Field>
+                    <FieldLabel htmlFor="breakdownPostcode">Pannen-PLZ</FieldLabel>
+                    <Input
+                        id="breakdownPostcode"
+                        name="breakdownPostcode"
+                        type="text"
+                        required
+                        defaultValue={lead.breakdownPostcode}
+                    />
+                    </Field>
+
+                    <Field>
+                    <FieldLabel htmlFor="breakdownCity">Pannen-Ort</FieldLabel>
+                    <Input
+                        id="breakdownCity"
+                        name="breakdownCity"
+                        type="text"
+                        required
+                        defaultValue={lead.breakdownCity}
                     />
                     </Field>
 

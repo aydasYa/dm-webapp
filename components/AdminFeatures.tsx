@@ -30,7 +30,9 @@ type Lead = {
   customerLastName: string,
   vehicleMake: string,
   vehicleModel: string,
-  breakdownAddress: string,
+  breakdownStreet: string,
+  breakdownPostcode: string,
+  breakdownCity: string,
   status: string,
   createdAt: Date,
   internNotice: string | null,
@@ -162,7 +164,9 @@ export default function AdminFeatures({ user, drivers, pendingUsers, allLeads, s
             <div key={lead.id} className="rounded-lg border border-border p-4">
               <p className="font-medium">{lead.customerLastName}</p>
               <p className="text-sm">{lead.vehicleMake} {lead.vehicleModel}</p>
-              <p className="text-sm text-muted-foreground">{lead.breakdownAddress}</p>
+              <p className="text-sm text-muted-foreground">{lead.breakdownStreet}</p>
+              <p className="text-sm text-muted-foreground">{lead.breakdownPostcode}</p>
+              <p className="text-sm text-muted-foreground">{lead.breakdownCity}</p>
               <p className="text-sm">Status: {lead.status}</p>
               <p className="text-sm text-muted-foreground">
                 Fahrer: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}

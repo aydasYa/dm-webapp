@@ -63,10 +63,30 @@ export default function NewLead() {
                 </Field>
 
                 <Field>
-                  <FieldLabel htmlFor="breakdownAddress">Pannen-Adresse</FieldLabel>
+                  <FieldLabel htmlFor="breakdownStreet">Pannen-Straße</FieldLabel>
                   <Input
-                    id="breakdownAddress"
-                    name="breakdownAddress"
+                    id="breakdownStreet"
+                    name="breakdownStreet"
+                    type="text"
+                    required
+                  />
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="breakdownPostcode">Pannen-PLZ</FieldLabel>
+                  <Input
+                    id="breakdownPostcode"
+                    name="breakdownPostcode"
+                    type="text"
+                    required
+                  />
+                </Field>
+
+                <Field>
+                  <FieldLabel htmlFor="breakdownCity">Pannen-Ort</FieldLabel>
+                  <Input
+                    id="breakdownCity"
+                    name="breakdownCity"
                     type="text"
                     required
                   />
