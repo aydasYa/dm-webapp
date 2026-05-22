@@ -176,7 +176,7 @@ export async function cancelLead(formData: FormData) {
             deletedAt: new Date(),
             cancelReason,
             invoiceId,
-            cancelldAt: new Date(),
+            cancelledAt: new Date(),
             cancelledByUserId: driver.id,
         },
     })
