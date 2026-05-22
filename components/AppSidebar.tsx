@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Users, QrCode, FileText, User, LogOut } from "lucide-react"
+import { LayoutDashboard, Users, QrCode, FileText, User, LogOut, Euro } from "lucide-react"
 import { signout } from "@/app/actions/auth"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -33,12 +33,14 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
     { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
     { title: "Alle Leads", url: "/dashboard/leads", icon: FileText },
     { title: "Profil", url: "/dashboard/profile", icon: User },
+    { title: "Provisionen", url: "/dashboard/commissions", icon: Euro},
   ]
 
   const driverItems = [
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
     { title: "Meine Leads", url: "/dashboard/leads", icon: FileText },
     { title: "Profil", url: "/dashboard/profile", icon: User },
+    { title: "Provisionen", url: "/dashboard/commissions", icon: Euro},
   ]
 
   const items = role === "ADMIN" ? adminItems : driverItems

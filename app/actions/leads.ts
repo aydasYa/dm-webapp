@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/server"
 import prisma from '@/lib/prisma'
 import { redirect } from "next/navigation"
 import { LeadStatus, CancelReason } from "@/src/generated/prisma/enums"
+import { calculateCommissionAmount } from "@/lib/commission"
 
 // Neuen Lead anlegen – nur für eingeloggte Abschlepper
 // Der Lead wird automatisch mit der ID des aktuellen Nutzers verknüpft
@@ -136,6 +137,25 @@ export async function updateLeadStatus(formData: FormData) {
         where:  { id: leadId },
         data:   { status: newStatus },
     })
+
+    // Wenn Lead auf COMPLETED gesetzt wird: automatisch Commission erstellen
+    if (newStatus === LeadStatus.COMPLETED) {
+        // Prüfen ob es schon eine Commission gibt (Doppelt-Erstellung vermeiden)
+        const existingCommission = await prisma.commission.findUnique({
+            where: { leadId },
+        })
+
+        if (!existingCommission) {
+            const amount = await calculateCommissionAmount(driver.id)
+            await prisma.commission.create({
+                data: {
+                    leadId,
+                    towTruckDriverId: driver.id,
+                    amount,
+                }
+            })
+        }
+    }
 
     // 6. redirect zur Detail-Seite
     redirect(`/dashboard/leads/${leadId}`)
