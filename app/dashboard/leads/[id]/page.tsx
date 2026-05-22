@@ -4,8 +4,7 @@ import prisma from "@/lib/prisma"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { updateLeadStatus } from "@/app/actions/leads"
-import CancelLeadButton from "@/components/CancelLeadButton"
-
+import CancelLeadDialog from "@/components/CancelLeadDialog"
 export const dynamic = "force-dynamic"
 
 type Params = { id: string }
@@ -105,7 +104,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 
 			{lead.status !== "CANCELLED" && (
 				<div className="mt-6">
-					<CancelLeadButton leadId={lead.id}/>
+					<CancelLeadDialog leadId={lead.id}/>
 				</div>
 			)}
 
