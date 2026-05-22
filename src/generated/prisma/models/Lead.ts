@@ -26,6 +26,10 @@ export type AggregateLead = {
 
 export type LeadMinAggregateOutputType = {
   id: string | null
+  cancelReason: $Enums.CancelReason | null
+  invoiceId: string | null
+  cancelledAt: Date | null
+  cancelledByUserId: string | null
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
@@ -45,6 +49,10 @@ export type LeadMinAggregateOutputType = {
 
 export type LeadMaxAggregateOutputType = {
   id: string | null
+  cancelReason: $Enums.CancelReason | null
+  invoiceId: string | null
+  cancelledAt: Date | null
+  cancelledByUserId: string | null
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
@@ -64,6 +72,10 @@ export type LeadMaxAggregateOutputType = {
 
 export type LeadCountAggregateOutputType = {
   id: number
+  cancelReason: number
+  invoiceId: number
+  cancelledAt: number
+  cancelledByUserId: number
   customerLastName: number
   vehicleMake: number
   vehicleModel: number
@@ -85,6 +97,10 @@ export type LeadCountAggregateOutputType = {
 
 export type LeadMinAggregateInputType = {
   id?: true
+  cancelReason?: true
+  invoiceId?: true
+  cancelledAt?: true
+  cancelledByUserId?: true
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
@@ -104,6 +120,10 @@ export type LeadMinAggregateInputType = {
 
 export type LeadMaxAggregateInputType = {
   id?: true
+  cancelReason?: true
+  invoiceId?: true
+  cancelledAt?: true
+  cancelledByUserId?: true
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
@@ -123,6 +143,10 @@ export type LeadMaxAggregateInputType = {
 
 export type LeadCountAggregateInputType = {
   id?: true
+  cancelReason?: true
+  invoiceId?: true
+  cancelledAt?: true
+  cancelledByUserId?: true
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
@@ -215,6 +239,10 @@ export type LeadGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 
 export type LeadGroupByOutputType = {
   id: string
+  cancelReason: $Enums.CancelReason | null
+  invoiceId: string | null
+  cancelledAt: Date | null
+  cancelledByUserId: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -255,6 +283,10 @@ export type LeadWhereInput = {
   OR?: Prisma.LeadWhereInput[]
   NOT?: Prisma.LeadWhereInput | Prisma.LeadWhereInput[]
   id?: Prisma.StringFilter<"Lead"> | string
+  cancelReason?: Prisma.EnumCancelReasonNullableFilter<"Lead"> | $Enums.CancelReason | null
+  invoiceId?: Prisma.StringNullableFilter<"Lead"> | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
+  cancelledByUserId?: Prisma.StringNullableFilter<"Lead"> | string | null
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
@@ -270,6 +302,7 @@ export type LeadWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
+  cancelledBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -279,6 +312,10 @@ export type LeadWhereInput = {
 
 export type LeadOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
@@ -294,6 +331,7 @@ export type LeadOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledBy?: Prisma.UserOrderByWithRelationInput
   towTruckDriver?: Prisma.UserOrderByWithRelationInput
   workshop?: Prisma.WorkshopOrderByWithRelationInput
   qrScan?: Prisma.QRScanOrderByWithRelationInput
@@ -307,6 +345,10 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.LeadWhereInput | Prisma.LeadWhereInput[]
   OR?: Prisma.LeadWhereInput[]
   NOT?: Prisma.LeadWhereInput | Prisma.LeadWhereInput[]
+  cancelReason?: Prisma.EnumCancelReasonNullableFilter<"Lead"> | $Enums.CancelReason | null
+  invoiceId?: Prisma.StringNullableFilter<"Lead"> | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
+  cancelledByUserId?: Prisma.StringNullableFilter<"Lead"> | string | null
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
@@ -321,6 +363,7 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Lead"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
+  cancelledBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   towTruckDriver?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   workshop?: Prisma.XOR<Prisma.WorkshopNullableScalarRelationFilter, Prisma.WorkshopWhereInput> | null
   qrScan?: Prisma.XOR<Prisma.QRScanNullableScalarRelationFilter, Prisma.QRScanWhereInput> | null
@@ -330,6 +373,10 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
 
 export type LeadOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  cancelReason?: Prisma.SortOrderInput | Prisma.SortOrder
+  invoiceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  cancelledByUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
@@ -355,6 +402,10 @@ export type LeadScalarWhereWithAggregatesInput = {
   OR?: Prisma.LeadScalarWhereWithAggregatesInput[]
   NOT?: Prisma.LeadScalarWhereWithAggregatesInput | Prisma.LeadScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  cancelReason?: Prisma.EnumCancelReasonNullableWithAggregatesFilter<"Lead"> | $Enums.CancelReason | null
+  invoiceId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  cancelledAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Lead"> | Date | string | null
+  cancelledByUserId?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   customerLastName?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleMake?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleModel?: Prisma.StringWithAggregatesFilter<"Lead"> | string
@@ -374,6 +425,9 @@ export type LeadScalarWhereWithAggregatesInput = {
 
 export type LeadCreateInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -387,6 +441,7 @@ export type LeadCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -396,6 +451,10 @@ export type LeadCreateInput = {
 
 export type LeadUncheckedCreateInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -418,6 +477,9 @@ export type LeadUncheckedCreateInput = {
 
 export type LeadUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -431,6 +493,7 @@ export type LeadUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -440,6 +503,10 @@ export type LeadUpdateInput = {
 
 export type LeadUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -462,6 +529,10 @@ export type LeadUncheckedUpdateInput = {
 
 export type LeadCreateManyInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -481,6 +552,9 @@ export type LeadCreateManyInput = {
 
 export type LeadUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -498,6 +572,10 @@ export type LeadUpdateManyMutationInput = {
 
 export type LeadUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -527,6 +605,10 @@ export type LeadOrderByRelationAggregateInput = {
 
 export type LeadCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  cancelReason?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
+  cancelledByUserId?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
@@ -546,6 +628,10 @@ export type LeadCountOrderByAggregateInput = {
 
 export type LeadMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  cancelReason?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
+  cancelledByUserId?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
@@ -565,6 +651,10 @@ export type LeadMaxOrderByAggregateInput = {
 
 export type LeadMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  cancelReason?: Prisma.SortOrder
+  invoiceId?: Prisma.SortOrder
+  cancelledAt?: Prisma.SortOrder
+  cancelledByUserId?: Prisma.SortOrder
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
@@ -599,10 +689,24 @@ export type LeadCreateNestedManyWithoutTowTruckDriverInput = {
   connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
 }
 
+export type LeadCreateNestedManyWithoutCancelledByInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput> | Prisma.LeadCreateWithoutCancelledByInput[] | Prisma.LeadUncheckedCreateWithoutCancelledByInput[]
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCancelledByInput | Prisma.LeadCreateOrConnectWithoutCancelledByInput[]
+  createMany?: Prisma.LeadCreateManyCancelledByInputEnvelope
+  connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+}
+
 export type LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput = {
   create?: Prisma.XOR<Prisma.LeadCreateWithoutTowTruckDriverInput, Prisma.LeadUncheckedCreateWithoutTowTruckDriverInput> | Prisma.LeadCreateWithoutTowTruckDriverInput[] | Prisma.LeadUncheckedCreateWithoutTowTruckDriverInput[]
   connectOrCreate?: Prisma.LeadCreateOrConnectWithoutTowTruckDriverInput | Prisma.LeadCreateOrConnectWithoutTowTruckDriverInput[]
   createMany?: Prisma.LeadCreateManyTowTruckDriverInputEnvelope
+  connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+}
+
+export type LeadUncheckedCreateNestedManyWithoutCancelledByInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput> | Prisma.LeadCreateWithoutCancelledByInput[] | Prisma.LeadUncheckedCreateWithoutCancelledByInput[]
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCancelledByInput | Prisma.LeadCreateOrConnectWithoutCancelledByInput[]
+  createMany?: Prisma.LeadCreateManyCancelledByInputEnvelope
   connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
 }
 
@@ -620,6 +724,20 @@ export type LeadUpdateManyWithoutTowTruckDriverNestedInput = {
   deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
 }
 
+export type LeadUpdateManyWithoutCancelledByNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput> | Prisma.LeadCreateWithoutCancelledByInput[] | Prisma.LeadUncheckedCreateWithoutCancelledByInput[]
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCancelledByInput | Prisma.LeadCreateOrConnectWithoutCancelledByInput[]
+  upsert?: Prisma.LeadUpsertWithWhereUniqueWithoutCancelledByInput | Prisma.LeadUpsertWithWhereUniqueWithoutCancelledByInput[]
+  createMany?: Prisma.LeadCreateManyCancelledByInputEnvelope
+  set?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  disconnect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  delete?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  update?: Prisma.LeadUpdateWithWhereUniqueWithoutCancelledByInput | Prisma.LeadUpdateWithWhereUniqueWithoutCancelledByInput[]
+  updateMany?: Prisma.LeadUpdateManyWithWhereWithoutCancelledByInput | Prisma.LeadUpdateManyWithWhereWithoutCancelledByInput[]
+  deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
+}
+
 export type LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput = {
   create?: Prisma.XOR<Prisma.LeadCreateWithoutTowTruckDriverInput, Prisma.LeadUncheckedCreateWithoutTowTruckDriverInput> | Prisma.LeadCreateWithoutTowTruckDriverInput[] | Prisma.LeadUncheckedCreateWithoutTowTruckDriverInput[]
   connectOrCreate?: Prisma.LeadCreateOrConnectWithoutTowTruckDriverInput | Prisma.LeadCreateOrConnectWithoutTowTruckDriverInput[]
@@ -631,6 +749,20 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput = {
   connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
   update?: Prisma.LeadUpdateWithWhereUniqueWithoutTowTruckDriverInput | Prisma.LeadUpdateWithWhereUniqueWithoutTowTruckDriverInput[]
   updateMany?: Prisma.LeadUpdateManyWithWhereWithoutTowTruckDriverInput | Prisma.LeadUpdateManyWithWhereWithoutTowTruckDriverInput[]
+  deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
+}
+
+export type LeadUncheckedUpdateManyWithoutCancelledByNestedInput = {
+  create?: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput> | Prisma.LeadCreateWithoutCancelledByInput[] | Prisma.LeadUncheckedCreateWithoutCancelledByInput[]
+  connectOrCreate?: Prisma.LeadCreateOrConnectWithoutCancelledByInput | Prisma.LeadCreateOrConnectWithoutCancelledByInput[]
+  upsert?: Prisma.LeadUpsertWithWhereUniqueWithoutCancelledByInput | Prisma.LeadUpsertWithWhereUniqueWithoutCancelledByInput[]
+  createMany?: Prisma.LeadCreateManyCancelledByInputEnvelope
+  set?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  disconnect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  delete?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  connect?: Prisma.LeadWhereUniqueInput | Prisma.LeadWhereUniqueInput[]
+  update?: Prisma.LeadUpdateWithWhereUniqueWithoutCancelledByInput | Prisma.LeadUpdateWithWhereUniqueWithoutCancelledByInput[]
+  updateMany?: Prisma.LeadUpdateManyWithWhereWithoutCancelledByInput | Prisma.LeadUpdateManyWithWhereWithoutCancelledByInput[]
   deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
 }
 
@@ -674,6 +806,10 @@ export type LeadUncheckedUpdateManyWithoutWorkshopNestedInput = {
   update?: Prisma.LeadUpdateWithWhereUniqueWithoutWorkshopInput | Prisma.LeadUpdateWithWhereUniqueWithoutWorkshopInput[]
   updateMany?: Prisma.LeadUpdateManyWithWhereWithoutWorkshopInput | Prisma.LeadUpdateManyWithWhereWithoutWorkshopInput[]
   deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
+}
+
+export type NullableEnumCancelReasonFieldUpdateOperationsInput = {
+  set?: $Enums.CancelReason | null
 }
 
 export type EnumLeadStatusFieldUpdateOperationsInput = {
@@ -726,6 +862,9 @@ export type LeadUpdateOneWithoutAuditLogsNestedInput = {
 
 export type LeadCreateWithoutTowTruckDriverInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -739,6 +878,7 @@ export type LeadCreateWithoutTowTruckDriverInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -747,6 +887,10 @@ export type LeadCreateWithoutTowTruckDriverInput = {
 
 export type LeadUncheckedCreateWithoutTowTruckDriverInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -776,6 +920,66 @@ export type LeadCreateManyTowTruckDriverInputEnvelope = {
   skipDuplicates?: boolean
 }
 
+export type LeadCreateWithoutCancelledByInput = {
+  id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  customerLastName: string
+  vehicleMake: string
+  vehicleModel: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
+  internNotice?: string | null
+  status?: $Enums.LeadStatus
+  salesforceId?: string | null
+  salesforceStatus?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
+  workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
+  qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
+  commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutLeadInput
+}
+
+export type LeadUncheckedCreateWithoutCancelledByInput = {
+  id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  customerLastName: string
+  vehicleMake: string
+  vehicleModel: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
+  internNotice?: string | null
+  status?: $Enums.LeadStatus
+  salesforceId?: string | null
+  salesforceStatus?: string | null
+  towTruckDriverId: string
+  workshopId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  qrScan?: Prisma.QRScanUncheckedCreateNestedOneWithoutLeadInput
+  commission?: Prisma.CommissionUncheckedCreateNestedOneWithoutLeadInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutLeadInput
+}
+
+export type LeadCreateOrConnectWithoutCancelledByInput = {
+  where: Prisma.LeadWhereUniqueInput
+  create: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput>
+}
+
+export type LeadCreateManyCancelledByInputEnvelope = {
+  data: Prisma.LeadCreateManyCancelledByInput | Prisma.LeadCreateManyCancelledByInput[]
+  skipDuplicates?: boolean
+}
+
 export type LeadUpsertWithWhereUniqueWithoutTowTruckDriverInput = {
   where: Prisma.LeadWhereUniqueInput
   update: Prisma.XOR<Prisma.LeadUpdateWithoutTowTruckDriverInput, Prisma.LeadUncheckedUpdateWithoutTowTruckDriverInput>
@@ -797,6 +1001,10 @@ export type LeadScalarWhereInput = {
   OR?: Prisma.LeadScalarWhereInput[]
   NOT?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
   id?: Prisma.StringFilter<"Lead"> | string
+  cancelReason?: Prisma.EnumCancelReasonNullableFilter<"Lead"> | $Enums.CancelReason | null
+  invoiceId?: Prisma.StringNullableFilter<"Lead"> | string | null
+  cancelledAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
+  cancelledByUserId?: Prisma.StringNullableFilter<"Lead"> | string | null
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
@@ -814,8 +1022,27 @@ export type LeadScalarWhereInput = {
   deletedAt?: Prisma.DateTimeNullableFilter<"Lead"> | Date | string | null
 }
 
+export type LeadUpsertWithWhereUniqueWithoutCancelledByInput = {
+  where: Prisma.LeadWhereUniqueInput
+  update: Prisma.XOR<Prisma.LeadUpdateWithoutCancelledByInput, Prisma.LeadUncheckedUpdateWithoutCancelledByInput>
+  create: Prisma.XOR<Prisma.LeadCreateWithoutCancelledByInput, Prisma.LeadUncheckedCreateWithoutCancelledByInput>
+}
+
+export type LeadUpdateWithWhereUniqueWithoutCancelledByInput = {
+  where: Prisma.LeadWhereUniqueInput
+  data: Prisma.XOR<Prisma.LeadUpdateWithoutCancelledByInput, Prisma.LeadUncheckedUpdateWithoutCancelledByInput>
+}
+
+export type LeadUpdateManyWithWhereWithoutCancelledByInput = {
+  where: Prisma.LeadScalarWhereInput
+  data: Prisma.XOR<Prisma.LeadUpdateManyMutationInput, Prisma.LeadUncheckedUpdateManyWithoutCancelledByInput>
+}
+
 export type LeadCreateWithoutWorkshopInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -829,6 +1056,7 @@ export type LeadCreateWithoutWorkshopInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -837,6 +1065,10 @@ export type LeadCreateWithoutWorkshopInput = {
 
 export type LeadUncheckedCreateWithoutWorkshopInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -884,6 +1116,9 @@ export type LeadUpdateManyWithWhereWithoutWorkshopInput = {
 
 export type LeadCreateWithoutQrScanInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -897,6 +1132,7 @@ export type LeadCreateWithoutQrScanInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   commission?: Prisma.CommissionCreateNestedOneWithoutLeadInput
@@ -905,6 +1141,10 @@ export type LeadCreateWithoutQrScanInput = {
 
 export type LeadUncheckedCreateWithoutQrScanInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -942,6 +1182,9 @@ export type LeadUpdateToOneWithWhereWithoutQrScanInput = {
 
 export type LeadUpdateWithoutQrScanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -955,6 +1198,7 @@ export type LeadUpdateWithoutQrScanInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -963,6 +1207,10 @@ export type LeadUpdateWithoutQrScanInput = {
 
 export type LeadUncheckedUpdateWithoutQrScanInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -984,6 +1232,9 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
 
 export type LeadCreateWithoutCommissionInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -997,6 +1248,7 @@ export type LeadCreateWithoutCommissionInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -1005,6 +1257,10 @@ export type LeadCreateWithoutCommissionInput = {
 
 export type LeadUncheckedCreateWithoutCommissionInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -1042,6 +1298,9 @@ export type LeadUpdateToOneWithWhereWithoutCommissionInput = {
 
 export type LeadUpdateWithoutCommissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1055,6 +1314,7 @@ export type LeadUpdateWithoutCommissionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -1063,6 +1323,10 @@ export type LeadUpdateWithoutCommissionInput = {
 
 export type LeadUncheckedUpdateWithoutCommissionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1084,6 +1348,9 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
 
 export type LeadCreateWithoutAuditLogsInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -1097,6 +1364,7 @@ export type LeadCreateWithoutAuditLogsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  cancelledBy?: Prisma.UserCreateNestedOneWithoutCancelledLeadsInput
   towTruckDriver: Prisma.UserCreateNestedOneWithoutLeadsInput
   workshop?: Prisma.WorkshopCreateNestedOneWithoutLeadsInput
   qrScan?: Prisma.QRScanCreateNestedOneWithoutLeadInput
@@ -1105,6 +1373,10 @@ export type LeadCreateWithoutAuditLogsInput = {
 
 export type LeadUncheckedCreateWithoutAuditLogsInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -1142,6 +1414,9 @@ export type LeadUpdateToOneWithWhereWithoutAuditLogsInput = {
 
 export type LeadUpdateWithoutAuditLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1155,6 +1430,7 @@ export type LeadUpdateWithoutAuditLogsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
@@ -1163,6 +1439,10 @@ export type LeadUpdateWithoutAuditLogsInput = {
 
 export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1184,6 +1464,10 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
 
 export type LeadCreateManyTowTruckDriverInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -1200,8 +1484,33 @@ export type LeadCreateManyTowTruckDriverInput = {
   deletedAt?: Date | string | null
 }
 
+export type LeadCreateManyCancelledByInput = {
+  id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  customerLastName: string
+  vehicleMake: string
+  vehicleModel: string
+  breakdownStreet: string
+  breakdownPostcode: string
+  breakdownCity: string
+  internNotice?: string | null
+  status?: $Enums.LeadStatus
+  salesforceId?: string | null
+  salesforceStatus?: string | null
+  towTruckDriverId: string
+  workshopId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
 export type LeadUpdateWithoutTowTruckDriverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1215,6 +1524,7 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1223,6 +1533,10 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
 
 export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1244,6 +1558,10 @@ export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
 
 export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1260,8 +1578,84 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
+export type LeadUpdateWithoutCancelledByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
+  workshop?: Prisma.WorkshopUpdateOneWithoutLeadsNestedInput
+  qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
+  commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUncheckedUpdateWithoutCancelledByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
+  workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  qrScan?: Prisma.QRScanUncheckedUpdateOneWithoutLeadNestedInput
+  commission?: Prisma.CommissionUncheckedUpdateOneWithoutLeadNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutLeadNestedInput
+}
+
+export type LeadUncheckedUpdateManyWithoutCancelledByInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
+  breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
+  internNotice?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLeadStatusFieldUpdateOperationsInput | $Enums.LeadStatus
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  towTruckDriverId?: Prisma.StringFieldUpdateOperationsInput | string
+  workshopId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+}
+
 export type LeadCreateManyWorkshopInput = {
   id?: string
+  cancelReason?: $Enums.CancelReason | null
+  invoiceId?: string | null
+  cancelledAt?: Date | string | null
+  cancelledByUserId?: string | null
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
@@ -1280,6 +1674,9 @@ export type LeadCreateManyWorkshopInput = {
 
 export type LeadUpdateWithoutWorkshopInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1293,6 +1690,7 @@ export type LeadUpdateWithoutWorkshopInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledBy?: Prisma.UserUpdateOneWithoutCancelledLeadsNestedInput
   towTruckDriver?: Prisma.UserUpdateOneRequiredWithoutLeadsNestedInput
   qrScan?: Prisma.QRScanUpdateOneWithoutLeadNestedInput
   commission?: Prisma.CommissionUpdateOneWithoutLeadNestedInput
@@ -1301,6 +1699,10 @@ export type LeadUpdateWithoutWorkshopInput = {
 
 export type LeadUncheckedUpdateWithoutWorkshopInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1322,6 +1724,10 @@ export type LeadUncheckedUpdateWithoutWorkshopInput = {
 
 export type LeadUncheckedUpdateManyWithoutWorkshopInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  cancelReason?: Prisma.NullableEnumCancelReasonFieldUpdateOperationsInput | $Enums.CancelReason | null
+  invoiceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cancelledAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  cancelledByUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1371,6 +1777,10 @@ export type LeadCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.
 
 export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  cancelReason?: boolean
+  invoiceId?: boolean
+  cancelledAt?: boolean
+  cancelledByUserId?: boolean
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
@@ -1386,6 +1796,7 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
   qrScan?: boolean | Prisma.Lead$qrScanArgs<ExtArgs>
@@ -1396,6 +1807,10 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 
 export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  cancelReason?: boolean
+  invoiceId?: boolean
+  cancelledAt?: boolean
+  cancelledByUserId?: boolean
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
@@ -1411,12 +1826,17 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
 
 export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  cancelReason?: boolean
+  invoiceId?: boolean
+  cancelledAt?: boolean
+  cancelledByUserId?: boolean
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
@@ -1432,12 +1852,17 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }, ExtArgs["result"]["lead"]>
 
 export type LeadSelectScalar = {
   id?: boolean
+  cancelReason?: boolean
+  invoiceId?: boolean
+  cancelledAt?: boolean
+  cancelledByUserId?: boolean
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
@@ -1455,8 +1880,9 @@ export type LeadSelectScalar = {
   deletedAt?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownStreet" | "breakdownPostcode" | "breakdownCity" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cancelReason" | "invoiceId" | "cancelledAt" | "cancelledByUserId" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownStreet" | "breakdownPostcode" | "breakdownCity" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
   qrScan?: boolean | Prisma.Lead$qrScanArgs<ExtArgs>
@@ -1465,10 +1891,12 @@ export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   _count?: boolean | Prisma.LeadCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LeadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }
 export type LeadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   workshop?: boolean | Prisma.Lead$workshopArgs<ExtArgs>
 }
@@ -1476,6 +1904,7 @@ export type LeadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Lead"
   objects: {
+    cancelledBy: Prisma.$UserPayload<ExtArgs> | null
     towTruckDriver: Prisma.$UserPayload<ExtArgs>
     workshop: Prisma.$WorkshopPayload<ExtArgs> | null
     qrScan: Prisma.$QRScanPayload<ExtArgs> | null
@@ -1484,6 +1913,10 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    cancelReason: $Enums.CancelReason | null
+    invoiceId: string | null
+    cancelledAt: Date | null
+    cancelledByUserId: string | null
     customerLastName: string
     vehicleMake: string
     vehicleModel: string
@@ -1893,6 +2326,7 @@ readonly fields: LeadFieldRefs;
  */
 export interface Prisma__LeadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  cancelledBy<T extends Prisma.Lead$cancelledByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$cancelledByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   towTruckDriver<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   workshop<T extends Prisma.Lead$workshopArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$workshopArgs<ExtArgs>>): Prisma.Prisma__WorkshopClient<runtime.Types.Result.GetResult<Prisma.$WorkshopPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   qrScan<T extends Prisma.Lead$qrScanArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Lead$qrScanArgs<ExtArgs>>): Prisma.Prisma__QRScanClient<runtime.Types.Result.GetResult<Prisma.$QRScanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -1928,6 +2362,10 @@ export interface Prisma__LeadClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface LeadFieldRefs {
   readonly id: Prisma.FieldRef<"Lead", 'String'>
+  readonly cancelReason: Prisma.FieldRef<"Lead", 'CancelReason'>
+  readonly invoiceId: Prisma.FieldRef<"Lead", 'String'>
+  readonly cancelledAt: Prisma.FieldRef<"Lead", 'DateTime'>
+  readonly cancelledByUserId: Prisma.FieldRef<"Lead", 'String'>
   readonly customerLastName: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleMake: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleModel: Prisma.FieldRef<"Lead", 'String'>
@@ -2341,6 +2779,25 @@ export type LeadDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Leads to delete.
    */
   limit?: number
+}
+
+/**
+ * Lead.cancelledBy
+ */
+export type Lead$cancelledByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

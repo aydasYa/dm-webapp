@@ -119,6 +119,10 @@ export type WorkshopScalarFieldEnum = (typeof WorkshopScalarFieldEnum)[keyof typ
 
 export const LeadScalarFieldEnum = {
   id: 'id',
+  cancelReason: 'cancelReason',
+  invoiceId: 'invoiceId',
+  cancelledAt: 'cancelledAt',
+  cancelledByUserId: 'cancelledByUserId',
   customerLastName: 'customerLastName',
   vehicleMake: 'vehicleMake',
   vehicleModel: 'vehicleModel',

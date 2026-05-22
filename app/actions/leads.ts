@@ -6,7 +6,7 @@
 import { createClient } from "@/lib/supabase/server"
 import prisma from '@/lib/prisma'
 import { redirect } from "next/navigation"
-import { LeadStatus } from "@/src/generated/prisma/enums"
+import { LeadStatus, CancelReason } from "@/src/generated/prisma/enums"
 
 // Neuen Lead anlegen – nur für eingeloggte Abschlepper
 // Der Lead wird automatisch mit der ID des aktuellen Nutzers verknüpft
@@ -144,6 +144,8 @@ export async function updateLeadStatus(formData: FormData) {
 // lead stonierung vom abschlepper
 export async function cancelLead(formData: FormData) {
     const leadId = formData.get("leadId") as string
+    const cancelReason = formData.get("cancelReason") as CancelReason
+    const invoiceId = formData.get("invoiceId") as string
 
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
@@ -172,6 +174,10 @@ export async function cancelLead(formData: FormData) {
         data:   {
             status: LeadStatus.CANCELLED,
             deletedAt: new Date(),
+            cancelReason,
+            invoiceId,
+            cancelldAt: new Date(),
+            cancelledByUserId: driver.id,
         },
     })
 

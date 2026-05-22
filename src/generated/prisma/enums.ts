@@ -9,6 +9,17 @@
 * 🟢 You can import this file directly.
 */
 
+export const CancelReason = {
+  CUSTOMER_REQUEST: 'CUSTOMER_REQUEST',
+  INVALID_LEAD: 'INVALID_LEAD',
+  WORKSHOP_DECLINED: 'WORKSHOP_DECLINED',
+  NO_REPAIR_POSSIBLE: 'NO_REPAIR_POSSIBLE',
+  OTHER: 'OTHER'
+} as const
+
+export type CancelReason = (typeof CancelReason)[keyof typeof CancelReason]
+
+
 export const Role = {
   TOW_TRUCK_DRIVER: 'TOW_TRUCK_DRIVER',
   ADMIN: 'ADMIN'
@@ -20,8 +31,8 @@ export type Role = (typeof Role)[keyof typeof Role]
 export const UserStatus = {
   PENDING: 'PENDING',
   ACTIVE: 'ACTIVE',
-  REJECTED: 'REJECTED',
-  INACTIVE: 'INACTIVE'
+  INACTIVE: 'INACTIVE',
+  REJECTED: 'REJECTED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

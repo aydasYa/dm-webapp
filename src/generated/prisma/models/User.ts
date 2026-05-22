@@ -305,6 +305,7 @@ export type UserWhereInput = {
   leads?: Prisma.LeadListRelationFilter
   commissions?: Prisma.CommissionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  cancelledLeads?: Prisma.LeadListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -331,6 +332,7 @@ export type UserOrderByWithRelationInput = {
   leads?: Prisma.LeadOrderByRelationAggregateInput
   commissions?: Prisma.CommissionOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
+  cancelledLeads?: Prisma.LeadOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -360,6 +362,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   leads?: Prisma.LeadListRelationFilter
   commissions?: Prisma.CommissionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
+  cancelledLeads?: Prisma.LeadListRelationFilter
 }, "id" | "email" | "supabaseId" | "qrCode" | "salesforceId">
 
 export type UserOrderByWithAggregationInput = {
@@ -438,6 +441,7 @@ export type UserCreateInput = {
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -464,6 +468,7 @@ export type UserUncheckedCreateInput = {
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserUpdateInput = {
@@ -490,6 +495,7 @@ export type UserUpdateInput = {
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -516,6 +522,7 @@ export type UserUncheckedUpdateInput = {
   leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -656,14 +663,14 @@ export type UserMinOrderByAggregateInput = {
   deletedAt?: Prisma.SortOrder
 }
 
-export type UserScalarRelationFilter = {
-  is?: Prisma.UserWhereInput
-  isNot?: Prisma.UserWhereInput
-}
-
 export type UserNullableScalarRelationFilter = {
   is?: Prisma.UserWhereInput | null
   isNot?: Prisma.UserWhereInput | null
+}
+
+export type UserScalarRelationFilter = {
+  is?: Prisma.UserWhereInput
+  isNot?: Prisma.UserWhereInput
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -690,10 +697,26 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type UserCreateNestedOneWithoutCancelledLeadsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCancelledLeadsInput, Prisma.UserUncheckedCreateWithoutCancelledLeadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCancelledLeadsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserCreateNestedOneWithoutLeadsInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutLeadsInput, Prisma.UserUncheckedCreateWithoutLeadsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutLeadsInput
   connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutCancelledLeadsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCancelledLeadsInput, Prisma.UserUncheckedCreateWithoutCancelledLeadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCancelledLeadsInput
+  upsert?: Prisma.UserUpsertWithoutCancelledLeadsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCancelledLeadsInput, Prisma.UserUpdateWithoutCancelledLeadsInput>, Prisma.UserUncheckedUpdateWithoutCancelledLeadsInput>
 }
 
 export type UserUpdateOneRequiredWithoutLeadsNestedInput = {
@@ -734,6 +757,63 @@ export type UserUpdateOneWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
+export type UserCreateWithoutCancelledLeadsInput = {
+  id?: string
+  email: string
+  firstname: string
+  lastname: string
+  phone?: string | null
+  supabaseId: string
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  qrCode?: string | null
+  salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutCancelledLeadsInput = {
+  id?: string
+  email: string
+  firstname: string
+  lastname: string
+  phone?: string | null
+  supabaseId: string
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  qrCode?: string | null
+  salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactPerson?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutTowTruckDriverInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutCancelledLeadsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCancelledLeadsInput, Prisma.UserUncheckedCreateWithoutCancelledLeadsInput>
+}
+
 export type UserCreateWithoutLeadsInput = {
   id?: string
   email: string
@@ -757,6 +837,7 @@ export type UserCreateWithoutLeadsInput = {
   deletedAt?: Date | string | null
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserUncheckedCreateWithoutLeadsInput = {
@@ -782,11 +863,75 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   deletedAt?: Date | string | null
   commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserCreateOrConnectWithoutLeadsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutLeadsInput, Prisma.UserUncheckedCreateWithoutLeadsInput>
+}
+
+export type UserUpsertWithoutCancelledLeadsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCancelledLeadsInput, Prisma.UserUncheckedUpdateWithoutCancelledLeadsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCancelledLeadsInput, Prisma.UserUncheckedCreateWithoutCancelledLeadsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCancelledLeadsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCancelledLeadsInput, Prisma.UserUncheckedUpdateWithoutCancelledLeadsInput>
+}
+
+export type UserUpdateWithoutCancelledLeadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCancelledLeadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactPerson?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserUpsertWithoutLeadsInput = {
@@ -823,6 +968,7 @@ export type UserUpdateWithoutLeadsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -848,6 +994,7 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserCreateWithoutCommissionsInput = {
@@ -873,6 +1020,7 @@ export type UserCreateWithoutCommissionsInput = {
   deletedAt?: Date | string | null
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserUncheckedCreateWithoutCommissionsInput = {
@@ -898,6 +1046,7 @@ export type UserUncheckedCreateWithoutCommissionsInput = {
   deletedAt?: Date | string | null
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserCreateOrConnectWithoutCommissionsInput = {
@@ -939,6 +1088,7 @@ export type UserUpdateWithoutCommissionsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommissionsInput = {
@@ -964,6 +1114,7 @@ export type UserUncheckedUpdateWithoutCommissionsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserCreateWithoutAuditLogsInput = {
@@ -989,6 +1140,7 @@ export type UserCreateWithoutAuditLogsInput = {
   deletedAt?: Date | string | null
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
+  cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1014,6 +1166,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   deletedAt?: Date | string | null
   leads?: Prisma.LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutTowTruckDriverInput
+  cancelledLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutCancelledByInput
 }
 
 export type UserCreateOrConnectWithoutAuditLogsInput = {
@@ -1055,6 +1208,7 @@ export type UserUpdateWithoutAuditLogsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
+  cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
@@ -1080,6 +1234,7 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
 }
 
 
@@ -1091,12 +1246,14 @@ export type UserCountOutputType = {
   leads: number
   commissions: number
   auditLogs: number
+  cancelledLeads: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leads?: boolean | UserCountOutputTypeCountLeadsArgs
   commissions?: boolean | UserCountOutputTypeCountCommissionsArgs
   auditLogs?: boolean | UserCountOutputTypeCountAuditLogsArgs
+  cancelledLeads?: boolean | UserCountOutputTypeCountCancelledLeadsArgs
 }
 
 /**
@@ -1130,6 +1287,13 @@ export type UserCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.AuditLogWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountCancelledLeadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LeadWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1155,6 +1319,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  cancelledLeads?: boolean | Prisma.User$cancelledLeadsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1232,6 +1397,7 @@ export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
+  cancelledLeads?: boolean | Prisma.User$cancelledLeadsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -1243,6 +1409,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     leads: Prisma.$LeadPayload<ExtArgs>[]
     commissions: Prisma.$CommissionPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+    cancelledLeads: Prisma.$LeadPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1662,6 +1829,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   leads<T extends Prisma.User$leadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$leadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   commissions<T extends Prisma.User$commissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  cancelledLeads<T extends Prisma.User$cancelledLeadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cancelledLeadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2173,6 +2341,30 @@ export type User$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.Internal
   take?: number
   skip?: number
   distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
+ * User.cancelledLeads
+ */
+export type User$cancelledLeadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Lead
+   */
+  select?: Prisma.LeadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Lead
+   */
+  omit?: Prisma.LeadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LeadInclude<ExtArgs> | null
+  where?: Prisma.LeadWhereInput
+  orderBy?: Prisma.LeadOrderByWithRelationInput | Prisma.LeadOrderByWithRelationInput[]
+  cursor?: Prisma.LeadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LeadScalarFieldEnum | Prisma.LeadScalarFieldEnum[]
 }
 
 /**

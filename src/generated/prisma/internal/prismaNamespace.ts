@@ -936,6 +936,10 @@ export type WorkshopScalarFieldEnum = (typeof WorkshopScalarFieldEnum)[keyof typ
 
 export const LeadScalarFieldEnum = {
   id: 'id',
+  cancelReason: 'cancelReason',
+  invoiceId: 'invoiceId',
+  cancelledAt: 'cancelledAt',
+  cancelledByUserId: 'cancelledByUserId',
   customerLastName: 'customerLastName',
   vehicleMake: 'vehicleMake',
   vehicleModel: 'vehicleModel',
@@ -1080,6 +1084,20 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CancelReason'
+ */
+export type EnumCancelReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CancelReason'>
+    
+
+
+/**
+ * Reference to a field of type 'CancelReason[]'
+ */
+export type ListEnumCancelReasonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CancelReason[]'>
     
 
 
