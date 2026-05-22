@@ -11,6 +11,13 @@ datasource db {
 }
 
 // ─── ENUMS ───────────────────────────────────────────
+enum CancelReason {
+  CUSTOMER_REQUEST
+  INVALID_LEAD
+  WORKSHOP_DECLINED
+  NO_REPAIR_POSSIBLE
+  OTHER
+}
 
 enum Role {
   TOW_TRUCK_DRIVER // DE: Abschlepper
@@ -79,6 +86,7 @@ model User {
   leads       Lead[]
   commissions Commission[]
   auditLogs   AuditLog[]
+  cancelledLeads Lead[] @relation("CancelledLeads")
 
   // ─── Timestamps ───
   createdAt DateTime  @default(now())
@@ -109,18 +117,23 @@ model Workshop {
 }
 
 model Lead {
-  id String @id @default(cuid())
+  id                String        @id @default(cuid())
+  // Storno details
+  cancelReason      CancelReason?
+  invoiceId         String?
+  cancelledAt       DateTime?
+  cancelledByUserId String?
+  cancelledBy       User?         @relation("CancelledLeads", fields: [cancelledByUserId], references: [id])
 
   // Customer info
   customerLastName  String
   vehicleMake       String
   vehicleModel      String
-  // breakdownAddress String (veraltet)
   breakdownStreet   String
   breakdownPostcode String
   breakdownCity     String
 
-  internNotice      String?
+  internNotice String?
 
   // Status & tracking
   status           LeadStatus @default(NEW)
