@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import Link from "next/link"
+import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -19,6 +20,7 @@ export default async function ProfilePage() {
             lastname: true,
             email: true,
             phone: true,
+            qrCode: true,
             companyName: true,
             companyAddress: true,
             companyPostcode: true,
@@ -61,6 +63,26 @@ export default async function ProfilePage() {
                     <p><span className="text-muted-foreground">Telefon:</span> {user.companyPhone ?? "—"}</p>
                     <p><span className="text-muted-foreground">E-Mail:</span> {user.companyEmail ?? "—"}</p>
                     <p><span className="text-muted-foreground">Ansprechpartner:</span> {user.companyContactPerson ?? "—"}</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Ihr QR-Code</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    {user.qrCode ? (
+                        <div className="flex flex-col gap-2">
+                            <div className="inline-block rounded-lg border bg-white p-4 w-fit">
+                                <QRCodeSVG value={user.qrCode} size={180} />
+                            </div>
+                            <p className="text-xs text-muted-foreground break-all">{user.qrCode}</p>
+                        </div>
+                    ) : (
+                        <p className="text-sm text-muted-foreground">
+                            Noch kein QR-Code generiert. Ein Admin muss dir einen erstellen.
+                        </p>
+                    )}
                 </CardContent>
             </Card>
         </div>
