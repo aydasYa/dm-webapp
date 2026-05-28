@@ -115,6 +115,10 @@ export async function updateLeadStatus(formData: FormData) {
     const leadId    = formData.get("leadId") as string
     const newStatus = formData.get("status") as LeadStatus
 
+    if (newStatus === LeadStatus.CANCELLED) {
+        throw new Error("CANCELLED ist nur über Storno erlaubt")
+    }
+
     // 2. Login prüfen
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()

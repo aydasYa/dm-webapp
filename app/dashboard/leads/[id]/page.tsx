@@ -89,7 +89,6 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 							<option value="REPAIR_DONE">REPAIR_DONE</option>
 							<option value="VEHICLE_DELIVERED">VEHICLE_DELIVERED</option>
 							<option value="COMPLETED">COMPLETED</option>
-							<option value="CANCELLED">CANCELLED</option>
 						</select>
 						<Button type="submit" variant="outline" size="sm">Speichern</Button>
 					</form>
