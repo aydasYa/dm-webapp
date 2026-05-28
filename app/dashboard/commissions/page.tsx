@@ -46,15 +46,13 @@ export default async function CommissionsPage() {
 		orderBy: { createdAt: "desc" },
 	})
 
-	const myCommissions = isAdmin
-		? commissions.filter((c) => c.towTruckDriverId === user.id)
-		: commissions
+	const summaryCommissions = commissions
 
-	const totalAmount = myCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
-	const pendingAmount = myCommissions
+	const totalAmount = summaryCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
+	const pendingAmount = summaryCommissions
 		.filter((c) => c.status === CommissionStatus.PENDING)
 		.reduce((sum, c) => sum + Number(c.amount), 0)
-	const paidAmount = myCommissions
+	const paidAmount = summaryCommissions
 		.filter((c) => c.status === CommissionStatus.PAID)
 		.reduce((sum, c) => sum + Number(c.amount), 0)
 
@@ -63,7 +61,7 @@ export default async function CommissionsPage() {
 	const currentYear = new Date().getFullYear()
 
 	const chartData = monthNames.map((month, idx) => {
-		const monthTotal = myCommissions
+		const monthTotal = summaryCommissions
 			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
 			.reduce((sum, c) => sum + Number(c.amount), 0)
 		return { month, amount: monthTotal }
@@ -71,10 +69,8 @@ export default async function CommissionsPage() {
 
 	// Gesamtsaldo dieses Jahr (Driver-Sicht)
 	const yearStart = new Date(new Date().getFullYear(), 0, 1)
-	const ownThisYear = isAdmin
-		? []
-		: commissions.filter((c) => c.createdAt >= yearStart)
-	const totalThisYear = ownThisYear.reduce((sum, c) => sum + Number(c.amount), 0)
+	const thisYearCommissions = summaryCommissions.filter((c) => c.createdAt >= yearStart)
+	const totalThisYear = thisYearCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
 
 	return (
 		<div className="space-y-6">
