@@ -181,7 +181,7 @@ export async function cancelLead(formData: FormData) {
     const cancelReason = formData.get("cancelReason") as CancelReason
     const invoiceId = formData.get("invoiceId") as string
 
-    if(!Object.values(CancelReason).includes(cancelReason)) {
+    if (!Object.values(CancelReason).includes(cancelReason)) {
         throw new Error("Ungültiger Storno-Grund")
     }
 
