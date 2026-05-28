@@ -6,6 +6,7 @@ import { updateLead } from "@/app/actions/leads";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { Role } from "@/src/generated/prisma/enums";
 import {
   Field,
   FieldGroup,
@@ -32,12 +33,14 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
     const { data } = await supabase.auth.getClaims()
     if (!data?.claims) redirect("/login")
     
-    // 1.1 Driver laden
-    const driver = await prisma.user.findUnique({
+    // 1.1 User laden
+    const user = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { id: true },
+        select: { id: true, role: true },
     })
-    if (!driver) redirect("/login")
+    if (!user) redirect("/login")
+    
+    const isAdmin = user.role === Role.ADMIN
 
     // 2. Lead laden mit Owner-Check
     const lead = await prisma.lead.findUnique({
@@ -55,7 +58,7 @@ export default async function EditLeadPage({ params }: { params: Promise<Params>
             internNotice: true,
         },
     })
-    if (!lead || lead.towTruckDriverId !== driver.id) {
+    if (!lead || (!isAdmin && lead.towTruckDriverId !== user.id)) {
         redirect("/dashboard/leads")
     }
 
