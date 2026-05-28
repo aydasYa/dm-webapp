@@ -114,6 +114,9 @@ export async function updateLeadStatus(formData: FormData) {
     // 1. FormData lesen - nur leadId + status
     const leadId    = formData.get("leadId") as string
     const newStatus = formData.get("status") as LeadStatus
+    if (!Object.values(LeadStatus).includes(newStatus)) {
+        throw new Error("Ungültiger Status")
+    }
 
     if (newStatus === LeadStatus.CANCELLED) {
         throw new Error("CANCELLED ist nur über Storno erlaubt")
