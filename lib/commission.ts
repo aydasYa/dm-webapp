@@ -13,7 +13,7 @@ import { LeadStatus } from "@/src/generated/prisma/enums"
  * Zeitraum: Kalenderjahr (jeder 1. Jan startet bei 0)
  */
 
-export async function calculateCommissionAmount(driverId: string): Promise<number> {
+export async function calculateCommissionAmount(driverId: string, excludedLeadId?: string): Promise<number> {
     const yearStart = new Date(new Date().getFullYear(), 0, 1)
 
     // Zähle wie viele Leads dieser Driver dieses Jahr schon abgeschlossen hat
@@ -23,6 +23,7 @@ export async function calculateCommissionAmount(driverId: string): Promise<numbe
             status: LeadStatus.COMPLETED,
             deletedAt: null,
             createdAt: { gte: yearStart },
+            ...(excludedLeadId ? { id: { not: excludedLeadId } } : {})
         },
     })
 

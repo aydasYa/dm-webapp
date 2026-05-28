@@ -160,7 +160,7 @@ export async function updateLeadStatus(formData: FormData) {
         })
 
         if (!existingCommission) {
-            const amount = await calculateCommissionAmount(existingLead.towTruckDriverId)
+            const amount = await calculateCommissionAmount(existingLead.towTruckDriverId, leadId)
             await prisma.commission.create({
                 data: {
                     leadId,
