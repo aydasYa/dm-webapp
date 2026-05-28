@@ -21,10 +21,16 @@ export async function approveCommission(formData: FormData) {
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
-    await prisma.commission.update({
-        where: { id: commissionId },
+    const result = await prisma.commission.updateMany({
+        where: {
+            id: commissionId,
+            status: CommissionStatus.PENDING,
+        },
         data: { status: CommissionStatus.APPROVED },
     })
+    if (result.count === 0) {
+        throw new Error("Provision kann nicht freigegeben werden")
+    }
 
     revalidatePath("/dashboard/commissions")
 }
@@ -44,14 +50,21 @@ export async function markCommissionAsPaid(formData: FormData) {
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
-    await prisma.commission.update({
-        where: { id: commissionId },
+    const result = await prisma.commission.updateMany({
+        where: {
+            id: commissionId,
+            status: CommissionStatus.APPROVED,
+        },
         data: {
             status: CommissionStatus.PAID,
             paidAt: new Date(),
             paymentRef,
         },
     })
+
+    if (result.count === 0) {
+        throw new Error("Provision kann nicht als bezahlt markiert werden")
+    }
 
     revalidatePath("/dashboard/commissions")
 }
