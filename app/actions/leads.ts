@@ -193,7 +193,6 @@ export async function cancelLead(formData: FormData) {
         where:  { id: leadId },
         data:   {
             status: LeadStatus.CANCELLED,
-            deletedAt: new Date(),
             cancelReason,
             invoiceId,
             cancelledAt: new Date(),
