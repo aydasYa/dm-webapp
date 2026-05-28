@@ -23,7 +23,7 @@ export async function calculateCommissionAmount(driverId: string, excludedLeadId
             status: LeadStatus.COMPLETED,
             deletedAt: null,
             createdAt: { gte: yearStart },
-            ...(excludedLeadId ? { id: { not: excludedLeadId } } : {})
+            ...(excludedLeadId ? { id: { not: excludedLeadId } } : {}),
         },
     })
 
