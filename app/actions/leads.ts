@@ -181,6 +181,10 @@ export async function cancelLead(formData: FormData) {
     const cancelReason = formData.get("cancelReason") as CancelReason
     const invoiceId = formData.get("invoiceId") as string
 
+    if(!Object.values(CancelReason).includes(cancelReason)) {
+        throw new Error("Ungültiger Storno-Grund")
+    }
+
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
 
