@@ -100,6 +100,10 @@ export async function updateUserStatus(formData: FormData) {
   const userId = formData.get("userId") as string
   const newStatus = formData.get("newStatus") as UserStatus
 
+  if (!Object.values(UserStatus).includes(newStatus)) {
+    throw new Error("Ungültiger Nutzerstatus")
+  }
+
   await prisma.user.update({
     where: { id: userId },
     data:  { status: newStatus },
