@@ -6,7 +6,7 @@
 import { createClient } from "@/lib/supabase/server"
 import prisma from '@/lib/prisma'
 import { redirect } from "next/navigation"
-import { LeadStatus, CancelReason } from "@/src/generated/prisma/enums"
+import { LeadStatus, CancelReason, Role } from "@/src/generated/prisma/enums"
 import { calculateCommissionAmount } from "@/lib/commission"
 
 // Neuen Lead anlegen – nur für eingeloggte Abschlepper
@@ -74,18 +74,22 @@ export async function updateLead(formData: FormData) {
     // 2. Prisma user laden
     // Prisma-Nuzer anhand der Supabase-ID laden, um die 
     // interne DB-ID zu bekommen
-    const driver = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { id: true },
+        select: { id: true, role: true },
     })
-    if (!driver) redirect("/login")
+    if (!user) redirect("/login")
+    
+    const isAdmin = user.role === Role.ADMIN
 
     // 3. Dann erst Prisma-Operation
     const existingLead = await prisma.lead.findUnique({
         where: { id: leadId },
         select: { towTruckDriverId: true },
     })
-    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+
+
+    if (!existingLead || (!isAdmin && existingLead.towTruckDriverId !== user.id)) {
         redirect("/dashboard/leads")
     }
 
@@ -117,18 +121,21 @@ export async function updateLeadStatus(formData: FormData) {
     if (!data?.claims) redirect("/login")
     
     // 3. Driver laden
-    const driver = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where:  { supabaseId: data.claims.sub },
-        select: { id: true },
+        select: { id: true, role: true },
     })
-    if(!driver) redirect("/login")
+    if(!user) redirect("/login")
+
+    const isAdmin = user.role === Role.ADMIN
     
     // 4. Lead laden + Owner-Check
     const existingLead = await prisma.lead.findUnique({
     where:  { id: leadId },
     select: { towTruckDriverId: true },
     })
-    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+    
+    if (!existingLead || (!isAdmin && existingLead.towTruckDriverId !== user.id)) {
         redirect("/dashboard/leads")
     }
 
@@ -146,11 +153,11 @@ export async function updateLeadStatus(formData: FormData) {
         })
 
         if (!existingCommission) {
-            const amount = await calculateCommissionAmount(driver.id)
+            const amount = await calculateCommissionAmount(existingLead.towTruckDriverId)
             await prisma.commission.create({
                 data: {
                     leadId,
-                    towTruckDriverId: driver.id,
+                    towTruckDriverId: existingLead.towTruckDriverId,
                     amount,
                 }
             })
@@ -173,18 +180,21 @@ export async function cancelLead(formData: FormData) {
     if (!data?.claims) redirect("/login")
 
     // driver laden
-    const driver = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { id: true },
+        select: { id: true, role: true },
     })
-    if (!driver) redirect("/login")
+    if (!user) redirect("/login")
+
+    const isAdmin = user.role === Role.ADMIN
 
     // db abgleich leadId und prisma user
     const existingLead = await prisma.lead.findUnique({
     where:  { id: leadId },
     select: { towTruckDriverId: true },
     })
-    if (!existingLead || existingLead.towTruckDriverId !== driver.id) {
+
+    if (!existingLead || (!isAdmin && existingLead.towTruckDriverId !== user.id)) {
         redirect("/dashboard/leads")
     }
 
@@ -196,7 +206,7 @@ export async function cancelLead(formData: FormData) {
             cancelReason,
             invoiceId,
             cancelledAt: new Date(),
-            cancelledByUserId: driver.id,
+            cancelledByUserId: user.id,
         },
     })
 
