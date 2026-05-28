@@ -5,6 +5,8 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { updateLeadStatus } from "@/app/actions/leads"
 import CancelLeadDialog from "@/components/CancelLeadDialog"
+import { Role } from "@/src/generated/prisma/enums"
+
 export const dynamic = "force-dynamic"
 
 type Params = { id: string }
@@ -23,12 +25,14 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 	}
 
 	// Prisma-Nutzer anhand der ID suchen
-	const driver = await prisma.user.findUnique({
+	const user = await prisma.user.findUnique({
 		where: { supabaseId: data.claims.sub },
-		select: { id: true, },
+		select: { id: true, role: true },
 	})
 
-	if (!driver) redirect("/login")
+	if (!user) redirect("/login")
+
+	const isAdmin = user.role === Role.ADMIN
 
 	const lead = await prisma.lead.findUnique({
 		where: { id },
@@ -48,9 +52,8 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 		},
 	})
 
-	// Gehört der Lead nicht zum eingeloggten Abschlepper, wird er weggeschickt
-	if (!lead || lead.towTruckDriverId !== driver.id) {
-		redirect("/dashboard/leads")
+	if (!lead || (!isAdmin && lead.towTruckDriverId !== user.id)) {
+		redirect("dashboard/leads")
 	}
 
 	return (
@@ -69,7 +72,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 				<p>Ort: {lead.breakdownCity}</p>
 				<p>Status: {lead.status}</p>
 				{/* Dorpdown menü um den Status zu ändern */}
-				{lead.status !== "CANCELLED" && (
+				{!isAdmin && lead.status !== "CANCELLED" && (
 					<form action={updateLeadStatus} className="mt-6 flex items-center gap-3">
 						<input type="hidden" name="leadId" value={lead.id} />
 						<label htmlFor="status" className="text-sm font-medium">Status ändern:</label>
