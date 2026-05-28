@@ -53,7 +53,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 	})
 
 	if (!lead || (!isAdmin && lead.towTruckDriverId !== user.id)) {
-		redirect("dashboard/leads")
+		redirect("/dashboard/leads")
 	}
 
 	return (
@@ -72,7 +72,7 @@ export default async function LeadDetailPage({ params }: { params: Promise<Param
 				<p>Ort: {lead.breakdownCity}</p>
 				<p>Status: {lead.status}</p>
 				{/* Dorpdown menü um den Status zu ändern */}
-				{!isAdmin && lead.status !== "CANCELLED" && (
+				{lead.status !== "CANCELLED" && (
 					<form action={updateLeadStatus} className="mt-6 flex items-center gap-3">
 						<input type="hidden" name="leadId" value={lead.id} />
 						<label htmlFor="status" className="text-sm font-medium">Status ändern:</label>
