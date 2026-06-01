@@ -27,7 +27,7 @@ export const signupFields: FieldDefinition[] = [
 	},
 	{
 		id: 'email',
-		label: 'Email',
+		label: 'E-Mail',
 		type: 'email',
 		required: true,
 		autoComplete: 'email',
@@ -35,7 +35,7 @@ export const signupFields: FieldDefinition[] = [
 	},
 	{
 		id: 'phone',
-		label: 'Telefonnummer',
+		label: 'Telefon',
 		type: 'tel',
 		required: true,
 		autoComplete: 'tel',
@@ -46,6 +46,20 @@ export const signupFields: FieldDefinition[] = [
 		label: 'Firmenname',
 		required: true,
 		autoComplete: 'organization',
+		group: "company",
+	},
+	{
+		id: 'companyContactFirstname',
+		label: 'Vorname Ansprechpartner',
+		required: true,
+		autoComplete: 'given-name',
+		group: "company",
+	},
+	{
+		id: 'companyContactLastname',
+		label: 'Nachname Ansprechpartner',
+		required: true,
+		autoComplete: 'family-name',
 		group: "company",
 	},
 	{
@@ -71,30 +85,16 @@ export const signupFields: FieldDefinition[] = [
 	},
 	{
 		id: 'companyPhone',
-		label: 'Telefonnummer der Firma',
+		label: 'Telefon der Firma',
 		type: 'tel',
 		required: true,
 		group: "company",
 	},
 	{
 		id: 'companyEmail',
-		label: 'Email der Firma',
+		label: 'E-Mail der Firma',
 		type: 'email',
 		required: true,
-		group: "company",
-	},
-	{
-		id: 'companyContactFirstname',
-		label: 'Vorname Ansprechpartner',
-		required: true,
-		autoComplete: 'given-name',
-		group: "company",
-	},
-	{
-		id: 'companyContactLastname',
-		label: 'Nachname Ansprechpartner',
-		required: true,
-		autoComplete: 'family-name',
 		group: "company",
 	},
 ]

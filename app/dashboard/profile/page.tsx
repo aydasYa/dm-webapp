@@ -27,7 +27,8 @@ export default async function ProfilePage() {
             companyCity: true,
             companyPhone: true,
             companyEmail: true,
-            companyContactPerson: true,
+            companyContactFirstname: true,
+            companyContactLastname: true,
         },
     })
     if (!user) redirect("/login")
@@ -62,7 +63,12 @@ export default async function ProfilePage() {
                     <p><span className="text-muted-foreground">PLZ/Ort:</span> {user.companyPostcode ?? "—"} {user.companyCity ?? ""}</p>
                     <p><span className="text-muted-foreground">Telefon:</span> {user.companyPhone ?? "—"}</p>
                     <p><span className="text-muted-foreground">E-Mail:</span> {user.companyEmail ?? "—"}</p>
-                    <p><span className="text-muted-foreground">Ansprechpartner:</span> {user.companyContactPerson ?? "—"}</p>
+                    <p>
+                        <span className="text-muted-foreground">Ansprechpartner:</span>{" "}
+                        {user.companyContactFirstname || user.companyContactLastname
+                            ? `${user.companyContactFirstname ?? ""} ${user.companyContactLastname ?? ""}`.trim()
+                            : "—"}
+                    </p>
                 </CardContent>
             </Card>
 

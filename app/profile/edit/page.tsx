@@ -40,7 +40,8 @@ export default async function ProfileEditPage() {
       companyCity: true,
       companyPhone: true,
       companyEmail: true,
-      companyContactPerson: true,
+      companyContactFirstname: true,
+      companyContactLastname: true,
     },
   })
 
@@ -119,8 +120,21 @@ export default async function ProfileEditPage() {
                   </Field>
 
                   <Field>
-                    <FieldLabel htmlFor="companyContactPerson">Ansprechpartner</FieldLabel>
-                    <Input id="companyContactPerson" name="companyContactPerson" defaultValue={user.companyContactPerson ?? ""} />
+                    <FieldLabel htmlFor="companyContactFirstname">Vorname Ansprechpartner</FieldLabel>
+                    <Input
+                      id="companyContactFirstname"
+                      name="companyContactFirstname"
+                      defaultValue={user.companyContactFirstname ?? ""}
+                    />
+                  </Field>
+
+                  <Field>
+                    <FieldLabel htmlFor="companyContactLastname">Nachname Ansprechpartner</FieldLabel>
+                    <Input
+                      id="companyContactLastname"
+                      name="companyContactLastname"
+                      defaultValue={user.companyContactLastname ?? ""}
+                    />
                   </Field>
                 </FieldGroup>
               </div>
