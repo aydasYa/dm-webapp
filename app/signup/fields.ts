@@ -47,9 +47,9 @@ export const signupFields: FieldDefinition[] = [
 	{
 		id: 'phone',
 		label: 'Telefon',
+		type: 'tel',
 		pattern: "[0-9+\\-\\/()\\s]+",
 		inputMode: "tel",
-		type: 'tel',
 		required: true,
 		autoComplete: 'tel',
 		group: "personal",
@@ -106,9 +106,9 @@ export const signupFields: FieldDefinition[] = [
 	{
 		id: 'companyPhone',
 		label: 'Telefon der Firma',
+		type: 'tel',
 		pattern: "[0-9+\\-\\/()\\s]+",
 		inputMode: "tel",
-		type: 'tel',
 		required: true,
 		group: "company",
 	},
