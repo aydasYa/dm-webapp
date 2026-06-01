@@ -5,6 +5,8 @@ export const signupFields: FieldDefinition[] = [
 	{
 		id: 'firstname',
 		label: 'Vorname',
+		pattern: "[A-Za-zÄÖÜäöüß\\-\\s]+",
+		description: "Bitte nur Buchstaben, Leerzeichen oder Bindestrich eingeben.",
 		required: true,
 		autoComplete: 'given-name',
 		group: "personal",
@@ -59,6 +61,8 @@ export const signupFields: FieldDefinition[] = [
 	},
 	{
 		id: 'companyContactFirstname',
+		pattern: "[A-Za-zÄÖÜäöüß\\-\\s]+",
+description: "Bitte nur Buchstaben, Leerzeichen oder Bindestrich eingeben.",
 		label: 'Vorname Ansprechpartner',
 		required: true,
 		autoComplete: 'given-name',
