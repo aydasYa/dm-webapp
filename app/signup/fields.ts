@@ -26,6 +26,15 @@ export const signupFields: FieldDefinition[] = [
 		group: "personal",
 	},
 	{
+		id: 'passwordConfirm',
+		label: 'Passwort wiederholen',
+		type: 'password',
+		required: true,
+		minLength: 8,
+		autoComplete: 'new-password',
+		group: "personal",
+	},
+	{
 		id: 'email',
 		label: 'E-Mail',
 		type: 'email',

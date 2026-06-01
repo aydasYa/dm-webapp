@@ -18,9 +18,14 @@ export async function signup(formData: FormData) {
   // Persönliche Felder (später: Model <User>)
   const email     = formData.get('email') as string
   const password  = formData.get('password') as string
+  const passwordConfirm  = formData.get('passwordConfirm') as string
   const firstname = formData.get('firstname') as string
   const lastname  = formData.get('lastname') as string
   const phone     = formData.get('phone') as string
+
+  if (password !== passwordConfirm) {
+    redirect("/signup?error=password_mismatch")
+  }
 
   // Firmendaten (später: Model <Company>)
   const companyName          = formData.get('companyName') as string
