@@ -27,7 +27,15 @@ type FormFieldProps = {
 export function FormField({ field }: FormFieldProps) {
   return (
     <Field>
-      <FieldLabel htmlFor={field.id}>{field.label}</FieldLabel>
+      <FieldLabel htmlFor={field.id}>
+        {field.label}
+        {field.required && (
+          <>
+            <span className="text-red-600">*</span>
+            <span className="sr-only">Pflichtfeld</span>
+          </>
+        )}
+      </FieldLabel>
       <Input
         id={field.id}
         name={field.id}
