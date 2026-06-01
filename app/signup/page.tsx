@@ -19,7 +19,7 @@ export default function SignUp() {
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
-      <div className="flex w-full max-w-3xl flex-col gap-6">
+      <div className="flex w-full max-w-3xl flex-col gap-2">
         <Link href="/" className="flex items-center justify-center self-center">
           <Image
             src="/logo.png"
@@ -27,7 +27,7 @@ export default function SignUp() {
             width={380}
             height={114}
             priority
-            className="h-40 w-auto"
+            className="h-40 w-auto object-contain"
           />
         </Link>
         <Card>
