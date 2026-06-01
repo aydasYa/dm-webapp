@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input"
+import type * as React from "react"
 import {
   Field,
   FieldLabel,
@@ -12,6 +13,9 @@ export type FieldDefinition = {
   type?: string
   required?: boolean
   minLength?: number
+  maxLength?: number
+  pattern?: string
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"]
   autoComplete?: string
   description?: string
 }
@@ -29,7 +33,10 @@ export function FormField({ field }: FormFieldProps) {
         name={field.id}
         type={field.type}
         required={field.required}
+        pattern={field.pattern}
+        maxLength={field.maxLength}
         minLength={field.minLength}
+        inputMode={field.inputMode}
         autoComplete={field.autoComplete}
       />
       {field.description && (

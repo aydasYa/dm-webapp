@@ -81,6 +81,11 @@ export const signupFields: FieldDefinition[] = [
 	{
 		id: 'companyPostcode',
 		label: 'PLZ der Niederlassung',
+		pattern: "[0-9]{5}",
+		maxLength: 5,
+		minLength: 5,
+		inputMode: "numeric",
+		description: "Bitte 5 Ziffern eingeben",
 		required: true,
 		autoComplete: 'postal-code',
 		group: "company",
