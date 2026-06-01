@@ -9,19 +9,19 @@ export const signupFields: FieldDefinition[] = [
 		autoComplete: 'given-name',
 		group: "personal",
 	},
-  	{
+	{
 		id: 'lastname',
 		label: 'Nachname',
 		required: true,
-		autoComplete:'family-name',
+		autoComplete: 'family-name',
 		group: "personal",
 	},
-  	{
+	{
 		id: 'password',
 		label: 'Passwort',
 		type: 'password',
 		required: true,
-		minLength:8,
+		minLength: 8,
 		autoComplete: 'new-password',
 		group: "personal",
 	},
@@ -84,9 +84,17 @@ export const signupFields: FieldDefinition[] = [
 		group: "company",
 	},
 	{
-		id: 'companyContactPerson',
-		label: 'Ansprechpartner (Name)',
+		id: 'companyContactFirstname',
+		label: 'Vorname Ansprechpartner',
 		required: true,
+		autoComplete: 'given-name',
+		group: "company",
+	},
+	{
+		id: 'companyContactLastname',
+		label: 'Nachname Ansprechpartner',
+		required: true,
+		autoComplete: 'family-name',
 		group: "company",
 	},
 ]
