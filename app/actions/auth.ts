@@ -15,7 +15,6 @@ import { revalidatePath } from 'next/cache'
 // 2. Nutzer-Datensatz in der Datenbank speichern (für App-Daten)
 // Schlägt Schritt 2 fehl, wird der Supabase-Account automatisch wieder gelöscht – kein halb-angelegter Nutzer
 export async function signup(formData: FormData) {
-  // Persönliche Felder (später: Model <User>)
   const email     = formData.get('email') as string
   const password  = formData.get('password') as string
   const passwordConfirm  = formData.get('passwordConfirm') as string

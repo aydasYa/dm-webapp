@@ -5,6 +5,8 @@ import { signupFields } from "@/app/signup/fields"
 import { signup } from "@/app/actions/auth"
 import { Button } from "@/components/ui/button"
 import { FieldGroup } from "@/components/ui/field"
+import { Fragment } from "react"
+import { PasswordMatchHint } from "@/components/form/PasswordMatchHint"
 import {
   Card,
   CardContent,
@@ -12,6 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+
 
 export default function SignUp() {
   const personalFields = signupFields.filter((f) => f.group === 'personal')
@@ -45,7 +48,10 @@ export default function SignUp() {
                 <FieldGroup>
                   <h2 className="font-semibold">Persönliche Informationen</h2>
                   {personalFields.map((field) => (
-                    <FormField field={field} key={field.id} />
+                    <Fragment key={field.id}>
+                      <FormField field={field} />
+                      {field.id === "passwordConfirm" && <PasswordMatchHint />}
+                    </Fragment>
                   ))}
                 </FieldGroup>
 
