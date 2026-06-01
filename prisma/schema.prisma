@@ -80,7 +80,8 @@ model User {
   companyPostcode      String?
   companyPhone         String?
   companyEmail         String?
-  companyContactPerson String?
+  companyContactFirstname String?
+  companyContactLastname  String?
 
   // ─── Relations ───
   leads       Lead[]

@@ -909,7 +909,8 @@ export const UserScalarFieldEnum = {
   companyPostcode: 'companyPostcode',
   companyPhone: 'companyPhone',
   companyEmail: 'companyEmail',
-  companyContactPerson: 'companyContactPerson',
+  companyContactFirstname: 'companyContactFirstname',
+  companyContactLastname: 'companyContactLastname',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
