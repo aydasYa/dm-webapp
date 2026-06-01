@@ -14,7 +14,7 @@ import {
 
 export default function SignUp() {
   const personalFields = signupFields.filter((f) => f.group === 'personal')
-  const companyFields  = signupFields.filter((f) => f.group === 'company')
+  const companyFields = signupFields.filter((f) => f.group === 'company')
 
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
@@ -26,21 +26,24 @@ export default function SignUp() {
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl font-bold">Registrieren</CardTitle>
-            <CardDescription className="text-sm text-balance text-muted-foreground">Erstelle deinen Account</CardDescription>
+            {/* <CardDescription className="text-sm text-balance text-muted-foreground">Erstelle deinen Account</CardDescription> */}
+            <p className="text-sm text-muted-foreground">
+              Felder mit <span className="font-medium text-red-600">*</span> sind Pflichtfelder.
+            </p>
           </CardHeader>
 
           <form action={signup}>
             <CardContent className="flex flex-col gap-6">
               <div className="grid gap-6 md:grid-cols-2">
                 <FieldGroup>
-                  <h2 className="font-semibold">Persönliche Daten</h2>
+                  <h2 className="font-semibold">Persönliche Informationen</h2>
                   {personalFields.map((field) => (
                     <FormField field={field} key={field.id} />
                   ))}
                 </FieldGroup>
 
                 <FieldGroup>
-                  <h2 className="font-semibold">Firma</h2>
+                  <h2 className="font-semibold">Firmen Informationen</h2>
                   {companyFields.map((field) => (
                     <FormField field={field} key={field.id} />
                   ))}
