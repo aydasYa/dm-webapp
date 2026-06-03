@@ -1,8 +1,5 @@
 "use server"
 
-// Alle Auth-bezogenen Server-Aktionen: Registrierung, Login, Abmelden, Freigabe, QR-Code
-// Tipp für später: jede Funktion in eine eigene Datei auslagern, wenn es mehr wird
-
 import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
@@ -10,31 +7,69 @@ import { Role } from '@/src/generated/prisma/enums'
 import { UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 
+// --- Validierung ---
+
+const NAME_PATTERN     = /^[A-Za-zÄÖÜäöüß\-\s]+$/
+const PHONE_PATTERN    = /^[0-9+\-\/()\s]+$/
+const POSTCODE_PATTERN = /^[0-9]{5}$/
+const EMAIL_PATTERN    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function str(formData: FormData, key: string): string {
+  return (formData.get(key) as string | null) ?? ''
+}
+
+type SignupFields = {
+  email: string; password: string; passwordConfirm: string
+  firstname: string; lastname: string; phone: string
+  companyName: string; companyAddress: string; companyPostcode: string
+  companyCity: string; companyPhone: string; companyEmail: string
+  companyContactFirstname: string; companyContactLastname: string
+}
+
+function validateSignup(d: SignupFields): string | null {
+  if (Object.values(d).some(v => !v.trim()))        return 'missing_fields'
+  if (d.password.length < 8)                         return 'password_too_short'
+  if (d.password !== d.passwordConfirm)              return 'password_mismatch'
+  if (!EMAIL_PATTERN.test(d.email))                  return 'invalid_email'
+  if (!EMAIL_PATTERN.test(d.companyEmail))           return 'invalid_email'
+  if (!POSTCODE_PATTERN.test(d.companyPostcode))     return 'invalid_format'
+  if (!PHONE_PATTERN.test(d.phone))                  return 'invalid_format'
+  if (!PHONE_PATTERN.test(d.companyPhone))           return 'invalid_format'
+  const nameFields = [d.firstname, d.lastname, d.companyContactFirstname, d.companyContactLastname, d.companyCity]
+  if (nameFields.some(v => !NAME_PATTERN.test(v)))   return 'invalid_format'
+  return null
+}
+
+// --- Server Actions ---
+
 // Registrierung: läuft in zwei Schritten
 // 1. Supabase-Account anlegen (für Auth/Login)
 // 2. Nutzer-Datensatz in der Datenbank speichern (für App-Daten)
 // Schlägt Schritt 2 fehl, wird der Supabase-Account automatisch wieder gelöscht – kein halb-angelegter Nutzer
 export async function signup(formData: FormData) {
-  const email     = formData.get('email') as string
-  const password  = formData.get('password') as string
-  const passwordConfirm  = formData.get('passwordConfirm') as string
-  const firstname = formData.get('firstname') as string
-  const lastname  = formData.get('lastname') as string
-  const phone     = formData.get('phone') as string
-
-  if (password !== passwordConfirm) {
-    redirect("/signup?error=password_mismatch")
+  const d: SignupFields = {
+    email:                    str(formData, 'email'),
+    password:                 str(formData, 'password'),
+    passwordConfirm:          str(formData, 'passwordConfirm'),
+    firstname:                str(formData, 'firstname'),
+    lastname:                 str(formData, 'lastname'),
+    phone:                    str(formData, 'phone'),
+    companyName:              str(formData, 'companyName'),
+    companyAddress:           str(formData, 'companyAddress'),
+    companyPostcode:          str(formData, 'companyPostcode'),
+    companyCity:              str(formData, 'companyCity'),
+    companyPhone:             str(formData, 'companyPhone'),
+    companyEmail:             str(formData, 'companyEmail'),
+    companyContactFirstname:  str(formData, 'companyContactFirstname'),
+    companyContactLastname:   str(formData, 'companyContactLastname'),
   }
 
-  // Firmendaten (später: Model <Company>)
-  const companyName          = formData.get('companyName') as string
-  const companyAddress       = formData.get('companyAddress') as string
-  const companyPostcode      = formData.get('companyPostcode') as string
-  const companyCity          = formData.get('companyCity') as string
-  const companyPhone         = formData.get('companyPhone') as string
-  const companyEmail         = formData.get('companyEmail') as string
-  const companyContactFirstname = formData.get('companyContactFirstname') as string
-  const companyContactLastname = formData.get('companyContactLastname') as string
+  const validationError = validateSignup(d)
+  if (validationError) redirect(`/signup?error=${validationError}`)
+
+  const { email, password, firstname, lastname, phone,
+          companyName, companyAddress, companyPostcode, companyCity,
+          companyPhone, companyEmail, companyContactFirstname, companyContactLastname } = d
 
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signUp({
@@ -59,7 +94,7 @@ export async function signup(formData: FormData) {
         firstname,
         lastname,
         phone,
-        role: Role.TOW_TRUCK_DRIVER, // neue Nutzer sind immer Abschlepper – Admins werden manuell gesetzt
+        role: Role.TOW_TRUCK_DRIVER,
         companyName,
         companyAddress,
         companyPostcode,
@@ -115,8 +150,20 @@ export async function updateUserStatus(formData: FormData) {
     data:  { status: newStatus },
   })
 
+  if (newStatus === UserStatus.ACTIVE) await createQrCode(userId)
+
   revalidatePath("/dashboard")
 }
+
+// Nur innerhalb dieser Datei nutzbar (kein export)
+async function createQrCode(userId: string) {
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { companyName: true } })
+  if (!user) return
+  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unbekannt"
+  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
+  await prisma.user.update({ where: { id: userId }, data: { qrCode: url } })
+}
+
 
 // QR-Code für einen Abschlepper generieren
 // Der Code ist eine UTM-URL zur Angebotsseite – damit kann später nachverfolgt werden,
@@ -135,23 +182,7 @@ export async function generateQrCode(formData: FormData) {
 
   const userId = formData.get("userId") as string
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { companyName: true },
-  })
-
-  if (!user) {
-    throw new Error("Benutzer nicht gefunden")
-  }
-
-  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unbekannt"
-
-  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
-
-  await prisma.user.update({
-    where: { id: userId },
-    data: { qrCode: url },
-  })
+  await createQrCode(userId)
 
   revalidatePath("/dashboard")
 }

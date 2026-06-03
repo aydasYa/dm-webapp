@@ -4,139 +4,185 @@ import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import { Role, LeadStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { STATUS_LABELS, STATUS_STYLES } from "@/lib/lead-status"
 
 export const dynamic = "force-dynamic"
 
-type SearchParams = { status?: string }
+type SearchParams = { status?: string; q?: string }
 
-const statusStyles: Record<string, string> = {
-	NEW: "bg-violet-100 text-violet-700 ring-violet-200",
-	DISTRIBUTED: "bg-blue-100 text-blue-700 ring-blue-200",
-	QR_SCANNED: "bg-cyan-100 text-cyan-700 ring-cyan-200",
-	WORKSHOP_SELECTED: "bg-indigo-100 text-indigo-700 ring-indigo-200",
-	IN_REPAIR: "bg-yellow-100 text-yellow-700 ring-yellow-200",
-	REPAIR_DONE: "bg-orange-100 text-orange-700 ring-orange-200",
-	VEHICLE_DELIVERED: "bg-teal-100 text-teal-700 ring-teal-200",
-	COMPLETED: "bg-emerald-100 text-emerald-800 ring-emerald-300",
-	CANCELLED: "bg-red-100 text-red-700 ring-red-200",
-}
+export default async function LeadsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>
+}) {
+  const { status, q } = await searchParams
 
-export default async function LeadsPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-	const { status } = await searchParams
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getClaims()
+  if (!data?.claims) redirect("/login")
 
-	const supabase = await createClient()
-	const { data } = await supabase.auth.getClaims()
-	if (!data?.claims) redirect("/login")
+  const user = await prisma.user.findUnique({
+    where: { supabaseId: data.claims.sub },
+    select: { id: true, role: true },
+  })
+  if (!user) redirect("/login")
 
-	const user = await prisma.user.findUnique({
-		where: { supabaseId: data.claims.sub },
-		select: { id: true, role: true },
-	})
-	if (!user) redirect("/login")
+  const isAdmin = user.role === Role.ADMIN
 
-	const isAdmin = user.role === Role.ADMIN
+  const leads = await prisma.lead.findMany({
+    where: {
+      deletedAt: null,
+      ...(isAdmin ? {} : { towTruckDriverId: user.id }),
+      ...(status ? { status: status as LeadStatus } : {}),
+      ...(q ? {
+        OR: [
+          { customerLastName: { contains: q, mode: "insensitive" } },
+          { vehicleMake:      { contains: q, mode: "insensitive" } },
+          { vehicleModel:     { contains: q, mode: "insensitive" } },
+          { breakdownCity:    { contains: q, mode: "insensitive" } },
+        ],
+      } : {}),
+    },
+    select: {
+      id: true,
+      customerLastName: true,
+      vehicleMake: true,
+      vehicleModel: true,
+      breakdownCity: true,
+      breakdownPostcode: true,
+      status: true,
+      createdAt: true,
+      ...(isAdmin && {
+        towTruckDriver: {
+          select: { firstname: true, lastname: true, companyName: true },
+        },
+      }),
+    },
+    orderBy: { createdAt: "desc" },
+  })
 
-	const leads = await prisma.lead.findMany({
-		where: {
-			deletedAt: null,
-			...(isAdmin ? {} : { towTruckDriverId: user.id }),
-			...(status && { status: status as LeadStatus }),
-		},
-		select: {
-			id: true,
-			customerLastName: true,
-			vehicleMake: true,
-			vehicleModel: true,
-			breakdownStreet: true,
-			breakdownPostcode: true,
-			breakdownCity: true,
-			status: true,
-			createdAt: true,
-			...(isAdmin && {
-				towTruckDriver: {
-					select: { firstname: true, lastname: true, companyName: true },
-				},
-			}),
-		},
-		orderBy: { createdAt: "desc" },
-	})
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">{isAdmin ? "Alle Leads" : "Meine Leads"}</h1>
+        {!isAdmin && (
+          <Button asChild>
+            <Link href="/dashboard/leads/new">+ Neuer Lead</Link>
+          </Button>
+        )}
+      </div>
 
-	return (
-		<div className="space-y-6">
-			<div className="flex items-center justify-between">
-				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Leads" : "Meine Leads"}</h1>
-				{!isAdmin && (
-					<Button asChild>
-						<Link href="/dashboard/leads/new">+ Neuer Lead</Link>
-					</Button>
-				)}
-			</div>
+      {/* Filter & Suche */}
+      <form method="get" className="flex flex-wrap gap-3 items-end">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="q" className="text-sm font-medium">Suche</label>
+          <Input
+            id="q"
+            name="q"
+            placeholder="Kunde, Fahrzeug, Ort…"
+            defaultValue={q ?? ""}
+            className="w-56"
+          />
+        </div>
 
-			<Card>
-				<CardContent className="pt-6">
-					<form action="/dashboard/leads" method="get" className="flex items-center gap-3">
-						<label htmlFor="status" className="text-sm font-medium">Status:</label>
-						<select
-							id="status"
-							name="status"
-							defaultValue={status ?? ""}
-							className="border rounded-md px-3 py-1.5 text-sm bg-background"
-						>
-							<option value="">Alle</option>
-							<option value="NEW">NEW</option>
-							<option value="DISTRIBUTED">DISTRIBUTED</option>
-							<option value="QR_SCANNED">QR_SCANNED</option>
-							<option value="WORKSHOP_SELECTED">WORKSHOP_SELECTED</option>
-							<option value="IN_REPAIR">IN_REPAIR</option>
-							<option value="REPAIR_DONE">REPAIR_DONE</option>
-							<option value="VEHICLE_DELIVERED">VEHICLE_DELIVERED</option>
-							<option value="COMPLETED">COMPLETED</option>
-							<option value="CANCELLED">CANCELLED</option>
-						</select>
-						<Button type="submit" variant="outline" size="sm">Filtern</Button>
-					</form>
-				</CardContent>
-			</Card>
+        <div className="flex flex-col gap-1">
+          <label htmlFor="status" className="text-sm font-medium">Status</label>
+          <select
+            id="status"
+            name="status"
+            defaultValue={status ?? ""}
+            className="h-8 rounded-lg border border-input bg-transparent px-2.5 text-sm"
+          >
+            <option value="">Alle</option>
+            {Object.entries(STATUS_LABELS).map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
+        </div>
 
-			{leads.length === 0 ? (
-				<Card>
-					<CardContent className="pt-6">
-						<p className="text-center text-muted-foreground">Keine Leads gefunden</p>
-					</CardContent>
-				</Card>
-			) : (
-				<div className="flex flex-col gap-3">
-					{leads.map((lead) => (
-						<Link key={lead.id} href={`/dashboard/leads/${lead.id}`}>
-							<Card className="transition-colors hover:bg-accent">
-								<CardContent className="pt-6">
-									<div className="flex items-center justify-between">
-										<div>
-											<p className="font-semibold">{lead.customerLastName}</p>
-											<p className="text-sm text-muted-foreground">
-												{lead.vehicleMake} {lead.vehicleModel}
-											</p>
-											<p className="text-sm text-muted-foreground">
-												{lead.breakdownStreet}, {lead.breakdownPostcode} {lead.breakdownCity}
-											</p>
-											{isAdmin && "towTruckDriver" in lead && lead.towTruckDriver && (
-												<p className="text-xs text-muted-foreground mt-1">
-													Fahrer: {lead.towTruckDriver.firstname} {lead.towTruckDriver.lastname}
-													{lead.towTruckDriver.companyName && ` — ${lead.towTruckDriver.companyName}`}
-												</p>
-											)}
-										</div>
-										<span className={`text-xs font-medium rounded-full px-2 py-1 ring-1 ring-inset ${statusStyles[lead.status] ?? statusStyles.NEW}`}>
-											{lead.status}
-										</span>
-									</div>
-								</CardContent>
-							</Card>
-						</Link>
-					))}
-				</div>
-			)}
-		</div>
-	)
+        <Button type="submit" variant="outline" size="sm">Filtern</Button>
+        {(q || status) && (
+          <Button asChild variant="ghost" size="sm">
+            <Link href="/dashboard/leads">Zurücksetzen</Link>
+          </Button>
+        )}
+      </form>
+
+      {/* Tabelle */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base font-medium text-muted-foreground">
+            {leads.length} {leads.length === 1 ? "Lead" : "Leads"} gefunden
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          {leads.length === 0 ? (
+            <p className="text-center text-muted-foreground py-10">Keine Leads gefunden</p>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Datum</TableHead>
+                  <TableHead>Kunde</TableHead>
+                  <TableHead>Fahrzeug</TableHead>
+                  <TableHead>Ort</TableHead>
+                  <TableHead>Status</TableHead>
+                  {isAdmin && <TableHead>Fahrer</TableHead>}
+                  <TableHead />
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {leads.map((lead) => (
+                  <TableRow key={lead.id}>
+                    <TableCell className="text-sm text-muted-foreground whitespace-nowrap">
+                      {lead.createdAt.toLocaleDateString("de-DE")}
+                    </TableCell>
+                    <TableCell className="font-medium">{lead.customerLastName}</TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {lead.vehicleMake} {lead.vehicleModel}
+                    </TableCell>
+                    <TableCell className="text-sm text-muted-foreground">
+                      {lead.breakdownPostcode} {lead.breakdownCity}
+                    </TableCell>
+                    <TableCell>
+                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_STYLES[lead.status] ?? ""}`}>
+                        {STATUS_LABELS[lead.status] ?? lead.status}
+                      </span>
+                    </TableCell>
+                    {isAdmin && (
+                      <TableCell className="text-sm text-muted-foreground">
+                        {"towTruckDriver" in lead && lead.towTruckDriver
+                          ? `${lead.towTruckDriver.firstname} ${lead.towTruckDriver.lastname}`
+                          : "—"}
+                      </TableCell>
+                    )}
+                    <TableCell>
+                      <Button asChild variant="ghost" size="sm">
+                        <Link href={`/dashboard/leads/${lead.id}`}>Details</Link>
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  )
 }

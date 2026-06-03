@@ -5,6 +5,7 @@ import Link from "next/link"
 import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Role } from "@/src/generated/prisma/enums"
 
 export const dynamic = "force-dynamic"
 
@@ -16,6 +17,7 @@ export default async function ProfilePage() {
     const user = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
         select: {
+            role: true,
             firstname: true,
             lastname: true,
             email: true,
@@ -38,7 +40,7 @@ export default async function ProfilePage() {
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold">Profil</h1>
                 <Button asChild>
-                    <Link href="/profile/edit">Bearbeiten</Link>
+                    <Link href="/dashboard/profile/edit">Bearbeiten</Link>
                 </Button>
             </div>
 
@@ -72,25 +74,27 @@ export default async function ProfilePage() {
                 </CardContent>
             </Card>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>Ihr QR-Code</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    {user.qrCode ? (
-                        <div className="flex flex-col gap-2">
-                            <div className="inline-block rounded-lg border bg-white p-4 w-fit">
-                                <QRCodeSVG value={user.qrCode} size={180} />
+            {user.role === Role.TOW_TRUCK_DRIVER && (
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Dein QR-Code</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        {user.qrCode ? (
+                            <div className="flex flex-col gap-2">
+                                <div className="inline-block rounded-lg border bg-white p-4 w-fit">
+                                    <QRCodeSVG value={user.qrCode} size={180} />
+                                </div>
+                                <p className="text-xs text-muted-foreground break-all">{user.qrCode}</p>
                             </div>
-                            <p className="text-xs text-muted-foreground break-all">{user.qrCode}</p>
-                        </div>
-                    ) : (
-                        <p className="text-sm text-muted-foreground">
-                            Noch kein QR-Code generiert. Ein Admin muss dir einen erstellen.
-                        </p>
-                    )}
-                </CardContent>
-            </Card>
+                        ) : (
+                            <p className="text-sm text-muted-foreground">
+                                Noch kein QR-Code generiert. Ein Admin wird dir einen erstellen.
+                            </p>
+                        )}
+                    </CardContent>
+                </Card>
+            )}
         </div>
     )
 }

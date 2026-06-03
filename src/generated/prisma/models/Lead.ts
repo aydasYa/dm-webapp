@@ -33,6 +33,14 @@ export type LeadMinAggregateOutputType = {
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
+  vehicleHsn: string | null
+  vehicleTsn: string | null
+  vehicleType: string | null
+  vehicleEngine: string | null
+  vehicleMotorCode: string | null
+  vehicleMileage: string | null
+  vehicleFuelType: string | null
+  vehicleDiagnosis: string | null
   breakdownStreet: string | null
   breakdownPostcode: string | null
   breakdownCity: string | null
@@ -56,6 +64,14 @@ export type LeadMaxAggregateOutputType = {
   customerLastName: string | null
   vehicleMake: string | null
   vehicleModel: string | null
+  vehicleHsn: string | null
+  vehicleTsn: string | null
+  vehicleType: string | null
+  vehicleEngine: string | null
+  vehicleMotorCode: string | null
+  vehicleMileage: string | null
+  vehicleFuelType: string | null
+  vehicleDiagnosis: string | null
   breakdownStreet: string | null
   breakdownPostcode: string | null
   breakdownCity: string | null
@@ -79,6 +95,15 @@ export type LeadCountAggregateOutputType = {
   customerLastName: number
   vehicleMake: number
   vehicleModel: number
+  vehicleHsn: number
+  vehicleTsn: number
+  vehicleType: number
+  vehicleEngine: number
+  vehicleMotorCode: number
+  vehicleMileage: number
+  vehicleFuelType: number
+  vehicleProblems: number
+  vehicleDiagnosis: number
   breakdownStreet: number
   breakdownPostcode: number
   breakdownCity: number
@@ -104,6 +129,14 @@ export type LeadMinAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
+  vehicleHsn?: true
+  vehicleTsn?: true
+  vehicleType?: true
+  vehicleEngine?: true
+  vehicleMotorCode?: true
+  vehicleMileage?: true
+  vehicleFuelType?: true
+  vehicleDiagnosis?: true
   breakdownStreet?: true
   breakdownPostcode?: true
   breakdownCity?: true
@@ -127,6 +160,14 @@ export type LeadMaxAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
+  vehicleHsn?: true
+  vehicleTsn?: true
+  vehicleType?: true
+  vehicleEngine?: true
+  vehicleMotorCode?: true
+  vehicleMileage?: true
+  vehicleFuelType?: true
+  vehicleDiagnosis?: true
   breakdownStreet?: true
   breakdownPostcode?: true
   breakdownCity?: true
@@ -150,6 +191,15 @@ export type LeadCountAggregateInputType = {
   customerLastName?: true
   vehicleMake?: true
   vehicleModel?: true
+  vehicleHsn?: true
+  vehicleTsn?: true
+  vehicleType?: true
+  vehicleEngine?: true
+  vehicleMotorCode?: true
+  vehicleMileage?: true
+  vehicleFuelType?: true
+  vehicleProblems?: true
+  vehicleDiagnosis?: true
   breakdownStreet?: true
   breakdownPostcode?: true
   breakdownCity?: true
@@ -246,6 +296,15 @@ export type LeadGroupByOutputType = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn: string | null
+  vehicleTsn: string | null
+  vehicleType: string | null
+  vehicleEngine: string | null
+  vehicleMotorCode: string | null
+  vehicleMileage: string | null
+  vehicleFuelType: string | null
+  vehicleProblems: string[]
+  vehicleDiagnosis: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -290,6 +349,15 @@ export type LeadWhereInput = {
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
+  vehicleHsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleTsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleEngine?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMotorCode?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMileage?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleFuelType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleProblems?: Prisma.StringNullableListFilter<"Lead">
+  vehicleDiagnosis?: Prisma.StringNullableFilter<"Lead"> | string | null
   breakdownStreet?: Prisma.StringFilter<"Lead"> | string
   breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
   breakdownCity?: Prisma.StringFilter<"Lead"> | string
@@ -319,6 +387,15 @@ export type LeadOrderByWithRelationInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
+  vehicleHsn?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleTsn?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleEngine?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleMotorCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleMileage?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleFuelType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleProblems?: Prisma.SortOrder
+  vehicleDiagnosis?: Prisma.SortOrderInput | Prisma.SortOrder
   breakdownStreet?: Prisma.SortOrder
   breakdownPostcode?: Prisma.SortOrder
   breakdownCity?: Prisma.SortOrder
@@ -352,6 +429,15 @@ export type LeadWhereUniqueInput = Prisma.AtLeast<{
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
+  vehicleHsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleTsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleEngine?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMotorCode?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMileage?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleFuelType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleProblems?: Prisma.StringNullableListFilter<"Lead">
+  vehicleDiagnosis?: Prisma.StringNullableFilter<"Lead"> | string | null
   breakdownStreet?: Prisma.StringFilter<"Lead"> | string
   breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
   breakdownCity?: Prisma.StringFilter<"Lead"> | string
@@ -380,6 +466,15 @@ export type LeadOrderByWithAggregationInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
+  vehicleHsn?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleTsn?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleEngine?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleMotorCode?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleMileage?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleFuelType?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleProblems?: Prisma.SortOrder
+  vehicleDiagnosis?: Prisma.SortOrderInput | Prisma.SortOrder
   breakdownStreet?: Prisma.SortOrder
   breakdownPostcode?: Prisma.SortOrder
   breakdownCity?: Prisma.SortOrder
@@ -409,6 +504,15 @@ export type LeadScalarWhereWithAggregatesInput = {
   customerLastName?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleMake?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   vehicleModel?: Prisma.StringWithAggregatesFilter<"Lead"> | string
+  vehicleHsn?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleTsn?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleType?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleEngine?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleMotorCode?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleMileage?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleFuelType?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
+  vehicleProblems?: Prisma.StringNullableListFilter<"Lead">
+  vehicleDiagnosis?: Prisma.StringNullableWithAggregatesFilter<"Lead"> | string | null
   breakdownStreet?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   breakdownPostcode?: Prisma.StringWithAggregatesFilter<"Lead"> | string
   breakdownCity?: Prisma.StringWithAggregatesFilter<"Lead"> | string
@@ -431,6 +535,15 @@ export type LeadCreateInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -458,6 +571,15 @@ export type LeadUncheckedCreateInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -483,6 +605,15 @@ export type LeadUpdateInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -510,6 +641,15 @@ export type LeadUncheckedUpdateInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -536,6 +676,15 @@ export type LeadCreateManyInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -558,6 +707,15 @@ export type LeadUpdateManyMutationInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -579,6 +737,15 @@ export type LeadUncheckedUpdateManyInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -603,6 +770,14 @@ export type LeadOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type LeadCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   cancelReason?: Prisma.SortOrder
@@ -612,6 +787,15 @@ export type LeadCountOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
+  vehicleHsn?: Prisma.SortOrder
+  vehicleTsn?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  vehicleEngine?: Prisma.SortOrder
+  vehicleMotorCode?: Prisma.SortOrder
+  vehicleMileage?: Prisma.SortOrder
+  vehicleFuelType?: Prisma.SortOrder
+  vehicleProblems?: Prisma.SortOrder
+  vehicleDiagnosis?: Prisma.SortOrder
   breakdownStreet?: Prisma.SortOrder
   breakdownPostcode?: Prisma.SortOrder
   breakdownCity?: Prisma.SortOrder
@@ -635,6 +819,14 @@ export type LeadMaxOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
+  vehicleHsn?: Prisma.SortOrder
+  vehicleTsn?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  vehicleEngine?: Prisma.SortOrder
+  vehicleMotorCode?: Prisma.SortOrder
+  vehicleMileage?: Prisma.SortOrder
+  vehicleFuelType?: Prisma.SortOrder
+  vehicleDiagnosis?: Prisma.SortOrder
   breakdownStreet?: Prisma.SortOrder
   breakdownPostcode?: Prisma.SortOrder
   breakdownCity?: Prisma.SortOrder
@@ -658,6 +850,14 @@ export type LeadMinOrderByAggregateInput = {
   customerLastName?: Prisma.SortOrder
   vehicleMake?: Prisma.SortOrder
   vehicleModel?: Prisma.SortOrder
+  vehicleHsn?: Prisma.SortOrder
+  vehicleTsn?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  vehicleEngine?: Prisma.SortOrder
+  vehicleMotorCode?: Prisma.SortOrder
+  vehicleMileage?: Prisma.SortOrder
+  vehicleFuelType?: Prisma.SortOrder
+  vehicleDiagnosis?: Prisma.SortOrder
   breakdownStreet?: Prisma.SortOrder
   breakdownPostcode?: Prisma.SortOrder
   breakdownCity?: Prisma.SortOrder
@@ -808,8 +1008,17 @@ export type LeadUncheckedUpdateManyWithoutWorkshopNestedInput = {
   deleteMany?: Prisma.LeadScalarWhereInput | Prisma.LeadScalarWhereInput[]
 }
 
+export type LeadCreatevehicleProblemsInput = {
+  set: string[]
+}
+
 export type NullableEnumCancelReasonFieldUpdateOperationsInput = {
   set?: $Enums.CancelReason | null
+}
+
+export type LeadUpdatevehicleProblemsInput = {
+  set?: string[]
+  push?: string | string[]
 }
 
 export type EnumLeadStatusFieldUpdateOperationsInput = {
@@ -868,6 +1077,15 @@ export type LeadCreateWithoutTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -894,6 +1112,15 @@ export type LeadUncheckedCreateWithoutTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -928,6 +1155,15 @@ export type LeadCreateWithoutCancelledByInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -953,6 +1189,15 @@ export type LeadUncheckedCreateWithoutCancelledByInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1008,6 +1253,15 @@ export type LeadScalarWhereInput = {
   customerLastName?: Prisma.StringFilter<"Lead"> | string
   vehicleMake?: Prisma.StringFilter<"Lead"> | string
   vehicleModel?: Prisma.StringFilter<"Lead"> | string
+  vehicleHsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleTsn?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleEngine?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMotorCode?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleMileage?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleFuelType?: Prisma.StringNullableFilter<"Lead"> | string | null
+  vehicleProblems?: Prisma.StringNullableListFilter<"Lead">
+  vehicleDiagnosis?: Prisma.StringNullableFilter<"Lead"> | string | null
   breakdownStreet?: Prisma.StringFilter<"Lead"> | string
   breakdownPostcode?: Prisma.StringFilter<"Lead"> | string
   breakdownCity?: Prisma.StringFilter<"Lead"> | string
@@ -1046,6 +1300,15 @@ export type LeadCreateWithoutWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1072,6 +1335,15 @@ export type LeadUncheckedCreateWithoutWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1122,6 +1394,15 @@ export type LeadCreateWithoutQrScanInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1148,6 +1429,15 @@ export type LeadUncheckedCreateWithoutQrScanInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1188,6 +1478,15 @@ export type LeadUpdateWithoutQrScanInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1214,6 +1513,15 @@ export type LeadUncheckedUpdateWithoutQrScanInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1238,6 +1546,15 @@ export type LeadCreateWithoutCommissionInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1264,6 +1581,15 @@ export type LeadUncheckedCreateWithoutCommissionInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1304,6 +1630,15 @@ export type LeadUpdateWithoutCommissionInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1330,6 +1665,15 @@ export type LeadUncheckedUpdateWithoutCommissionInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1354,6 +1698,15 @@ export type LeadCreateWithoutAuditLogsInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1380,6 +1733,15 @@ export type LeadUncheckedCreateWithoutAuditLogsInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1420,6 +1782,15 @@ export type LeadUpdateWithoutAuditLogsInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1446,6 +1817,15 @@ export type LeadUncheckedUpdateWithoutAuditLogsInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1471,6 +1851,15 @@ export type LeadCreateManyTowTruckDriverInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1492,6 +1881,15 @@ export type LeadCreateManyCancelledByInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1514,6 +1912,15 @@ export type LeadUpdateWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1540,6 +1947,15 @@ export type LeadUncheckedUpdateWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1565,6 +1981,15 @@ export type LeadUncheckedUpdateManyWithoutTowTruckDriverInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1586,6 +2011,15 @@ export type LeadUpdateWithoutCancelledByInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1611,6 +2045,15 @@ export type LeadUncheckedUpdateWithoutCancelledByInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1636,6 +2079,15 @@ export type LeadUncheckedUpdateManyWithoutCancelledByInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1659,6 +2111,15 @@ export type LeadCreateManyWorkshopInput = {
   customerLastName: string
   vehicleMake: string
   vehicleModel: string
+  vehicleHsn?: string | null
+  vehicleTsn?: string | null
+  vehicleType?: string | null
+  vehicleEngine?: string | null
+  vehicleMotorCode?: string | null
+  vehicleMileage?: string | null
+  vehicleFuelType?: string | null
+  vehicleProblems?: Prisma.LeadCreatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: string | null
   breakdownStreet: string
   breakdownPostcode: string
   breakdownCity: string
@@ -1680,6 +2141,15 @@ export type LeadUpdateWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1706,6 +2176,15 @@ export type LeadUncheckedUpdateWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1731,6 +2210,15 @@ export type LeadUncheckedUpdateManyWithoutWorkshopInput = {
   customerLastName?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleMake?: Prisma.StringFieldUpdateOperationsInput | string
   vehicleModel?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleHsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleTsn?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleEngine?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMotorCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleMileage?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleFuelType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleProblems?: Prisma.LeadUpdatevehicleProblemsInput | string[]
+  vehicleDiagnosis?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   breakdownStreet?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownPostcode?: Prisma.StringFieldUpdateOperationsInput | string
   breakdownCity?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1784,6 +2272,15 @@ export type LeadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
+  vehicleHsn?: boolean
+  vehicleTsn?: boolean
+  vehicleType?: boolean
+  vehicleEngine?: boolean
+  vehicleMotorCode?: boolean
+  vehicleMileage?: boolean
+  vehicleFuelType?: boolean
+  vehicleProblems?: boolean
+  vehicleDiagnosis?: boolean
   breakdownStreet?: boolean
   breakdownPostcode?: boolean
   breakdownCity?: boolean
@@ -1814,6 +2311,15 @@ export type LeadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
+  vehicleHsn?: boolean
+  vehicleTsn?: boolean
+  vehicleType?: boolean
+  vehicleEngine?: boolean
+  vehicleMotorCode?: boolean
+  vehicleMileage?: boolean
+  vehicleFuelType?: boolean
+  vehicleProblems?: boolean
+  vehicleDiagnosis?: boolean
   breakdownStreet?: boolean
   breakdownPostcode?: boolean
   breakdownCity?: boolean
@@ -1840,6 +2346,15 @@ export type LeadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
+  vehicleHsn?: boolean
+  vehicleTsn?: boolean
+  vehicleType?: boolean
+  vehicleEngine?: boolean
+  vehicleMotorCode?: boolean
+  vehicleMileage?: boolean
+  vehicleFuelType?: boolean
+  vehicleProblems?: boolean
+  vehicleDiagnosis?: boolean
   breakdownStreet?: boolean
   breakdownPostcode?: boolean
   breakdownCity?: boolean
@@ -1866,6 +2381,15 @@ export type LeadSelectScalar = {
   customerLastName?: boolean
   vehicleMake?: boolean
   vehicleModel?: boolean
+  vehicleHsn?: boolean
+  vehicleTsn?: boolean
+  vehicleType?: boolean
+  vehicleEngine?: boolean
+  vehicleMotorCode?: boolean
+  vehicleMileage?: boolean
+  vehicleFuelType?: boolean
+  vehicleProblems?: boolean
+  vehicleDiagnosis?: boolean
   breakdownStreet?: boolean
   breakdownPostcode?: boolean
   breakdownCity?: boolean
@@ -1880,7 +2404,7 @@ export type LeadSelectScalar = {
   deletedAt?: boolean
 }
 
-export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cancelReason" | "invoiceId" | "cancelledAt" | "cancelledByUserId" | "customerLastName" | "vehicleMake" | "vehicleModel" | "breakdownStreet" | "breakdownPostcode" | "breakdownCity" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
+export type LeadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "cancelReason" | "invoiceId" | "cancelledAt" | "cancelledByUserId" | "customerLastName" | "vehicleMake" | "vehicleModel" | "vehicleHsn" | "vehicleTsn" | "vehicleType" | "vehicleEngine" | "vehicleMotorCode" | "vehicleMileage" | "vehicleFuelType" | "vehicleProblems" | "vehicleDiagnosis" | "breakdownStreet" | "breakdownPostcode" | "breakdownCity" | "internNotice" | "status" | "salesforceId" | "salesforceStatus" | "towTruckDriverId" | "workshopId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["lead"]>
 export type LeadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cancelledBy?: boolean | Prisma.Lead$cancelledByArgs<ExtArgs>
   towTruckDriver?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -1920,6 +2444,15 @@ export type $LeadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     customerLastName: string
     vehicleMake: string
     vehicleModel: string
+    vehicleHsn: string | null
+    vehicleTsn: string | null
+    vehicleType: string | null
+    vehicleEngine: string | null
+    vehicleMotorCode: string | null
+    vehicleMileage: string | null
+    vehicleFuelType: string | null
+    vehicleProblems: string[]
+    vehicleDiagnosis: string | null
     breakdownStreet: string
     breakdownPostcode: string
     breakdownCity: string
@@ -2369,6 +2902,15 @@ export interface LeadFieldRefs {
   readonly customerLastName: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleMake: Prisma.FieldRef<"Lead", 'String'>
   readonly vehicleModel: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleHsn: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleTsn: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleType: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleEngine: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleMotorCode: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleMileage: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleFuelType: Prisma.FieldRef<"Lead", 'String'>
+  readonly vehicleProblems: Prisma.FieldRef<"Lead", 'String[]'>
+  readonly vehicleDiagnosis: Prisma.FieldRef<"Lead", 'String'>
   readonly breakdownStreet: Prisma.FieldRef<"Lead", 'String'>
   readonly breakdownPostcode: Prisma.FieldRef<"Lead", 'String'>
   readonly breakdownCity: Prisma.FieldRef<"Lead", 'String'>

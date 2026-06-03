@@ -3,7 +3,9 @@
     "allow": [
       "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp status)",
       "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp log --oneline -3)",
-      "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp status --short)"
+      "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp status --short)",
+      "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
+      "Bash(npx prisma *)"
     ]
   }
 }

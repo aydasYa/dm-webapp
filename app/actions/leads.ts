@@ -12,21 +12,30 @@ import { calculateCommissionAmount } from "@/lib/commission"
 // Neuen Lead anlegen – nur für eingeloggte Abschlepper
 // Der Lead wird automatisch mit der ID des aktuellen Nutzers verknüpft
 export async function createLead(formData: FormData) {
-    const customerLastName  = formData.get("customerLastName") as string
-    const vehicleMake       = formData.get("vehicleMake") as string
-    const vehicleModel      = formData.get("vehicleModel") as string
-    // const breakdownAddress  = formData.get("breakdownAddress") as string
-    const breakdownStreet   = formData.get("breakdownStreet") as string
+    const customerLastName = formData.get("customerLastName") as string
+    const vehicleMake = formData.get("vehicleMake") as string
+    const vehicleModel = formData.get("vehicleModel") as string
+    const vehicleHsn = formData.get("vehicleHsn") as string | null
+    const vehicleTsn = formData.get("vehicleTsn") as string | null
+    const vehicleType = formData.get("vehicleType") as string | null
+    const vehicleEngine = formData.get("vehicleEngine") as string | null
+    const vehicleMotorCode = formData.get("vehicleMotorCode") as string | null
+    const vehicleMileage = formData.get("vehicleMileage") as string | null
+    const vehicleFuelType = formData.get("vehicleFuelType") as string | null
+    const vehicleDiagnosis = formData.get("vehicleDiagnosis") as string | null
+    const vehicleProblems = formData.getAll("vehicleProblems") as string[]
+
+    const breakdownStreet = formData.get("breakdownStreet") as string
     const breakdownPostcode = formData.get("breakdownPostcode") as string
-    const breakdownCity     = formData.get("breakdownCity") as string
-    const internNotice      = formData.get("internNotice") as string | null
+    const breakdownCity = formData.get("breakdownCity") as string
+    const internNotice = formData.get("internNotice") as string | null
 
     // 1. Login prüfen
     // Supabase-Login des Nutzers prüfen
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
     if (!data?.claims) redirect("/login")
-    
+
     // 2. Prsima user Laden
     // Prisma-Nutzer anhand der Supabase-ID laden, um die interne DB-ID zu bekommen
     const driver = await prisma.user.findUnique({
@@ -35,12 +44,21 @@ export async function createLead(formData: FormData) {
     })
     if (!driver) redirect("/login")
 
-        // 3. Dann erst Prisma-Operation
+    // 3. Dann erst Prisma-Operation
     await prisma.lead.create({
         data: {
             customerLastName,
             vehicleMake,
             vehicleModel,
+            vehicleHsn,
+            vehicleTsn,
+            vehicleType,
+            vehicleEngine,
+            vehicleMotorCode,
+            vehicleMileage,
+            vehicleFuelType,
+            vehicleDiagnosis,
+            vehicleProblems,
             breakdownStreet,
             breakdownPostcode,
             breakdownCity,
@@ -55,15 +73,23 @@ export async function createLead(formData: FormData) {
 
 // updateLead: Updaten von leads vom User (Abschlepper)
 export async function updateLead(formData: FormData) {
-    const leadId            = formData.get("leadId") as string
-    const customerLastName  = formData.get("customerLastName") as string
-    const vehicleMake       = formData.get("vehicleMake") as string
-    const vehicleModel      = formData.get("vehicleModel") as string
-    // const breakdownAddress  = formData.get("breakdownAddress") as string
-    const breakdownStreet   = formData.get("breakdownStreet") as string
-    const breakdownPostcode   = formData.get("breakdownPostcode") as string
-    const breakdownCity   = formData.get("breakdownCity") as string
-    const internNotice      = formData.get("internNotice") as string | null
+    const leadId = formData.get("leadId") as string
+    const customerLastName = formData.get("customerLastName") as string
+    const vehicleMake = formData.get("vehicleMake") as string
+    const vehicleModel = formData.get("vehicleModel") as string
+    const vehicleHsn = formData.get("vehicleHsn") as string | null
+    const vehicleTsn = formData.get("vehicleTsn") as string | null
+    const vehicleType = formData.get("vehicleType") as string | null
+    const vehicleEngine = formData.get("vehicleEngine") as string | null
+    const vehicleMotorCode = formData.get("vehicleMotorCode") as string | null
+    const vehicleMileage = formData.get("vehicleMileage") as string | null
+    const vehicleFuelType = formData.get("vehicleFuelType") as string | null
+    const vehicleDiagnosis = formData.get("vehicleDiagnosis") as string | null
+    const vehicleProblems = formData.getAll("vehicleProblems") as string[]
+    const breakdownStreet = formData.get("breakdownStreet") as string
+    const breakdownPostcode = formData.get("breakdownPostcode") as string
+    const breakdownCity = formData.get("breakdownCity") as string
+    const internNotice = formData.get("internNotice") as string | null
 
     // 1. Login Prüfen
     // Supabase-Login des Nutzers prüfen
@@ -79,7 +105,7 @@ export async function updateLead(formData: FormData) {
         select: { id: true, role: true },
     })
     if (!user) redirect("/login")
-    
+
     const isAdmin = user.role === Role.ADMIN
 
     // 3. Dann erst Prisma-Operation
@@ -100,6 +126,15 @@ export async function updateLead(formData: FormData) {
             customerLastName,
             vehicleMake,
             vehicleModel,
+            vehicleHsn,
+            vehicleTsn,
+            vehicleType,
+            vehicleEngine,
+            vehicleMotorCode,
+            vehicleMileage,
+            vehicleFuelType,
+            vehicleDiagnosis,
+            vehicleProblems,
             breakdownStreet,
             breakdownPostcode,
             breakdownCity,
@@ -112,7 +147,7 @@ export async function updateLead(formData: FormData) {
 
 export async function updateLeadStatus(formData: FormData) {
     // 1. FormData lesen - nur leadId + status
-    const leadId    = formData.get("leadId") as string
+    const leadId = formData.get("leadId") as string
     const newStatus = formData.get("status") as LeadStatus
     if (!Object.values(LeadStatus).includes(newStatus)) {
         throw new Error("Ungültiger Status")
@@ -126,30 +161,30 @@ export async function updateLeadStatus(formData: FormData) {
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
     if (!data?.claims) redirect("/login")
-    
+
     // 3. Driver laden
     const user = await prisma.user.findUnique({
-        where:  { supabaseId: data.claims.sub },
+        where: { supabaseId: data.claims.sub },
         select: { id: true, role: true },
     })
-    if(!user) redirect("/login")
+    if (!user) redirect("/login")
 
     const isAdmin = user.role === Role.ADMIN
-    
+
     // 4. Lead laden + Owner-Check
     const existingLead = await prisma.lead.findUnique({
-    where:  { id: leadId },
-    select: { towTruckDriverId: true },
+        where: { id: leadId },
+        select: { towTruckDriverId: true },
     })
-    
+
     if (!existingLead || (!isAdmin && existingLead.towTruckDriverId !== user.id)) {
         redirect("/dashboard/leads")
     }
 
     // 5. Update: Diesmal NUR das status-Feld
     await prisma.lead.update({
-        where:  { id: leadId },
-        data:   { status: newStatus },
+        where: { id: leadId },
+        data: { status: newStatus },
     })
 
     // Wenn Lead auf COMPLETED gesetzt wird: automatisch Commission erstellen
@@ -201,8 +236,8 @@ export async function cancelLead(formData: FormData) {
 
     // db abgleich leadId und prisma user
     const existingLead = await prisma.lead.findUnique({
-    where:  { id: leadId },
-    select: { towTruckDriverId: true },
+        where: { id: leadId },
+        select: { towTruckDriverId: true },
     })
 
     if (!existingLead || (!isAdmin && existingLead.towTruckDriverId !== user.id)) {
@@ -211,8 +246,8 @@ export async function cancelLead(formData: FormData) {
 
     // 5. Update: Diesmal NUR das status-Feld
     await prisma.lead.update({
-        where:  { id: leadId },
-        data:   {
+        where: { id: leadId },
+        data: {
             status: LeadStatus.CANCELLED,
             cancelReason,
             invoiceId,

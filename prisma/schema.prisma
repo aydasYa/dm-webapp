@@ -74,20 +74,20 @@ model User {
   // ─── Company (TODO: in eigenes Model auslagern) ───
   // Wenn aufgeteilt: alle companyXyz-Felder in neues Company-Model,
   // User bekommt companyId + Relation zu Company.
-  companyName          String?
-  companyAddress       String?
-  companyCity          String?
-  companyPostcode      String?
-  companyPhone         String?
-  companyEmail         String?
+  companyName             String?
+  companyAddress          String?
+  companyCity             String?
+  companyPostcode         String?
+  companyPhone            String?
+  companyEmail            String?
   companyContactFirstname String?
   companyContactLastname  String?
 
   // ─── Relations ───
-  leads       Lead[]
-  commissions Commission[]
-  auditLogs   AuditLog[]
-  cancelledLeads Lead[] @relation("CancelledLeads")
+  leads          Lead[]
+  commissions    Commission[]
+  auditLogs      AuditLog[]
+  cancelledLeads Lead[]       @relation("CancelledLeads")
 
   // ─── Timestamps ───
   createdAt DateTime  @default(now())
@@ -130,6 +130,15 @@ model Lead {
   customerLastName  String
   vehicleMake       String
   vehicleModel      String
+  vehicleHsn        String?
+  vehicleTsn        String?
+  vehicleType       String?
+  vehicleEngine     String?
+  vehicleMotorCode  String?
+  vehicleMileage    String?
+  vehicleFuelType   String?
+  vehicleProblems   String[]
+  vehicleDiagnosis  String?
   breakdownStreet   String
   breakdownPostcode String
   breakdownCity     String

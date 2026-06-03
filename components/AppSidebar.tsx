@@ -15,6 +15,7 @@ import {
 import { LayoutDashboard, Users, QrCode, FileText, User, LogOut, Euro } from "lucide-react"
 import { signout } from "@/app/actions/auth"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 
 type Props = {
@@ -39,6 +40,7 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
   const driverItems = [
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
     { title: "Meine Leads", url: "/dashboard/leads", icon: FileText },
+    { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
     { title: "Profil", url: "/dashboard/profile", icon: User },
     { title: "Provisionen", url: "/dashboard/commissions", icon: Euro},
   ]
@@ -48,11 +50,17 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="p-2">
-          <p className="font-semibold">DM-WebApp</p>
-          <p className="text-xs text-muted-foreground">
-            {firstname} {lastname}
-          </p>
+        <div className="flex flex-col items-center gap-1 px-2 py-3">
+          <Link href="/dashboard">
+            <Image
+              src="/logo.png"
+              alt="DeinMotorschaden Logo"
+              width={160}
+              height={48}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
+          <p className="text-xs text-muted-foreground">{firstname} {lastname}</p>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -62,7 +70,7 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
-                  <SidebarMenuButton asChild isActive={pathname === item.url}>
+                  <SidebarMenuButton asChild isActive={item.url === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(item.url)}>
                     <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
