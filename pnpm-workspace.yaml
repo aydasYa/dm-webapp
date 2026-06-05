@@ -1,3 +1,13 @@
+allowBuilds:
+  '@ampproject/toolbox-optimizer': true
+  '@prisma/engines': true
+  es5-ext: true
+  esbuild: true
+  fsevents: true
+  msw: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
