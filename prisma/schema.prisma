@@ -82,6 +82,7 @@ model User {
   companyEmail            String?
   companyContactFirstname String?
   companyContactLastname  String?
+  companyWebsite          String?
 
   // ─── Relations ───
   leads          Lead[]

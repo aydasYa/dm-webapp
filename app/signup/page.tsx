@@ -100,6 +100,7 @@ export default async function SignUp({
                   <div className="grid grid-cols-2 gap-4">
                     <FormField field={f.companyPhone} />
                     <FormField field={f.companyEmail} />
+                    <FormField field={f.companyWebsite} />
                   </div>
                 </div>
 

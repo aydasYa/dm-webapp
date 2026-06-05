@@ -111,6 +111,13 @@ export const signupFields: FieldDefinition[] = [
 		autoComplete: 'email',
 		group: "company",
 	},
+		{
+		id: 'companyWebsite',
+		label: 'Firmen-Website',
+		required: false,
+		autoComplete: 'website',
+		group: "company",
+	},
 ]
 
 export const personalFields = signupFields.filter((f) => f.group === 'personal')
