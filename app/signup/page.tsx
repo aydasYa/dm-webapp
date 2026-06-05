@@ -91,11 +91,6 @@ export default async function SignUp({
 
                   <FormField field={f.companyName} />
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField field={f.companyContactFirstname} />
-                    <FormField field={f.companyContactLastname} />
-                  </div>
-
                   <div className="grid grid-cols-[2fr_1fr_1.5fr] gap-4">
                     <FormField field={f.companyAddress} />
                     <FormField field={f.companyPostcode} />

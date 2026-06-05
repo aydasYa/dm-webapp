@@ -23,7 +23,6 @@ type SignupFields = {
   firstname: string; lastname: string; phone: string
   companyName: string; companyAddress: string; companyPostcode: string
   companyCity: string; companyPhone: string; companyEmail: string
-  companyContactFirstname: string; companyContactLastname: string
 }
 
 function validateSignup(d: SignupFields): string | null {
@@ -35,7 +34,7 @@ function validateSignup(d: SignupFields): string | null {
   if (!POSTCODE_PATTERN.test(d.companyPostcode))     return 'invalid_format'
   if (!PHONE_PATTERN.test(d.phone))                  return 'invalid_format'
   if (!PHONE_PATTERN.test(d.companyPhone))           return 'invalid_format'
-  const nameFields = [d.firstname, d.lastname, d.companyContactFirstname, d.companyContactLastname, d.companyCity]
+  const nameFields = [d.firstname, d.lastname, d.companyCity]
   if (nameFields.some(v => !NAME_PATTERN.test(v)))   return 'invalid_format'
   return null
 }
@@ -60,8 +59,6 @@ export async function signup(formData: FormData) {
     companyCity:              str(formData, 'companyCity'),
     companyPhone:             str(formData, 'companyPhone'),
     companyEmail:             str(formData, 'companyEmail'),
-    companyContactFirstname:  str(formData, 'companyContactFirstname'),
-    companyContactLastname:   str(formData, 'companyContactLastname'),
   }
 
   const validationError = validateSignup(d)
@@ -69,7 +66,7 @@ export async function signup(formData: FormData) {
 
   const { email, password, firstname, lastname, phone,
           companyName, companyAddress, companyPostcode, companyCity,
-          companyPhone, companyEmail, companyContactFirstname, companyContactLastname } = d
+          companyPhone, companyEmail, } = d
 
   const supabase = await createClient()
   const { data, error } = await supabase.auth.signUp({
@@ -101,8 +98,6 @@ export async function signup(formData: FormData) {
         companyCity,
         companyPhone,
         companyEmail,
-        companyContactFirstname,
-        companyContactLastname,
       },
     })
   } catch (prismaError) {
@@ -200,8 +195,6 @@ export async function updateProfile(formData: FormData) {
   const companyCity           = (formData.get("companyCity") as string || null)
   const companyPhone          = (formData.get("companyPhone") as string || null)
   const companyEmail          = (formData.get("companyEmail") as string || null)
-  const companyContactFirstname  = (formData.get("companyContactFirstname") as string || null)
-  const companyContactLastname  = (formData.get("companyContactLastname") as string || null)
 
   // 3. Login prüfen via suapabase
   const supabase = await createClient()
@@ -221,8 +214,6 @@ export async function updateProfile(formData: FormData) {
       companyCity,
       companyPhone,
       companyEmail,
-      companyContactFirstname,
-      companyContactLastname,
     },
   })
 
