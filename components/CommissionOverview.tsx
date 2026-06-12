@@ -1,14 +1,10 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
-import { Role, CommissionStatus } from "@/src/generated/prisma/enums"
+import { CommissionStatus } from "@/src/generated/prisma/enums"
 import { approveCommission, markCommissionAsPaid } from "@/app/actions/commissions"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
-
-export const dynamic = "force-dynamic"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -17,22 +13,18 @@ const statusStyles: Record<string, string> = {
 	REJECTED: "bg-red-100 text-red-700 ring-red-200",
 }
 
-export default async function CommissionsPage() {
-	const supabase = await createClient()
-	const { data } = await supabase.auth.getClaims()
-	if (!data?.claims) redirect("/login")
+export default async function CommissionsOverview({
+	userId,
+	isAdmin,
+}: {
+	userId: string
+	isAdmin: boolean
+}) {
 
-	const user = await prisma.user.findUnique({
-		where: { supabaseId: data.claims.sub },
-		select: { id: true, role: true },
-	})
-	if (!user) redirect("/login")
-
-	const isAdmin = user.role === Role.ADMIN
 
 	// Admin sieht alle, Driver nur eigene
 	const commissions = await prisma.commission.findMany({
-		where: isAdmin ? {} : { towTruckDriverId: user.id },
+		where: isAdmin ? {} : { towTruckDriverId: userId },
 		include: {
 			lead: {
 				select: { customerLastName: true, vehicleMake: true, vehicleModel: true },
