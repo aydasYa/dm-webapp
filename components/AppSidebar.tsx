@@ -38,11 +38,9 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
   ]
 
   const driverItems = [
-    { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
-    { title: "Meine Leads", url: "/dashboard/leads", icon: FileText },
-    { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
     { title: "Profil", url: "/dashboard/profile", icon: User },
-    { title: "Provisionen", url: "/dashboard/commissions", icon: Euro},
+    { title: "Provisionen", url: "/dashboard", icon: Euro},
+    { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
   ]
 
   const items = role === "ADMIN" ? adminItems : driverItems

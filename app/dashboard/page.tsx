@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { Role } from "@/src/generated/prisma/enums"
 import AdminDashboard from "@/components/dashboard/AdminDashboard"
-import DriverDashboard from "@/components/dashboard/DriverDashboard"
+import CommissionOverview from "@/components/CommissionOverview"
 
 export const dynamic = "force-dynamic"
 
@@ -14,12 +14,15 @@ export default async function DashboardPage() {
 
   const user = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
-    select: { firstname: true, role: true },
+    select: { 
+      id: true, 
+      firstname: true, 
+      role: true 
+    },
   })
   if (!user) redirect("/login")
 
-  // 👉 your turn: return <AdminDashboard .../> for admins, else <DriverDashboard .../>
   return user.role === Role.ADMIN
-	? <AdminDashboard firstname={user.firstname} />
-	: <DriverDashboard supabaseId={data.claims.sub} firstname={user.firstname} />
+    ? <AdminDashboard firstname={user.firstname} />
+    : <CommissionOverview userId={user.id} isAdmin={false} />
 }
