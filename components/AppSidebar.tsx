@@ -30,7 +30,7 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
   // Menü-Einträge je nach Rolle
   const adminItems = [
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
-    { title: "Freigaben", url: "/dashboard/users", icon: Users },
+    { title: "Fahrer", url: "/dashboard/users", icon: Users },
     { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
     { title: "Alle Leads", url: "/dashboard/leads", icon: FileText },
     { title: "Profil", url: "/dashboard/profile", icon: User },
