@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Users, QrCode, FileText, User, LogOut, Euro } from "lucide-react"
+import { LayoutDashboard, Users, QrCode, User, LogOut, Euro } from "lucide-react"
 import { signout } from "@/app/actions/auth"
 import Link from "next/link"
 import Image from "next/image"
@@ -32,7 +32,6 @@ export default function AppSidebar({ role, firstname, lastname }: Props) {
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
     { title: "Fahrer", url: "/dashboard/users", icon: Users },
     { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
-    { title: "Alle Leads", url: "/dashboard/leads", icon: FileText },
     { title: "Profil", url: "/dashboard/profile", icon: User },
     { title: "Provisionen", url: "/dashboard/commissions", icon: Euro},
   ]

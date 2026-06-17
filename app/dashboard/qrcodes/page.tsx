@@ -15,7 +15,13 @@ export default async function QrCodesPage() {
 
     const caller = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { role: true },
+        select: { role: true, 
+            id: true, 
+            firstname: true,
+            lastname: true,
+            qrCode: true,
+            companyName: true,
+        },
     })
     if (caller?.role !== Role.ADMIN) redirect("/dashboard")
 
@@ -37,19 +43,29 @@ export default async function QrCodesPage() {
                 <p className="text-muted-foreground">{drivers.length} aktive Abschlepper</p>
             </div>
 
-            {drivers.length === 0 ? (
-                <Card>
-                    <CardContent className="pt-6">
-                        <p className="text-center text-muted-foreground">Keine aktiven Abschlepper</p>
-                    </CardContent>
-                </Card>
-            ) : (
+            <div>
+                <h2 className="font-semibold mb-2">Mein QR-Code</h2>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {drivers.map((d) => (
-                        <QrCodeCard key={d.id} driver={d} generateAction={generateQrCode} />
-                    ))}
+                    <QrCodeCard driver={caller} generateAction={generateQrCode}/>
                 </div>
-            )}
+            </div>
+
+            <div>
+                <h2 className="font-semibold mb-2">QR-Codes aller Fahrer</h2>
+                {drivers.length === 0 ? (
+                    <Card>
+                        <CardContent className="pt-6">
+                            <p className="text-center text-muted-foreground">Keine aktiven Abschlepper</p>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {drivers.map((d) => (
+                            <QrCodeCard key={d.id} driver={d} generateAction={generateQrCode} />
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }
