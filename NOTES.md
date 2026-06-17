@@ -29,3 +29,13 @@ Kein Blocker — nur damit nichts vergessen wird.
 - Routing-Entscheidungen (redirects) gehören in die Route (`page.tsx`), nicht in eine Leaf-Komponente.
 - Dead Code löschen statt auskommentieren — Git merkt sich's.
 - Nur an „working boundaries" committen, nie einen kaputten Zwischenstand.
+
+## ❓ Offene Design-Fragen (für morgen)
+
+- **Eigene Provision des Admins, wenn er auch als Fahrer agiert.**
+  Kontext: Der Admin kann selbst als „Fahrer" arbeiten (eigener QR-Code → erzeugt eigene Leads/Provisionen). Aktuell zeigt das **Admin-Dashboard** die Provisionen **aggregiert über ALLE Fahrer** + eine Liste aller Provisionen pro Fahrer. Die eigenen Admin-Provisionen sind da zwar **mit drin** (er ist ja auch ein User mit `towTruckDriverId`), aber **nicht separat** sichtbar.
+  Frage: Wie soll der Admin **seine eigene** Provisionsübersicht sehen?
+  - Option A: eigener „Meine Provisionen"-Bereich für den Admin (wie beim Fahrer, gefiltert auf `towTruckDriverId = adminId`).
+  - Option B: Toggle/Filter im Admin-Dashboard zwischen „Alle (Firma)" und „Nur meine".
+  - Option C: in der Aggregat-Ansicht den Admin-Eintrag optisch hervorheben.
+  → Entscheidung + Umsetzung offen.
