@@ -212,7 +212,7 @@ export async function createDriver(formData: FormData) {
         firstname,
         lastname,
         role: Role.TOW_TRUCK_DRIVER,
-        status: UserStatus.ACTIVE,
+        status: UserStatus.PENDING,
         companyId: caller.companyId,
         companyName: caller.companyName,
         companyAddress: caller.companyAddress,
@@ -254,6 +254,11 @@ export async function setPassword(formData: FormData) {
     console.error('Passwort-Fehler:', error)
     redirect('/auth/set-password?error=update_failed')
   }
+
+  await prisma.user.update({
+    where: { supabaseId: data.claims.sub },
+    data: { status: UserStatus.ACTIVE },
+  })
 
   redirect('/dashboard')
 }

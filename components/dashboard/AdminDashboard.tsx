@@ -6,7 +6,7 @@ export default async function AdminDashboard({ firstname }: { firstname: string 
 	const totalLeads = await prisma.lead.count({ where: { deletedAt: null } })
 	const totalActiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE } })
 	const totalInactiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE } })
-	const totalRejectedDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.REJECTED } })
+	// const totalRejectedDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.REJECTED } })
 	const registeredDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER } })
 	const pendingUsers = await prisma.user.count({ where: { status: UserStatus.PENDING } })
 
@@ -50,7 +50,7 @@ export default async function AdminDashboard({ firstname }: { firstname: string 
 					</CardContent>
 				</Card>
 
-				<Card>
+				{/* <Card>
 					<CardHeader>
 						<CardTitle className="text-base font-semibold">
 							Abgelehnte Abschlepper
@@ -59,7 +59,7 @@ export default async function AdminDashboard({ firstname }: { firstname: string 
 					<CardContent>
 						<p className="text-2xl font-bold">{totalRejectedDrivers}</p>
 					</CardContent>
-				</Card>
+				</Card> */}
 
 				<Card>
 					<CardHeader>

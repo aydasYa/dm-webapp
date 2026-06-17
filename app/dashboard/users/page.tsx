@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic"
 const STATUS_MAP: Record<string, UserStatus> = {
   pending: UserStatus.PENDING,
   active: UserStatus.ACTIVE,
-  rejected: UserStatus.REJECTED,
+  // rejected: UserStatus.REJECTED, (evtl. Nur in Super-Admin (DeinMotorschaden-Admin))
 }
 
 const TAB_LABELS: Record<string, string> = {
@@ -93,7 +93,7 @@ export default async function UsersPage({
 
       {/* Tab-Navigation */}
       <div className="flex border-b">
-        {(["pending", "active", "rejected"] as const).map((tab) => (
+        {(["pending", "active", ] as const).map((tab) => ( // <- man kan hier "rejected" einfügen damit der verstecke tab "Abgelehnt" aktiviert wird
           <Link
             key={tab}
             href={`?status=${tab}`}
@@ -134,7 +134,8 @@ export default async function UsersPage({
             <DriverCard
               key={u.id}
               user={u}
-              showActions={activeTab === "pending"}
+              // showActions={activeTab === "pending"} // kann wieder aktiviert werden für Super-Admin von DeinMotorschaden
+              showActions={false}
             />
           ))}
         </div>
