@@ -35,6 +35,7 @@ export type UserMinAggregateOutputType = {
   status: $Enums.UserStatus | null
   qrCode: string | null
   salesforceId: string | null
+  companyId: string | null
   companyName: string | null
   companyAddress: string | null
   companyCity: string | null
@@ -60,6 +61,7 @@ export type UserMaxAggregateOutputType = {
   status: $Enums.UserStatus | null
   qrCode: string | null
   salesforceId: string | null
+  companyId: string | null
   companyName: string | null
   companyAddress: string | null
   companyCity: string | null
@@ -85,6 +87,7 @@ export type UserCountAggregateOutputType = {
   status: number
   qrCode: number
   salesforceId: number
+  companyId: number
   companyName: number
   companyAddress: number
   companyCity: number
@@ -112,6 +115,7 @@ export type UserMinAggregateInputType = {
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyId?: true
   companyName?: true
   companyAddress?: true
   companyCity?: true
@@ -137,6 +141,7 @@ export type UserMaxAggregateInputType = {
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyId?: true
   companyName?: true
   companyAddress?: true
   companyCity?: true
@@ -162,6 +167,7 @@ export type UserCountAggregateInputType = {
   status?: true
   qrCode?: true
   salesforceId?: true
+  companyId?: true
   companyName?: true
   companyAddress?: true
   companyCity?: true
@@ -260,6 +266,7 @@ export type UserGroupByOutputType = {
   status: $Enums.UserStatus
   qrCode: string | null
   salesforceId: string | null
+  companyId: string | null
   companyName: string | null
   companyAddress: string | null
   companyCity: string | null
@@ -306,6 +313,7 @@ export type UserWhereInput = {
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
   qrCode?: Prisma.StringNullableFilter<"User"> | string | null
   salesforceId?: Prisma.StringNullableFilter<"User"> | string | null
+  companyId?: Prisma.StringNullableFilter<"User"> | string | null
   companyName?: Prisma.StringNullableFilter<"User"> | string | null
   companyAddress?: Prisma.StringNullableFilter<"User"> | string | null
   companyCity?: Prisma.StringNullableFilter<"User"> | string | null
@@ -322,6 +330,7 @@ export type UserWhereInput = {
   commissions?: Prisma.CommissionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   cancelledLeads?: Prisma.LeadListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
 }
 
 export type UserOrderByWithRelationInput = {
@@ -335,6 +344,7 @@ export type UserOrderByWithRelationInput = {
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyName?: Prisma.SortOrderInput | Prisma.SortOrder
   companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -351,6 +361,7 @@ export type UserOrderByWithRelationInput = {
   commissions?: Prisma.CommissionOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
   cancelledLeads?: Prisma.LeadOrderByRelationAggregateInput
+  company?: Prisma.CompanyOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -367,6 +378,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   phone?: Prisma.StringNullableFilter<"User"> | string | null
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  companyId?: Prisma.StringNullableFilter<"User"> | string | null
   companyName?: Prisma.StringNullableFilter<"User"> | string | null
   companyAddress?: Prisma.StringNullableFilter<"User"> | string | null
   companyCity?: Prisma.StringNullableFilter<"User"> | string | null
@@ -383,6 +395,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   commissions?: Prisma.CommissionListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
   cancelledLeads?: Prisma.LeadListRelationFilter
+  company?: Prisma.XOR<Prisma.CompanyNullableScalarRelationFilter, Prisma.CompanyWhereInput> | null
 }, "id" | "email" | "supabaseId" | "qrCode" | "salesforceId">
 
 export type UserOrderByWithAggregationInput = {
@@ -396,6 +409,7 @@ export type UserOrderByWithAggregationInput = {
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrderInput | Prisma.SortOrder
   salesforceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  companyId?: Prisma.SortOrderInput | Prisma.SortOrder
   companyName?: Prisma.SortOrderInput | Prisma.SortOrder
   companyAddress?: Prisma.SortOrderInput | Prisma.SortOrder
   companyCity?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -427,6 +441,7 @@ export type UserScalarWhereWithAggregatesInput = {
   status?: Prisma.EnumUserStatusWithAggregatesFilter<"User"> | $Enums.UserStatus
   qrCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   salesforceId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  companyId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   companyName?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   companyAddress?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   companyCity?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
@@ -468,6 +483,7 @@ export type UserCreateInput = {
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -481,6 +497,7 @@ export type UserUncheckedCreateInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -526,6 +543,7 @@ export type UserUpdateInput = {
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -539,6 +557,7 @@ export type UserUncheckedUpdateInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -568,6 +587,7 @@ export type UserCreateManyInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -618,6 +638,7 @@ export type UserUncheckedUpdateManyInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -643,6 +664,7 @@ export type UserCountOrderByAggregateInput = {
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
   companyCity?: Prisma.SortOrder
@@ -668,6 +690,7 @@ export type UserMaxOrderByAggregateInput = {
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
   companyCity?: Prisma.SortOrder
@@ -693,6 +716,7 @@ export type UserMinOrderByAggregateInput = {
   status?: Prisma.SortOrder
   qrCode?: Prisma.SortOrder
   salesforceId?: Prisma.SortOrder
+  companyId?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   companyAddress?: Prisma.SortOrder
   companyCity?: Prisma.SortOrder
@@ -705,6 +729,16 @@ export type UserMinOrderByAggregateInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -739,6 +773,48 @@ export type DateTimeFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
+}
+
+export type UserCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput> | Prisma.UserCreateWithoutCompanyInput[] | Prisma.UserUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCompanyInput | Prisma.UserCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.UserCreateManyCompanyInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutCompanyInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput> | Prisma.UserCreateWithoutCompanyInput[] | Prisma.UserUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCompanyInput | Prisma.UserCreateOrConnectWithoutCompanyInput[]
+  createMany?: Prisma.UserCreateManyCompanyInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput> | Prisma.UserCreateWithoutCompanyInput[] | Prisma.UserUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCompanyInput | Prisma.UserCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutCompanyInput | Prisma.UserUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.UserCreateManyCompanyInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutCompanyInput | Prisma.UserUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutCompanyInput | Prisma.UserUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutCompanyNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput> | Prisma.UserCreateWithoutCompanyInput[] | Prisma.UserUncheckedCreateWithoutCompanyInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCompanyInput | Prisma.UserCreateOrConnectWithoutCompanyInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutCompanyInput | Prisma.UserUpsertWithWhereUniqueWithoutCompanyInput[]
+  createMany?: Prisma.UserCreateManyCompanyInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutCompanyInput | Prisma.UserUpdateWithWhereUniqueWithoutCompanyInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutCompanyInput | Prisma.UserUpdateManyWithWhereWithoutCompanyInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
 }
 
 export type UserCreateNestedOneWithoutCancelledLeadsInput = {
@@ -801,6 +877,119 @@ export type UserUpdateOneWithoutAuditLogsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.UserUpdateWithoutAuditLogsInput>, Prisma.UserUncheckedUpdateWithoutAuditLogsInput>
 }
 
+export type UserCreateWithoutCompanyInput = {
+  id?: string
+  email: string
+  firstname: string
+  lastname: string
+  phone?: string | null
+  supabaseId: string
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  qrCode?: string | null
+  salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactFirstname?: string | null
+  companyContactLastname?: string | null
+  companyWebsite?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
+  commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
+}
+
+export type UserUncheckedCreateWithoutCompanyInput = {
+  id?: string
+  email: string
+  firstname: string
+  lastname: string
+  phone?: string | null
+  supabaseId: string
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  qrCode?: string | null
+  salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactFirstname?: string | null
+  companyContactLastname?: string | null
+  companyWebsite?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  leads?: Prisma.LeadUncheckedCreateNestedManyWithoutTowTruckDriverInput
+  commissions?: Prisma.CommissionUncheckedCreateNestedManyWithoutTowTruckDriverInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutUserInput
+  cancelledLeads?: Prisma.LeadUncheckedCreateNestedManyWithoutCancelledByInput
+}
+
+export type UserCreateOrConnectWithoutCompanyInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput>
+}
+
+export type UserCreateManyCompanyInputEnvelope = {
+  data: Prisma.UserCreateManyCompanyInput | Prisma.UserCreateManyCompanyInput[]
+  skipDuplicates?: boolean
+}
+
+export type UserUpsertWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCompanyInput, Prisma.UserUncheckedUpdateWithoutCompanyInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCompanyInput, Prisma.UserUncheckedCreateWithoutCompanyInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutCompanyInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCompanyInput, Prisma.UserUncheckedUpdateWithoutCompanyInput>
+}
+
+export type UserUpdateManyWithWhereWithoutCompanyInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutCompanyInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  email?: Prisma.StringFilter<"User"> | string
+  firstname?: Prisma.StringFilter<"User"> | string
+  lastname?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringNullableFilter<"User"> | string | null
+  supabaseId?: Prisma.StringFilter<"User"> | string
+  role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
+  status?: Prisma.EnumUserStatusFilter<"User"> | $Enums.UserStatus
+  qrCode?: Prisma.StringNullableFilter<"User"> | string | null
+  salesforceId?: Prisma.StringNullableFilter<"User"> | string | null
+  companyId?: Prisma.StringNullableFilter<"User"> | string | null
+  companyName?: Prisma.StringNullableFilter<"User"> | string | null
+  companyAddress?: Prisma.StringNullableFilter<"User"> | string | null
+  companyCity?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPostcode?: Prisma.StringNullableFilter<"User"> | string | null
+  companyPhone?: Prisma.StringNullableFilter<"User"> | string | null
+  companyEmail?: Prisma.StringNullableFilter<"User"> | string | null
+  companyContactFirstname?: Prisma.StringNullableFilter<"User"> | string | null
+  companyContactLastname?: Prisma.StringNullableFilter<"User"> | string | null
+  companyWebsite?: Prisma.StringNullableFilter<"User"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
+}
+
 export type UserCreateWithoutCancelledLeadsInput = {
   id?: string
   email: string
@@ -827,6 +1016,7 @@ export type UserCreateWithoutCancelledLeadsInput = {
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCancelledLeadsInput = {
@@ -840,6 +1030,7 @@ export type UserUncheckedCreateWithoutCancelledLeadsInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -888,6 +1079,7 @@ export type UserCreateWithoutLeadsInput = {
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutLeadsInput = {
@@ -901,6 +1093,7 @@ export type UserUncheckedCreateWithoutLeadsInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -960,6 +1153,7 @@ export type UserUpdateWithoutCancelledLeadsInput = {
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCancelledLeadsInput = {
@@ -973,6 +1167,7 @@ export type UserUncheckedUpdateWithoutCancelledLeadsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1027,6 +1222,7 @@ export type UserUpdateWithoutLeadsInput = {
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLeadsInput = {
@@ -1040,6 +1236,7 @@ export type UserUncheckedUpdateWithoutLeadsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1083,6 +1280,7 @@ export type UserCreateWithoutCommissionsInput = {
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutUserInput
   cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCommissionsInput = {
@@ -1096,6 +1294,7 @@ export type UserUncheckedCreateWithoutCommissionsInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -1155,6 +1354,7 @@ export type UserUpdateWithoutCommissionsInput = {
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
   cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCommissionsInput = {
@@ -1168,6 +1368,7 @@ export type UserUncheckedUpdateWithoutCommissionsInput = {
   status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
   qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1211,6 +1412,7 @@ export type UserCreateWithoutAuditLogsInput = {
   leads?: Prisma.LeadCreateNestedManyWithoutTowTruckDriverInput
   commissions?: Prisma.CommissionCreateNestedManyWithoutTowTruckDriverInput
   cancelledLeads?: Prisma.LeadCreateNestedManyWithoutCancelledByInput
+  company?: Prisma.CompanyCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutAuditLogsInput = {
@@ -1224,6 +1426,7 @@ export type UserUncheckedCreateWithoutAuditLogsInput = {
   status?: $Enums.UserStatus
   qrCode?: string | null
   salesforceId?: string | null
+  companyId?: string | null
   companyName?: string | null
   companyAddress?: string | null
   companyCity?: string | null
@@ -1283,9 +1486,93 @@ export type UserUpdateWithoutAuditLogsInput = {
   leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
   cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
+  company?: Prisma.CompanyUpdateOneWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyWebsite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
+}
+
+export type UserCreateManyCompanyInput = {
+  id?: string
+  email: string
+  firstname: string
+  lastname: string
+  phone?: string | null
+  supabaseId: string
+  role?: $Enums.Role
+  status?: $Enums.UserStatus
+  qrCode?: string | null
+  salesforceId?: string | null
+  companyName?: string | null
+  companyAddress?: string | null
+  companyCity?: string | null
+  companyPostcode?: string | null
+  companyPhone?: string | null
+  companyEmail?: string | null
+  companyContactFirstname?: string | null
+  companyContactLastname?: string | null
+  companyWebsite?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+}
+
+export type UserUpdateWithoutCompanyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyWebsite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  leads?: Prisma.LeadUpdateManyWithoutTowTruckDriverNestedInput
+  commissions?: Prisma.CommissionUpdateManyWithoutTowTruckDriverNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutUserNestedInput
+  cancelledLeads?: Prisma.LeadUpdateManyWithoutCancelledByNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCompanyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
   firstname?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1310,7 +1597,33 @@ export type UserUncheckedUpdateWithoutAuditLogsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   leads?: Prisma.LeadUncheckedUpdateManyWithoutTowTruckDriverNestedInput
   commissions?: Prisma.CommissionUncheckedUpdateManyWithoutTowTruckDriverNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutUserNestedInput
   cancelledLeads?: Prisma.LeadUncheckedUpdateManyWithoutCancelledByNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutCompanyInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  firstname?: Prisma.StringFieldUpdateOperationsInput | string
+  lastname?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supabaseId?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  status?: Prisma.EnumUserStatusFieldUpdateOperationsInput | $Enums.UserStatus
+  qrCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  salesforceId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyCity?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPostcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyContactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  companyWebsite?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -1382,6 +1695,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyId?: boolean
   companyName?: boolean
   companyAddress?: boolean
   companyCity?: boolean
@@ -1398,6 +1712,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   cancelledLeads?: boolean | Prisma.User$cancelledLeadsArgs<ExtArgs>
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -1412,6 +1727,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyId?: boolean
   companyName?: boolean
   companyAddress?: boolean
   companyCity?: boolean
@@ -1424,6 +1740,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1437,6 +1754,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyId?: boolean
   companyName?: boolean
   companyAddress?: boolean
   companyCity?: boolean
@@ -1449,6 +1767,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -1462,6 +1781,7 @@ export type UserSelectScalar = {
   status?: boolean
   qrCode?: boolean
   salesforceId?: boolean
+  companyId?: boolean
   companyName?: boolean
   companyAddress?: boolean
   companyCity?: boolean
@@ -1476,16 +1796,21 @@ export type UserSelectScalar = {
   deletedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstname" | "lastname" | "phone" | "supabaseId" | "role" | "status" | "qrCode" | "salesforceId" | "companyName" | "companyAddress" | "companyCity" | "companyPostcode" | "companyPhone" | "companyEmail" | "companyContactFirstname" | "companyContactLastname" | "companyWebsite" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "firstname" | "lastname" | "phone" | "supabaseId" | "role" | "status" | "qrCode" | "salesforceId" | "companyId" | "companyName" | "companyAddress" | "companyCity" | "companyPostcode" | "companyPhone" | "companyEmail" | "companyContactFirstname" | "companyContactLastname" | "companyWebsite" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   leads?: boolean | Prisma.User$leadsArgs<ExtArgs>
   commissions?: boolean | Prisma.User$commissionsArgs<ExtArgs>
   auditLogs?: boolean | Prisma.User$auditLogsArgs<ExtArgs>
   cancelledLeads?: boolean | Prisma.User$cancelledLeadsArgs<ExtArgs>
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
+}
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  company?: boolean | Prisma.User$companyArgs<ExtArgs>
+}
 
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
@@ -1494,6 +1819,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     commissions: Prisma.$CommissionPayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
     cancelledLeads: Prisma.$LeadPayload<ExtArgs>[]
+    company: Prisma.$CompanyPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1506,6 +1832,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     status: $Enums.UserStatus
     qrCode: string | null
     salesforceId: string | null
+    companyId: string | null
     companyName: string | null
     companyAddress: string | null
     companyCity: string | null
@@ -1916,6 +2243,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   commissions<T extends Prisma.User$commissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$commissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CommissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.User$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   cancelledLeads<T extends Prisma.User$cancelledLeadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cancelledLeadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  company<T extends Prisma.User$companyArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$companyArgs<ExtArgs>>): Prisma.Prisma__CompanyClient<runtime.Types.Result.GetResult<Prisma.$CompanyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1955,6 +2283,7 @@ export interface UserFieldRefs {
   readonly status: Prisma.FieldRef<"User", 'UserStatus'>
   readonly qrCode: Prisma.FieldRef<"User", 'String'>
   readonly salesforceId: Prisma.FieldRef<"User", 'String'>
+  readonly companyId: Prisma.FieldRef<"User", 'String'>
   readonly companyName: Prisma.FieldRef<"User", 'String'>
   readonly companyAddress: Prisma.FieldRef<"User", 'String'>
   readonly companyCity: Prisma.FieldRef<"User", 'String'>
@@ -2221,6 +2550,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    */
   data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2291,6 +2624,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
    * Limit how many Users to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -2453,6 +2790,25 @@ export type User$cancelledLeadsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.LeadScalarFieldEnum | Prisma.LeadScalarFieldEnum[]
+}
+
+/**
+ * User.company
+ */
+export type User$companyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Company
+   */
+  select?: Prisma.CompanySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Company
+   */
+  omit?: Prisma.CompanyOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CompanyInclude<ExtArgs> | null
+  where?: Prisma.CompanyWhereInput
 }
 
 /**

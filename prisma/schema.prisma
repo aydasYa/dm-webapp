@@ -74,6 +74,7 @@ model User {
   // ─── Company (TODO: in eigenes Model auslagern) ───
   // Wenn aufgeteilt: alle companyXyz-Felder in neues Company-Model,
   // User bekommt companyId + Relation zu Company.
+  companyId               String?
   companyName             String?
   companyAddress          String?
   companyCity             String?
@@ -89,6 +90,7 @@ model User {
   commissions    Commission[]
   auditLogs      AuditLog[]
   cancelledLeads Lead[]       @relation("CancelledLeads")
+  company   Company? @relation(fields: [companyId], references: [id])
 
   // ─── Timestamps ───
   createdAt DateTime  @default(now())
@@ -96,6 +98,19 @@ model User {
   deletedAt DateTime?
 
   @@map("users")
+}
+
+model Company {
+  id String @id @default(cuid())
+  name  String
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  @@map("companies")
 }
 
 // bin mir immernoch nicht 100% sicher.

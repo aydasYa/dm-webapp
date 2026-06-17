@@ -87,7 +87,7 @@ export async function signup(formData: FormData) {
   }
 
   try {
-    await prisma.user.create({
+    const created = await prisma.user.create({
       data: {
         supabaseId: data.user.id,
         email,
@@ -104,6 +104,8 @@ export async function signup(formData: FormData) {
         companyWebsite,
       },
     })
+    const company = await prisma.company.create({ data: { name: companyName }})
+    await prisma.user.update({ where: { id: created.id }, data: { companyId: company.id }})
   } catch (prismaError) {
     // DB-Fehler: Supabase-Account zurückrollen, damit kein verwaister Auth-Nutzer entsteht
     console.error('Prisma Fehler, Supabase-Nutzer wird zurückgesetzt:', prismaError)
@@ -154,12 +156,114 @@ export async function updateUserStatus(formData: FormData) {
   revalidatePath("/dashboard")
 }
 
+// Admin-Aktion: neuen Fahrer anlegen + Einladungslink (Magic Link) verschicken
+// Der Fahrer wird sofort als Supabase-Account angelegt (noch ohne Passwort) und
+// bekommt per E-Mail einen Magic Link. Beim Öffnen setzt er sein Passwort selbst.
+export async function createDriver(formData: FormData) {
+  // 1. Aufrufer muss Admin sein – Server Actions sind öffentliche Endpunkte
+  const supabase = await createClient()
+  const { data: sessionData } = await supabase.auth.getClaims()
+  if (!sessionData?.claims) redirect('/login')
+
+  const caller = await prisma.user.findUnique({
+    where: { supabaseId: sessionData.claims.sub },
+    select: {
+      role: true,
+      companyId: true,
+      companyName: true,
+      companyAddress: true,
+      companyCity: true,
+      companyPostcode: true,
+      companyPhone: true,
+      companyEmail: true,
+      companyContactFirstname: true,
+      companyContactLastname: true,
+    },
+  })
+  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+
+  // 2. Formularfelder lesen + validieren
+  const firstname = str(formData, 'firstname')
+  const lastname  = str(formData, 'lastname')
+  const email     = str(formData, 'email')
+  if (!firstname || !lastname || !email)                         redirect('/dashboard/users/new?error=missing_fields')
+  if (!NAME_PATTERN.test(firstname) || !NAME_PATTERN.test(lastname)) redirect('/dashboard/users/new?error=invalid_format')
+  if (!EMAIL_PATTERN.test(email))                                redirect('/dashboard/users/new?error=invalid_email')
+
+  // 3. Supabase-Einladung: legt den Account an UND verschickt den Magic Link
+  // (E-Mail-Versand läuft über das in Supabase konfigurierte Resend-SMTP)
+  const { createAdminClient } = await import('@/lib/supabase/admin')
+  const admin = createAdminClient()
+  const { data: invite, error } = await admin.auth.admin.inviteUserByEmail(email, {
+    data: { firstname, lastname },
+    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/set-password`,
+  })
+  if (error || !invite.user) {
+    console.error('Einladungsfehler:', error)
+    redirect('/dashboard/users/new?error=invite_failed')
+  }
+
+  // 4. DB-Datensatz: Fahrer der eigenen Firma, direkt ACTIVE (vom Admin angelegt)
+  try {
+    await prisma.user.create({
+      data: {
+        supabaseId: invite.user.id,
+        email,
+        firstname,
+        lastname,
+        role: Role.TOW_TRUCK_DRIVER,
+        status: UserStatus.ACTIVE,
+        companyId: caller.companyId,
+        companyName: caller.companyName,
+        companyAddress: caller.companyAddress,
+        companyCity: caller.companyCity,
+        companyPostcode: caller.companyPostcode,
+        companyPhone: caller.companyPhone,
+        companyEmail: caller.companyEmail,
+        companyContactFirstname: caller.companyContactFirstname,
+        companyContactLastname: caller.companyContactLastname,
+      },
+    })
+  } catch (prismaError) {
+    // Rollback: eingeladenen Supabase-Nutzer wieder löschen – kein verwaister Account
+    console.error('Prisma Fehler, eingeladener Nutzer wird zurückgesetzt:', prismaError)
+    await admin.auth.admin.deleteUser(invite.user.id)
+    redirect('/dashboard/users/new?error=db_failed')
+  }
+
+  revalidatePath('/dashboard/users')
+  redirect('/dashboard/users?status=active')
+}
+
+// Wird vom eingeladenen Fahrer aufgerufen, nachdem er den Magic Link geöffnet hat.
+// Der Link hat ihn bereits eingeloggt – hier setzt er nur noch sein Passwort.
+export async function setPassword(formData: FormData) {
+  const password        = str(formData, 'password')
+  const passwordConfirm = str(formData, 'passwordConfirm')
+
+  if (password.length < 8)          redirect('/auth/set-password?error=password_too_short')
+  if (password !== passwordConfirm) redirect('/auth/set-password?error=password_mismatch')
+
+  // Muss eingeloggt sein – die Magic-Link-Session steht bereits
+  const supabase = await createClient()
+  const { data } = await supabase.auth.getClaims()
+  if (!data?.claims) redirect('/login')
+
+  const { error } = await supabase.auth.updateUser({ password })
+  if (error) {
+    console.error('Passwort-Fehler:', error)
+    redirect('/auth/set-password?error=update_failed')
+  }
+
+  redirect('/dashboard')
+}
+
 // Nur innerhalb dieser Datei nutzbar (kein export)
 async function createQrCode(userId: string) {
-  const user = await prisma.user.findUnique({ where: { id: userId }, select: { companyName: true } })
+  const user = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
   if (!user) return
-  const utmSource = user.companyName ? encodeURIComponent(user.companyName) : "unbekannt"
-  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${utmSource}`
+  const firmenId = user.companyId ?? "unbekannt" 
+  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${firmenId}`
   await prisma.user.update({ where: { id: userId }, data: { qrCode: url } })
 }
 

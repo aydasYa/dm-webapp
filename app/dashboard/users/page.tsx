@@ -6,18 +6,19 @@ import { Card, CardContent } from "@/components/ui/card"
 import { DriverCard } from "@/components/DriverCard"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 
 export const dynamic = "force-dynamic"
 
 const STATUS_MAP: Record<string, UserStatus> = {
-  pending:  UserStatus.PENDING,
-  active:   UserStatus.ACTIVE,
+  pending: UserStatus.PENDING,
+  active: UserStatus.ACTIVE,
   rejected: UserStatus.REJECTED,
 }
 
 const TAB_LABELS: Record<string, string> = {
-  pending:  "Ausstehend",
-  active:   "Freigegeben",
+  pending: "Ausstehend",
+  active: "Freigegeben",
   rejected: "Abgelehnt",
 }
 
@@ -78,11 +79,16 @@ export default async function UsersPage({
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Fahrer-Verwaltung</h1>
-        <p className="text-muted-foreground">
-          {users.length} {TAB_LABELS[activeTab].toLowerCase()}{users.length === 1 ? "r" : ""} Fahrer
-        </p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Fahrer-Verwaltung</h1>
+          <p className="text-muted-foreground">
+            {users.length} {TAB_LABELS[activeTab].toLowerCase()}{users.length === 1 ? "r" : ""} Fahrer
+          </p>
+        </div>
+        <Button asChild>
+          <Link href="/dashboard/users/new">Fahrer anlegen</Link>
+        </Button>
       </div>
 
       {/* Tab-Navigation */}

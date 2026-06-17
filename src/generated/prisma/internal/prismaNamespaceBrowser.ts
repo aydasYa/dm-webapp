@@ -52,6 +52,7 @@ export const AnyNull = runtime.AnyNull
 
 export const ModelName = {
   User: 'User',
+  Company: 'Company',
   Workshop: 'Workshop',
   Lead: 'Lead',
   QRScan: 'QRScan',
@@ -86,6 +87,7 @@ export const UserScalarFieldEnum = {
   status: 'status',
   qrCode: 'qrCode',
   salesforceId: 'salesforceId',
+  companyId: 'companyId',
   companyName: 'companyName',
   companyAddress: 'companyAddress',
   companyCity: 'companyCity',
@@ -101,6 +103,17 @@ export const UserScalarFieldEnum = {
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+export const CompanyScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+} as const
+
+export type CompanyScalarFieldEnum = (typeof CompanyScalarFieldEnum)[keyof typeof CompanyScalarFieldEnum]
 
 
 export const WorkshopScalarFieldEnum = {
