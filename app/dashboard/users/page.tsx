@@ -11,6 +11,7 @@ export const dynamic = "force-dynamic"
 
 const USER_SELECT = {
   id: true, firstname: true, lastname: true, email: true, phone: true,
+  status: true, qrCode: true,
   createdAt: true, companyName: true, companyAddress: true, companyPostcode: true,
   companyCity: true, companyPhone: true, companyEmail: true,
   companyContactFirstname: true, companyContactLastname: true,

@@ -11,7 +11,8 @@ Kein Blocker — nur damit nichts vergessen wird.
 - **ESLint `ignoreRestSiblings`** — in `validateSignup` wird `companyWebsite` per Rest-Destructure rausgefiltert → unused-var Warning. Optional die Regel `@typescript-eslint/no-unused-vars` mit `{ ignoreRestSiblings: true }` setzen.
 - **QR bei Aktivierung** — QR-Code wird aktuell nur über die Admin-QR-Seite erzeugt. Sollte automatisch entstehen, wenn ein Fahrer per `setPassword` auf `ACTIVE` wechselt. (→ Epic „Rollen & Super-Admin")
 - **Fahrer „Löschen" = Soft-Delete** — setzt `deletedAt` + `INACTIVE`, statt hart zu löschen. Grund: `Lead`/`Commission` referenzieren `User` (FK) → harte Löschung würde scheitern. Liste filtert `deletedAt: null`.
-- **Status-Badge in der Fahrer-Liste fehlt** — mit „Sperren" (→ `INACTIVE`) ist nicht erkennbar, welcher Fahrer aktiv/ausstehend/inaktiv ist. Status-Badge pro Karte nachrüsten.
+- **Dark Mode entfernen** — App soll nur Light-Mode sein. Dark-Mode-Handling/Klassen raus.
+- **„Löschen" lässt Supabase-Auth-Account bestehen** — `deleteDriver` macht nur Soft-Delete in der DB. Der Supabase-Auth-User bleibt. Für echtes Löschen später auch den Supabase-Account löschen/deaktivieren (`admin.auth.admin.deleteUser`).
 
 ## ⚙️ Setup / Workflow-Hinweise
 
