@@ -28,9 +28,13 @@ export default async function DashboardLayout({ children }: { children: React.Re
     // 3. Pending oder Rejected page rendern passend zum nutzer
     if (user.status === UserStatus.PENDING) redirect("/pending")
     if (user.status === UserStatus.REJECTED) redirect("/rejected")
-    if (user.deletedAt || user.status === UserStatus.INACTIVE) {
+    if (user.deletedAt) {
         await supabase.auth.signOut()
-        redirect("/blocked")
+        redirect("/blocked?reason=deleted")
+    }
+    if (user.status === UserStatus.INACTIVE) {
+        await supabase.auth.signOut()
+        redirect("/blocked?reason=inactive")
     }
 
     return (
