@@ -5,7 +5,9 @@
       "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp log --oneline -3)",
       "Bash(git -C /Users/yasin/Projekte/dm-projekte/final/dm-webapp status --short)",
       "Bash(grep -E \"\\\\.\\(tsx?|jsx?\\)$\")",
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "mcp__4fdb5a61-efb0-4afc-9756-7301054974fa__getTransitionsForJiraIssue",
+      "mcp__4fdb5a61-efb0-4afc-9756-7301054974fa__transitionJiraIssue"
     ]
   }
 }

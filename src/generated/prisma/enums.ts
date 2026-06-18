@@ -22,7 +22,8 @@ export type CancelReason = (typeof CancelReason)[keyof typeof CancelReason]
 
 export const Role = {
   TOW_TRUCK_DRIVER: 'TOW_TRUCK_DRIVER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 } as const
 
 export type Role = (typeof Role)[keyof typeof Role]
