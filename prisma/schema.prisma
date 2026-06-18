@@ -20,9 +20,9 @@ enum CancelReason {
 }
 
 enum Role {
-  TOW_TRUCK_DRIVER // DE: Abschlepper
-  ADMIN
-  //USER_ACCOUNT
+  TOW_TRUCK_DRIVER // Fahrer
+  ADMIN // Admin vom XYZ Abschlepper Unternehmen
+  SUPER_ADMIN // DeinMotorschaden
 }
 
 enum UserStatus {
