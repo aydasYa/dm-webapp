@@ -55,6 +55,11 @@
 - **Jeder Schritt mit Kopf:** `📍 Phase X · Epic <KEY> · Ticket <KEY> — Titel` + Fortschrittszeile.
 - **Jira = Quelle der Wahrheit** — vor Start jeden Task bestätigen.
 - **Mini-Hinweise / Tech-Debt immer in `NOTES.md`** eintragen (nicht nur im Chat sagen).
+- **Starkes ADHS:** zuerst einen **klaren Überblick** geben, dann kleine Schritte. **Kompakt & übersichtlich.**
+- **Der User will LERNEN, nicht stumpf copy-pasten.** Auch wenn du Code gibst: **das Warum erklären** und ihn die Kernteile **selbst tippen** lassen, damit er es versteht. Keine ganzen Dateien zum blinden Einfügen ohne Erklärung.
 
-## 9. Nächstes Thema: UI/UX-Update
-Im neuen Chat startet die **UI/UX-Überarbeitung** (Konkretes kommt vom User). Bekannt: **Dark Mode entfernen** (NOTES.md).
+## 9. Nächste Themen (heute beides, viel Zeit)
+1. **Phase 2 — E-Mail-System (WEBAPP-48):** WEBAPP-147 `sendEmail` (`lib/email.ts`) → 75 Auszahlungs-Mail → 76 Werkstatt-Mail → 40 Bestätigungs-Mail. (Dev-Versand via Mailtrap; echte Domain = Blocker.)
+2. **UI/UX-Update:** Optik überarbeiten, **Dark Mode entfernen** (NOTES.md). Konkretes kommt vom User.
+
+Reihenfolge mit dem User klären. Beide Themen sind unabhängig machbar.
