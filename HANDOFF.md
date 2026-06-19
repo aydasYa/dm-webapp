@@ -11,10 +11,10 @@
 **Tech-Stack:** Next.js 16 (App Router — **modifiziert!** Docs in `node_modules/next/dist/docs/` lesen bevor man Next-Code schreibt), Prisma 7 + PostgreSQL (Supabase), Supabase Auth, Resend/Mailtrap (E-Mail), shadcn/Radix UI + Tailwind. **Package-Manager: `pnpm`.**
 
 ## 2. Rollen & Datenmodell
-- **Hierarchie (geplant):** `SUPER_ADMIN` (DeinMotorschaden — *noch nicht gebaut*) → `ADMIN` (Firma) → `TOW_TRUCK_DRIVER` (Fahrer).
+- **Hierarchie:** `SUPER_ADMIN` (DeinMotorschaden — **gebaut ✅**) → `ADMIN` (Firma) → `TOW_TRUCK_DRIVER` (Fahrer).
 - `Company`-Model existiert (`id`, `name`) + `User.companyId`. **Aber:** alte `companyXyz`-Felder liegen weiterhin flach auf `User` (Doppelung).
 - Fahrer **erben** die Firma des Admins beim Einladen.
-- `UserStatus`: `PENDING` (eingeladen/wartend), `ACTIVE`, `INACTIVE` (gesperrt/pausiert), `REJECTED`.
+- `UserStatus`: `PENDING` (eingeladen/wartend), `ACTIVE`, `INACTIVE` (deaktiviert/gesperrt), `REJECTED`. In der **Fahrer-Verwaltung** heißt `INACTIVE` jetzt „Deaktiviert" (kein „Abgelehnt" mehr); `REJECTED` nur noch im Super-Admin-Flow (Firma ablehnen).
 - Admin kann auch selbst als „Fahrer" agieren (eigener QR) → siehe offene Design-Frage in NOTES.md.
 
 ## 3. Was diese Session gebaut wurde (alles auf `main`)
@@ -26,22 +26,35 @@
 - **WEBAPP-164 (Epic 3) Fahrer-Verwaltung & Dashboard-UI:** Listenansicht statt Tabs, klickbare Karte → Detail-Popup, QR im Popup, Status-Badge, **Sperren/Löschen (Soft-Delete)/Reaktivieren**, Leads raus (Admin+Fahrer), Admin-Übersicht zeigt Provision, Admin eigener QR.
 - **Zugriffsschutz:** `INACTIVE`/`deletedAt` → ausgeloggt → `/blocked` (gelöscht vs. deaktiviert = unterschiedliche Meldung via `?reason=`). Fahrer-Selbst-Pause (`pauseSelf`).
 
+## 3b. Session „Rollen-Block & Mandanten-Fix" (neu)
+- **WEBAPP-155 komplett** (Rollen-Hierarchie & Super-Admin), alle 6 Subtasks:
+  - **156** `SUPER_ADMIN` ins Role-Enum (Migration `add_super_admin_role`).
+  - **159** `signup` legt Firmen-Admin als `ADMIN` + `PENDING` an (vorher fälschlich `TOW_TRUCK_DRIVER`).
+  - **158** Bootstrap-Script `scripts/create-super-admin.ts` (+ `scripts/load-env.ts`): legt 1. Super-Admin in Supabase **und** DB an, idempotent. Run: `pnpm tsx scripts/create-super-admin.ts`. Braucht `SUPER_ADMIN_EMAIL/PASSWORD/FIRSTNAME/LASTNAME` in `.env.local`.
+  - **157** Super-Admin-Dashboard: `SuperAdminDashboard` (Landing), Sidebar-Tab „Unternehmen" (`/dashboard/companies`), `CompanyCard` mit Detail-Popup + Aktionen Freigeben/Ablehnen/Deaktivieren/Aktivieren/Löschen. Actions: `updateCompanyAdminStatus`, `deleteCompanyAdmin` (beide `SUPER_ADMIN`-gated, Ziel muss `ADMIN` sein).
+  - **162** Fahrer-Verwaltung: `INACTIVE` → „Deaktiviert", Buttons „Deaktivieren/Aktivieren".
+  - **163** QR-Auto-Generierung: `setPassword` ruft jetzt `createQrCode(user.id)` → QR entsteht automatisch beim Aktivieren.
+- **🔴 Mandanten-Bug gefixt:** Admin-Ansichten (`users`, `qrcodes`, `commissions`, `leads`, `AdminDashboard`) jetzt nach `companyId` gefiltert (vorher firmenübergreifend sichtbar). Provisionen/Leads über Relation `towTruckDriver: { companyId }`.
+- **E-Mail-Epic (WEBAPP-48) PAUSIERT** bis nach Meeting: `nodemailer` + `@types/nodemailer` installiert, aber `lib/email.ts` noch nicht gebaut. Entscheidung: **Mailtrap statt Resend** (User hat Mailtrap für Magic-Link in Supabase eingerichtet). package.json/lock-Änderung noch **uncommitted**.
+
 ## 4. Git-Stand
-- Branch **`dashboard-split`** = `main` (fast-forward gemerged). `main` zuletzt @ **`a8ce7b9`**, gepusht.
+- Branch **`dashboard-split`** = `main`. Heutige Arbeit in mehreren Commits (Rollen-Subtasks, Mandanten-Fix, Super-Admin-Aktionen, Docs) — vom User selbst committet.
 - Remote: `github.com/aydasYa/dm-webapp`. **Solo-Dev → direkter Merge, kein PR.**
 
 ## 5. Config / Gotchas
 - `.env.local`: `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`.
 - **Nach `prisma generate`/`migrate dev` → `pnpm dev` neu starten** (sonst stale Client).
 - **Supabase SMTP = aktuell Mailtrap-Sandbox** (Dev, fängt alle Mails ab). Echte Domain in Resend verifizieren = offen (Blocker, DNS-Inhaber).
-- **Admin anlegen geht nur manuell in der DB** (kein App-Weg) → Epic 2.
+- **Super-Admin anlegen:** via `scripts/create-super-admin.ts` (nicht mehr nur DB-Handarbeit). `SUPER_ADMIN_*` in `.env.local` nötig.
+- **`createQrCode`** braucht die interne `user.id`, nicht `supabaseId`. `updateUserStatus` (Admin) und `setPassword` (Fahrer-Aktivierung) rufen es auf.
 
 ## 6. Offene Arbeit (Roadmap)
-- **Phase 2 — WEBAPP-48 E-Mail-System:** 147 `sendEmail` (`lib/email.ts`), 75 Auszahlungs-Mail, 76 Werkstatt-Mail, 40 Bestätigungs-Mail.
-- **Phase 3 — Epic 2 Rollen & Super-Admin:** `SUPER_ADMIN`-Rolle, Super-Admin-Dashboard, Admin-Bootstrap, `signup` → `ADMIN`/`PENDING`, Status-Modell `INACTIVE`/„Deaktiviert", QR-Auto-Generierung.
+- **Phase 2 — WEBAPP-48 E-Mail-System (PAUSIERT bis nach Meeting):** 147 `sendEmail` (`lib/email.ts`, via **Mailtrap/nodemailer**), 75 Auszahlungs-Mail, 76 Werkstatt-Mail, 40 Bestätigungs-Mail. nodemailer schon installiert.
+- **Phase 3 — Rollen & Super-Admin (WEBAPP-155): ERLEDIGT ✅** (156/157/158/159/162/163).
+- **UI/UX-Update:** Optik überarbeiten, **Dark Mode entfernen**. User legt eigenes UI/UX-Epic an.
 - **Phase 4 — Integrationen:** WEBAPP-47 Salesforce, 130 Lead-Management, 46 Auszahlungsworkflow.
 - **Blocker — Epic 1:** Domain verifizieren (DNS) → SMTP von Mailtrap auf echte Domain.
-- **Tech-Debt & Design-Fragen:** siehe `NOTES.md`.
+- **Tech-Debt & Verbesserungs-Ideen Dashboards:** siehe `NOTES.md` (u.a. 🔴 Server-Actions gegen IDOR härten, `companyId`-Null-Fall absichern).
 
 ## 7. Jira
 - Cloud `dmsbielefeld.atlassian.net`, Projekt-Key **`WEBAPP`** (Cloud-ID `5419d2dd-ed41-40d6-8e3c-3ac24fc99ea3`).
@@ -58,8 +71,9 @@
 - **Starkes ADHS:** zuerst einen **klaren Überblick** geben, dann kleine Schritte. **Kompakt & übersichtlich.**
 - **Der User will LERNEN, nicht stumpf copy-pasten.** Auch wenn du Code gibst: **das Warum erklären** und ihn die Kernteile **selbst tippen** lassen, damit er es versteht. Keine ganzen Dateien zum blinden Einfügen ohne Erklärung.
 
-## 9. Nächste Themen (heute beides, viel Zeit)
-1. **Phase 2 — E-Mail-System (WEBAPP-48):** WEBAPP-147 `sendEmail` (`lib/email.ts`) → 75 Auszahlungs-Mail → 76 Werkstatt-Mail → 40 Bestätigungs-Mail. (Dev-Versand via Mailtrap; echte Domain = Blocker.)
-2. **UI/UX-Update:** Optik überarbeiten, **Dark Mode entfernen** (NOTES.md). Konkretes kommt vom User.
+## 9. Nächste Themen
+1. **E-Mail-System (WEBAPP-48)** — nach dem Meeting (19.06) entscheiden, dann `lib/email.ts` mit `sendEmail({to,subject,html})` via **Mailtrap/nodemailer** (Dev-Creds in `.env.local`: `MAILTRAP_HOST/PORT/USER/PASS`, `EMAIL_FROM`). Danach 75 Auszahlungs- → 76 Werkstatt- → 40 Bestätigungs-Mail.
+2. **UI/UX-Update + Dark Mode raus** — User legt eigenes Epic an, Details kommen von ihm.
+3. **🔴 Server-Actions härten (aus NOTES):** `updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` prüfen nur Rolle, nicht Firma-Zugehörigkeit des Ziels.
 
-Reihenfolge mit dem User klären. Beide Themen sind unabhängig machbar.
+Reihenfolge mit dem User klären.
