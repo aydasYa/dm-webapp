@@ -1,6 +1,6 @@
 "use client"
 
-import { reviewCompanyAdmin } from "@/app/actions/auth"
+import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/auth"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -43,6 +43,7 @@ const STATUS_STYLE: Record<UserStatus, string> = {
 
 export function CompanyCard({ user }: { user: CompanyCardUser }) {
   const isPending = user.status === UserStatus.PENDING
+  const isInactive = user.status === UserStatus.INACTIVE
 
   return (
     <Card>
@@ -104,22 +105,38 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
       </Dialog>
 
       {/* Aktionen — bewusst AUSSERHALB des Triggers, damit der Klick nicht das Popup öffnet */}
-      {isPending && (
-        <CardContent className="pt-0">
-          <div className="flex justify-end gap-2">
-            <form action={reviewCompanyAdmin}>
-              <input type="hidden" name="userId" value={user.id} />
-              <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
-              <Button type="submit" size="sm">Freigeben</Button>
-            </form>
-            <form action={reviewCompanyAdmin}>
-              <input type="hidden" name="userId" value={user.id} />
-              <input type="hidden" name="newStatus" value={UserStatus.REJECTED} />
-              <Button type="submit" size="sm" variant="outline">Ablehnen</Button>
-            </form>
-          </div>
-        </CardContent>
-      )}
+      <CardContent className="pt-0">
+        <div className="flex justify-end gap-2">
+          {isPending ? (
+            <>
+              <form action={updateCompanyAdminStatus}>
+                <input type="hidden" name="userId" value={user.id} />
+                <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
+                <Button type="submit" size="sm">Freigeben</Button>
+              </form>
+              <form action={updateCompanyAdminStatus}>
+                <input type="hidden" name="userId" value={user.id} />
+                <input type="hidden" name="newStatus" value={UserStatus.REJECTED} />
+                <Button type="submit" size="sm" variant="outline">Ablehnen</Button>
+              </form>
+            </>
+          ) : (
+            <>
+              <form action={updateCompanyAdminStatus}>
+                <input type="hidden" name="userId" value={user.id} />
+                <input type="hidden" name="newStatus" value={isInactive ? UserStatus.ACTIVE : UserStatus.INACTIVE} />
+                <Button type="submit" size="sm" variant="outline">
+                  {isInactive ? "Aktivieren" : "Deaktivieren"}
+                </Button>
+              </form>
+              <form action={deleteCompanyAdmin}>
+                <input type="hidden" name="userId" value={user.id} />
+                <Button type="submit" size="sm" variant="destructive">Löschen</Button>
+              </form>
+            </>
+          )}
+        </div>
+      </CardContent>
     </Card>
   )
 }
