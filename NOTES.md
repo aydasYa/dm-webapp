@@ -39,3 +39,41 @@ Kein Blocker — nur damit nichts vergessen wird.
   - Option B: Toggle/Filter im Admin-Dashboard zwischen „Alle (Firma)" und „Nur meine".
   - Option C: in der Aggregat-Ansicht den Admin-Eintrag optisch hervorheben.
   → Entscheidung + Umsetzung offen.
+
+## 🚀 Verbesserungs-Ideen Dashboards (Fahrer / Admin / Super-Admin)
+
+Review-Ergebnis, nach Wichtigkeit sortiert. Für später.
+
+### 🔴 Sicherheit / Korrektheit (zuerst)
+
+- **Server-Actions gegen fremden Zugriff härten (IDOR).** `updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` prüfen nur „ist Admin?", nicht „gehört das Ziel zu *meiner* Firma?". Die Anzeige ist gefiltert, aber per selbstgebautem Request könnte ein Admin fremde Fahrer/Provisionen verändern. Fix: in jeder Action prüfen, dass das Ziel dieselbe `companyId` hat wie der Aufrufer.
+- **`companyId`-Null-Fall absichern.** Hat ein Admin (Altbestand) keine `companyId`, matchen die neuen Filter `companyId: null` → er sähe alle firmenlosen Datensätze. Lieber „kein Treffer" erzwingen, wenn `companyId` fehlt.
+
+### 🟠 Code-Gesundheit
+
+- **Login-/Rollen-Check zentralisieren.** Das Muster `getClaims` → `findUnique` → Rolle prüfen steht kopiert in ~8 Dateien. In einen Helper ziehen, z.B. `requireUser(role)` in `lib/auth.ts`.
+- **DB-Abfragen parallelisieren.** `AdminDashboard` macht 5 Abfragen nacheinander; mit `Promise.all([...])` laufen sie parallel → schneller. Gleiches im `SuperAdminDashboard`.
+- **Rollen-Enum statt String-Unions.** `DashboardShell`/`AppSidebar` nutzen hartkodierte Strings (`"ADMIN" | ...`). Besser den `Role`-Enum verwenden (kein Vertippen).
+
+### 🟡 UX / Funktion
+
+- **Lösch-Bestätigung.** „Löschen" ist aktuell ein Klick = weg. Bestätigungs-Dialog ergänzen.
+- **Lade-/Deaktiviert-Zustand bei Buttons** (`useFormStatus`) gegen Doppelklick / „passiert was?".
+- **Paginierung** für Fahrer-, Leads- und Provisions-Listen (bei vielen Einträgen langsam/unübersichtlich).
+- **`AuditLog` nutzen.** Model existiert, wird nicht beschrieben. Status-Änderungen/Freigaben/Löschungen protokollieren (wer, wann, wen).
+
+### 🟢 Offene Produkt-Fragen
+
+- **Abgelehnter Admin (`REJECTED`) ist final** — kein „doch freigeben"-Weg für den Super-Admin. Evtl. ergänzen.
+- **Echtes Löschen** (Supabase-Account + Fahrer der Firma) statt nur Soft-Delete — gilt für Fahrer *und* jetzt auch Firmen-Admins (`deleteCompanyAdmin`).
+
+## 🐞 Gefixte Bugs (Rollen-Session)
+
+- **Bug 1 — Jeder Admin sah die Daten aller Firmen.**
+  - *Kaputt:* Als Vogel-Abschlepper sah man auch Fahrer/Provisionen/Leads/QR-Codes von Aydas-Abschlepper. Jede Firma soll nur ihre eigenen Daten sehen.
+  - *Ursache:* Die DB-Abfragen fragten nur „ist der User ein Admin?" und luden *alle* Fahrer — die zweite Frage „...gehört der Fahrer zu seiner Firma?" fehlte. (Türsteher prüft „bist du Mitarbeiter?", aber nicht „arbeitest du in *diesem* Büro?".)
+  - *Wo & Fix:* Fünf Listen-Stellen — `users`, `qrcodes`, `commissions`, `leads`, Dashboard-Kacheln (`AdminDashboard`). Überall Filter „nur Datensätze mit meiner `companyId`" ergänzt.
+- **Bug 2 — Neue Firmen wurden als „Fahrer" statt „Admin" angelegt.**
+  - *Kaputt:* Bei der Registrierung eines Abschleppunternehmens bekam der User die Rolle `TOW_TRUCK_DRIVER`, obwohl er Firmen-Admin ist.
+  - *Ursache:* Im Registrierungs-Code stand fest `role: TOW_TRUCK_DRIVER` (Überbleibsel vom alten Aufbau ohne Rollen-Hierarchie).
+  - *Wo & Fix:* `app/actions/auth.ts`, `signup`-Funktion → `role: ADMIN` + `status: PENDING` (wartet auf Freigabe durch Super-Admin).
