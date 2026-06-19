@@ -1,27 +1,35 @@
-import { Card, CardContent } from "@/components/ui/card"
-import { LucideIcon } from "lucide-react"
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardAction,
+  CardFooter,
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
 
 type StatCardProps = {
-  title: string
+  label: string
   value: string
-  icon: LucideIcon
-  iconClassName?: string   // z.B. "bg-blue-100 text-blue-600"
-  trend?: string           // z.B. "↑ 16 % vs. Mai 2026"
+  trend?: string   // shown as a pill top-right, e.g. "↑ 150 € vs. Mai"
+  footer?: string  // optional muted line at the bottom
 }
 
-export function StatCard({ title, value, icon: Icon, iconClassName, trend }: StatCardProps) {
+export function StatCard({ label, value, trend, footer }: StatCardProps) {
   return (
     <Card>
-      <CardContent className="flex items-start gap-4 pt-6">
-        <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${iconClassName ?? "bg-muted text-foreground"}`}>
-          <Icon className="h-6 w-6" />
-        </div>
-        <div className="space-y-1">
-          <p className="text-sm text-muted-foreground">{title}</p>
-          <p className="text-3xl font-bold">{value}</p>
-          {trend && <p className="text-xs font-medium text-emerald-600">{trend}</p>}
-        </div>
-      </CardContent>
+      <CardHeader>
+        <CardDescription>{label}</CardDescription>
+        <CardTitle className="text-2xl font-bold tabular-nums">{value}</CardTitle>
+        {trend && (
+          <CardAction>
+            <Badge variant="outline">{trend}</Badge>
+          </CardAction>
+        )}
+      </CardHeader>
+      {footer && (
+        <CardFooter className="text-sm text-muted-foreground">{footer}</CardFooter>
+      )}
     </Card>
   )
 }

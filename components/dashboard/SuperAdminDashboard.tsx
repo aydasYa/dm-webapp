@@ -6,7 +6,6 @@ import Link from "next/link"
 import { StatCard } from "@/components/StatCard"
 import CompanyStatusChart from "@/components/CompanyStatusChart"
 import CompaniesChart from "@/components/CompaniesChart"
-import { Hourglass, CheckCircle2, Building2 } from "lucide-react"
 
 export default async function SuperAdminDashboard({ firstname }: { firstname: string }) {
   const pendingAdmins = await prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.PENDING } })
@@ -58,9 +57,9 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
       </div>
 
      <div className="grid gap-4 md:grid-cols-3">
-        <StatCard title="Warten auf Freigabe" value={String(pendingAdmins)} icon={Hourglass} />
-        <StatCard title="Aktive Unternehmen" value={String(activeAdmins)} icon={CheckCircle2} />
-        <StatCard title="Unternehmen gesamt" value={String(totalCompanies)} icon={Building2} trend={companyTrend} />
+        <StatCard label="Warten auf Freigabe" value={String(pendingAdmins)} />
+        <StatCard label="Aktive Unternehmen" value={String(activeAdmins)} />
+        <StatCard label="Unternehmen gesamt" value={String(totalCompanies)} trend={companyTrend} />
       </div>
 
       <div className="flex justify-around">

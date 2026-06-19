@@ -3,7 +3,6 @@ import { Role, UserStatus, CommissionStatus } from "@/src/generated/prisma/enums
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatCard } from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
-import { Wallet, Clock, CheckCircle2, UserCheck, UserX, Users, Hourglass } from "lucide-react"
 
 // Short, user-facing status labels (UI is German)
 const STATUS_LABEL: Record<UserStatus, string> = {
@@ -74,17 +73,17 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			<div>
 				<h2 className="font-semibold mb-2">Provisionen</h2>
 				<div className="grid gap-4 md:grid-cols-3">
-					<StatCard title="Gesamt" value={`${comSum.toFixed(2)} €`} icon={Wallet} trend={commissionTrend} />
-					<StatCard title="Offen" value={`${comOpen.toFixed(2)} €`} icon={Clock} />
-					<StatCard title="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} icon={CheckCircle2} />
+					<StatCard label="Gesamt" value={`${comSum.toFixed(2)} €`} trend={commissionTrend} />
+					<StatCard label="Offen" value={`${comOpen.toFixed(2)} €`} />
+					<StatCard label="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} />
 				</div>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<StatCard title="Aktive Abschlepper" value={String(totalActiveDrivers)} icon={UserCheck} />
-				<StatCard title="Inaktive Abschlepper" value={String(totalInactiveDrivers)} icon={UserX} />
-				<StatCard title="Alle registrierten" value={String(registeredDrivers)} icon={Users} />
-				<StatCard title="Warten auf Freigabe" value={String(pendingUsers)} icon={Hourglass} />
+				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} />
+				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} />
+				<StatCard label="Alle registrierten" value={String(registeredDrivers)} />
+				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} />
 			</div>
 
 			<div>

@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
-import { Wallet, Clock, CheckCircle2 } from "lucide-react"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -87,9 +86,9 @@ export default async function CommissionsOverview({
 			<div>
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
 				<div className="grid gap-4 md:grid-cols-3">
-					<StatCard title="Provision verdient" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} trend={trendProvision} />
-					<StatCard title="Offen" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} />
-					<StatCard title="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CheckCircle2} />
+					<StatCard label="Provision verdient" value={`${totalAmount.toFixed(2)} €`} trend={trendProvision} />
+					<StatCard label="Offen" value={`${pendingAmount.toFixed(2)} €`} />
+					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} />
 				</div>
 
 				<Card>
