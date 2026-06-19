@@ -8,7 +8,13 @@ import CommissionOverview from "@/components/CommissionOverview"
 
 export const dynamic = "force-dynamic"
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ driver?: string }>
+}) {
+  const { driver } = await searchParams
+
   const supabase = await createClient()
   const { data } = await supabase.auth.getClaims()
   if (!data?.claims) redirect("/login")
@@ -27,6 +33,6 @@ export default async function DashboardPage() {
   if (user.role === Role.SUPER_ADMIN) return <SuperAdminDashboard firstname={user.firstname} />
 
   return user.role === Role.ADMIN
-    ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} />
+    ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} selectedDriverId={driver} />
     : <CommissionOverview userId={user.id} isAdmin={false} />
 }
