@@ -4,7 +4,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import AppSidebar from "@/components/AppSidebar"
 
 type Props = {
-    role: "ADMIN" | "TOW_TRUCK_DRIVER"
+    role: "ADMIN" | "TOW_TRUCK_DRIVER" | "SUPER_ADMIN"
     firstname: string
     lastname: string
     children: React.ReactNode

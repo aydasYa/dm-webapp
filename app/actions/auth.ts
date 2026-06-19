@@ -157,6 +157,39 @@ export async function updateUserStatus(formData: FormData) {
   revalidatePath("/dashboard")
 }
 
+// Super-Admin-Aktion: Firmen-Admin freigeben (ACTIVE) oder ablehnen (REJECTED)
+// Eigene Action statt updateUserStatus, weil hier ein SUPER_ADMIN über ADMINs entscheidet
+export async function reviewCompanyAdmin(formData: FormData) {
+  // 1. Aufrufer muss Super-Admin sein – Server Actions sind öffentliche Endpunkte
+  const supabase = await createClient()
+  const { data: sessionData } = await supabase.auth.getClaims()
+  if (!sessionData?.claims) redirect('/login')
+
+  const caller = await prisma.user.findUnique({
+    where: { supabaseId: sessionData.claims.sub },
+    select: { role: true },
+  })
+  if (caller?.role !== Role.SUPER_ADMIN) throw new Error("Keine Berechtigung")
+
+  // 2. Eingaben lesen + auf erlaubte Statuswerte begrenzen
+  const userId = formData.get("userId") as string
+  const newStatus = formData.get("newStatus") as UserStatus
+  if (newStatus !== UserStatus.ACTIVE && newStatus !== UserStatus.REJECTED) {
+    throw new Error("Ungültiger Status")
+  }
+
+  // 3. Scope: es dürfen NUR Firmen-Admins so verändert werden (kein Fahrer, kein Super-Admin)
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { role: true } })
+  if (target?.role !== Role.ADMIN) throw new Error("Nur Firmen-Admins können freigegeben werden")
+
+  await prisma.user.update({
+    where: { id: userId },
+    data: { status: newStatus },
+  })
+
+  revalidatePath("/dashboard/companies")
+}
+
 // Admin-Aktion: neuen Fahrer anlegen + Einladungslink (Magic Link) verschicken
 // Der Fahrer wird sofort als Supabase-Account angelegt (noch ohne Passwort) und
 // bekommt per E-Mail einen Magic Link. Beim Öffnen setzt er sein Passwort selbst.
