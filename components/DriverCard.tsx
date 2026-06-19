@@ -31,15 +31,15 @@ export type DriverCardUser = {
 const STATUS_LABEL: Record<UserStatus, string> = {
   ACTIVE: "Aktiv",
   PENDING: "Ausstehend",
-  INACTIVE: "Pausiert",
-  REJECTED: "Abgelehnt",
+  INACTIVE: "Deaktiviert",
+  REJECTED: "Deaktiviert", // Fahrer werden nicht „abgelehnt" – nur deaktiviert
 }
 
 const STATUS_STYLE: Record<UserStatus, string> = {
   ACTIVE: "bg-emerald-100 text-emerald-800",
   PENDING: "bg-yellow-100 text-yellow-800",
   INACTIVE: "bg-gray-200 text-gray-700",
-  REJECTED: "bg-red-100 text-red-700",
+  REJECTED: "bg-gray-200 text-gray-700",
 }
 
 export function DriverCard({ user }: { user: DriverCardUser }) {
@@ -115,7 +115,7 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
             <input type="hidden" name="userId" value={user.id} />
             <input type="hidden" name="newStatus" value={isInactive ? "ACTIVE" : "INACTIVE"} />
             <Button type="submit" size="sm" variant="outline">
-              {isInactive ? "Reaktivieren" : "Sperren"}
+              {isInactive ? "Aktivieren" : "Deaktivieren"}
             </Button>
           </form>
           <form action={deleteDriver}>
