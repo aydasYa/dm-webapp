@@ -1,10 +1,9 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
-import { Role, UserStatus } from "@/src/generated/prisma/enums"
+import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { reviewCompanyAdmin } from "@/app/actions/auth"
+import { CompanyCard } from "@/components/CompanyCard"
 
 export const dynamic = "force-dynamic"
 
@@ -22,8 +21,11 @@ export default async function CompaniesPage() {
   const admins = await prisma.user.findMany({
     where: { role: Role.ADMIN, deletedAt: null },
     select: {
-      id: true, firstname: true, lastname: true, email: true,
-      status: true, companyName: true, createdAt: true,
+      id: true, firstname: true, lastname: true, email: true, phone: true,
+      status: true, createdAt: true,
+      companyName: true, companyAddress: true, companyPostcode: true,
+      companyCity: true, companyPhone: true, companyEmail: true, companyWebsite: true,
+      companyContactFirstname: true, companyContactLastname: true,
     },
     orderBy: { createdAt: "desc" },
   })
@@ -44,32 +46,7 @@ export default async function CompaniesPage() {
       ) : (
         <div className="flex flex-col gap-3">
           {admins.map((a) => (
-            <Card key={a.id}>
-              <CardContent className="flex flex-wrap items-center justify-between gap-4 pt-6">
-                <div>
-                  <p className="font-semibold">{a.companyName ?? "—"}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {a.firstname} {a.lastname} · {a.email}
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">Status: {a.status}</p>
-                </div>
-
-                {a.status === UserStatus.PENDING && (
-                  <div className="flex gap-2">
-                    <form action={reviewCompanyAdmin}>
-                      <input type="hidden" name="userId" value={a.id} />
-                      <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
-                      <Button type="submit" size="sm">Freigeben</Button>
-                    </form>
-                    <form action={reviewCompanyAdmin}>
-                      <input type="hidden" name="userId" value={a.id} />
-                      <input type="hidden" name="newStatus" value={UserStatus.REJECTED} />
-                      <Button type="submit" size="sm" variant="outline">Ablehnen</Button>
-                    </form>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <CompanyCard key={a.id} user={a} />
           ))}
         </div>
       )}
