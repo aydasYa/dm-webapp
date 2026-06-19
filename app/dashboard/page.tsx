@@ -15,10 +15,11 @@ export default async function DashboardPage() {
 
   const user = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
-    select: { 
-      id: true, 
-      firstname: true, 
-      role: true 
+    select: {
+      id: true,
+      firstname: true,
+      role: true,
+      companyId: true,
     },
   })
   if (!user) redirect("/login")
@@ -26,6 +27,6 @@ export default async function DashboardPage() {
   if (user.role === Role.SUPER_ADMIN) return <SuperAdminDashboard firstname={user.firstname} />
 
   return user.role === Role.ADMIN
-    ? <AdminDashboard firstname={user.firstname} />
+    ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} />
     : <CommissionOverview userId={user.id} isAdmin={false} />
 }

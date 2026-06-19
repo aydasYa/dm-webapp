@@ -38,7 +38,7 @@ export default async function LeadsPage({
 
   const user = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
-    select: { id: true, role: true },
+    select: { id: true, role: true, companyId: true },
   })
   if (!user) redirect("/login")
 
@@ -47,7 +47,8 @@ export default async function LeadsPage({
   const leads = await prisma.lead.findMany({
     where: {
       deletedAt: null,
-      ...(isAdmin ? {} : { towTruckDriverId: user.id }),
+      // Admin sieht alle Leads SEINER Firma (über den Fahrer), Driver nur eigene
+      ...(isAdmin ? { towTruckDriver: { companyId: user.companyId } } : { towTruckDriverId: user.id }),
       ...(status ? { status: status as LeadStatus } : {}),
       ...(q ? {
         OR: [

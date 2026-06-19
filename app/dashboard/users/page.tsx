@@ -24,12 +24,13 @@ export default async function UsersPage() {
 
   const caller = await prisma.user.findUnique({
     where: { supabaseId: data.claims.sub },
-    select: { role: true },
+    select: { role: true, companyId: true },
   })
   if (caller?.role !== Role.ADMIN) redirect("/dashboard")
 
   const drivers = await prisma.user.findMany({
-    where: { role: Role.TOW_TRUCK_DRIVER, deletedAt: null },
+    // Nur Fahrer der EIGENEN Firma (Mandanten-Trennung)
+    where: { role: Role.TOW_TRUCK_DRIVER, deletedAt: null, companyId: caller.companyId },
     select: USER_SELECT,
     orderBy: { createdAt: "desc" },
   })

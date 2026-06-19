@@ -15,18 +15,20 @@ export default async function QrCodesPage() {
 
     const caller = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { role: true, 
-            id: true, 
+        select: { role: true,
+            id: true,
             firstname: true,
             lastname: true,
             qrCode: true,
             companyName: true,
+            companyId: true,
         },
     })
     if (caller?.role !== Role.ADMIN) redirect("/dashboard")
 
     const drivers = await prisma.user.findMany({
-        where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE },
+        // Nur Fahrer der EIGENEN Firma (Mandanten-Trennung)
+        where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId: caller.companyId },
         select: {
             id: true,
             firstname: true,

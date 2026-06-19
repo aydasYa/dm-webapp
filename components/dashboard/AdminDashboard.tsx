@@ -2,14 +2,15 @@ import prisma from "@/lib/prisma"
 import { Role, UserStatus, CommissionStatus } from "@/src/generated/prisma/enums"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
-export default async function AdminDashboard({ firstname }: { firstname: string }) {
-	const totalActiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE } })
-	const totalInactiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE } })
-	const registeredDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER } })
-	const pendingUsers = await prisma.user.count({ where: { status: UserStatus.PENDING } })
+export default async function AdminDashboard({ firstname, companyId }: { firstname: string; companyId: string | null }) {
+	// Alle Kennzahlen nur für die EIGENE Firma (Mandanten-Trennung)
+	const totalActiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId } })
+	const totalInactiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE, companyId } })
+	const registeredDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, companyId } })
+	const pendingUsers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.PENDING, companyId } })
 
-	// Calculate the Commission
-	const commissions = await prisma.commission.findMany({ select: { amount: true, status: true } })
+	// Calculate the Commission – nur Fahrer der eigenen Firma
+	const commissions = await prisma.commission.findMany({ where: { towTruckDriver: { companyId } }, select: { amount: true, status: true } })
 	const comSum = commissions.reduce((s, c) => s + Number(c.amount), 0)
 	const comOpen = commissions.filter(c => c.status === CommissionStatus.PENDING).reduce((s, c) => s + Number(c.amount), 0)
 	const comPaid = commissions.filter(c => c.status === CommissionStatus.PAID).reduce((s, c) => s + Number(c.amount), 0)

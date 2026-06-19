@@ -24,15 +24,15 @@ export default async function CommissionsPage() {
 
 	const user = await prisma.user.findUnique({
 		where: { supabaseId: data.claims.sub },
-		select: { id: true, role: true },
+		select: { id: true, role: true, companyId: true },
 	})
 	if (!user) redirect("/login")
 
 	const isAdmin = user.role === Role.ADMIN
 
-	// Admin sieht alle, Driver nur eigene
+	// Admin sieht alle Provisionen SEINER Firma (über den Fahrer), Driver nur eigene
 	const commissions = await prisma.commission.findMany({
-		where: isAdmin ? {} : { towTruckDriverId: user.id },
+		where: isAdmin ? { towTruckDriver: { companyId: user.companyId } } : { towTruckDriverId: user.id },
 		include: {
 			lead: {
 				select: { customerLastName: true, vehicleMake: true, vehicleModel: true },
