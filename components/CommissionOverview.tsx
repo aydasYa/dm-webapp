@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
+import { StatCard } from "@/components/StatCard"
+import { Wallet, Clock, CheckCircle2 } from "lucide-react"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -48,6 +50,8 @@ export default async function CommissionsOverview({
 		.filter((c) => c.status === CommissionStatus.PAID)
 		.reduce((sum, c) => sum + Number(c.amount), 0)
 
+
+
 	// Chart-Daten: Provision pro Monat (dieses Jahr)
 	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 	const currentYear = new Date().getFullYear()
@@ -59,6 +63,20 @@ export default async function CommissionsOverview({
 		return { month, amount: monthTotal }
 	})
 
+	// Provision diesen Monat vs. Vormonat
+	const now = new Date()
+	const sumForMonth = (year: number, month: number) =>
+		summaryCommissions
+			.filter((c) => c.createdAt.getFullYear() === year && c.createdAt.getMonth() === month)
+			.reduce((sum, c) => sum + Number(c.amount), 0)
+
+	const thisMonthSum = sumForMonth(now.getFullYear(), now.getMonth())
+	const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+	const lastMonthSum = sumForMonth(lastMonthDate.getFullYear(), lastMonthDate.getMonth())
+
+	const diff = thisMonthSum - lastMonthSum
+	const trendProvision = `${diff >= 0 ? "↑" : "↓"} ${Math.abs(diff).toFixed(0)} € vs. ${monthNames[lastMonthDate.getMonth()]}`
+
 	// Gesamtsaldo dieses Jahr (Driver-Sicht)
 	const yearStart = new Date(new Date().getFullYear(), 0, 1)
 	const thisYearCommissions = summaryCommissions.filter((c) => c.createdAt >= yearStart)
@@ -69,30 +87,9 @@ export default async function CommissionsOverview({
 			<div>
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
 				<div className="grid gap-4 md:grid-cols-3">
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Gesamt</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{totalAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Offen (Pending)</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{pendingAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Ausbezahlt</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{paidAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
+					<StatCard title="Provision verdient" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} trend={trendProvision} />
+					<StatCard title="Offen" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} />
+					<StatCard title="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CheckCircle2} />
 				</div>
 
 				<Card>
