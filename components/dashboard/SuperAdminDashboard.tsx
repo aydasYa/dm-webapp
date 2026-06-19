@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { StatCard } from "@/components/StatCard"
-import CompanyStatusChart from "@/components/CompanyStatusChart"
+import DonutChart from "@/components/DonutChart"
 import CompaniesChart from "@/components/CompaniesChart"
 
 export default async function SuperAdminDashboard({ firstname }: { firstname: string }) {
@@ -71,7 +71,7 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
             {statusData.length === 0 ? (
               <p className="text-center text-muted-foreground">Noch keine Unternehmen</p>
             ) : (
-              <CompanyStatusChart data={statusData} />
+              <DonutChart data={statusData} />
             )}
           </CardContent>
         </Card>

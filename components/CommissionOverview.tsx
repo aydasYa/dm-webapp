@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
+import DonutChart from "@/components/DonutChart"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -48,6 +49,20 @@ export default async function CommissionsOverview({
 	const paidAmount = summaryCommissions
 		.filter((c) => c.status === CommissionStatus.PAID)
 		.reduce((sum, c) => sum + Number(c.amount), 0)
+	const approvedAmount = summaryCommissions
+		.filter((c) => c.status === CommissionStatus.APPROVED)
+		.reduce((sum, c) => sum + Number(c.amount), 0)
+	const rejectedAmount = summaryCommissions
+		.filter((c) => c.status === CommissionStatus.REJECTED)
+		.reduce((sum, c) => sum + Number(c.amount), 0)
+
+	// Commission distribution by status for the donut (amounts, color per slice)
+	const provisionStatusData = [
+		{ name: "Offen", value: Math.round(pendingAmount), color: "#ca8a04" },
+		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "#2563eb" },
+		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "#059669" },
+		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "#dc2626" },
+	].filter((d) => d.value > 0)
 
 
 
@@ -99,6 +114,19 @@ export default async function CommissionsOverview({
 					</CardHeader>
 					<CardContent>
 						<CommissionsChart data={chartData} />
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
+					</CardHeader>
+					<CardContent>
+						{provisionStatusData.length === 0 ? (
+							<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
+						) : (
+							<DonutChart data={provisionStatusData} unit="€" />
+						)}
 					</CardContent>
 				</Card>
 				<p className="text-muted-foreground">

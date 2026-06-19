@@ -3,6 +3,8 @@ import { Role, UserStatus, CommissionStatus } from "@/src/generated/prisma/enums
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatCard } from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
+import DonutChart from "@/components/DonutChart"
+import CommissionsChart from "@/components/CommissionsChart"
 
 // Short, user-facing status labels (UI is German)
 const STATUS_LABEL: Record<UserStatus, string> = {
@@ -36,6 +38,8 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 	const comSum = commissions.reduce((s, c) => s + Number(c.amount), 0)
 	const comOpen = commissions.filter(c => c.status === CommissionStatus.PENDING).reduce((s, c) => s + Number(c.amount), 0)
 	const comPaid = commissions.filter(c => c.status === CommissionStatus.PAID).reduce((s, c) => s + Number(c.amount), 0)
+	const comApproved = commissions.filter(c => c.status === CommissionStatus.APPROVED).reduce((s, c) => s + Number(c.amount), 0)
+	const comRejected = commissions.filter(c => c.status === CommissionStatus.REJECTED).reduce((s, c) => s + Number(c.amount), 0)
 
 	// Month-over-month commission trend (respects the driver filter above)
 	const now = new Date()
@@ -48,6 +52,24 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 	const lastMonthSum = sumForMonth(lastMonth.getFullYear(), lastMonth.getMonth())
 	const diff = thisMonthSum - lastMonthSum
 	const commissionTrend = `${diff >= 0 ? "↑" : "↓"} ${Math.abs(diff).toFixed(0)} € vs. ${lastMonth.toLocaleDateString("de-DE", { month: "short" })}`
+
+	// Commission per month (current year) for the bar chart
+	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
+	const currentYear = now.getFullYear()
+	const chartData = monthNames.map((month, idx) => ({
+		month,
+		amount: commissions
+			.filter(c => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
+			.reduce((s, c) => s + Number(c.amount), 0),
+	}))
+
+	// Commission distribution by status for the donut (amounts, color per slice)
+	const provisionStatusData = [
+		{ name: "Offen", value: Math.round(comOpen), color: "#ca8a04" },
+		{ name: "Genehmigt", value: Math.round(comApproved), color: "#2563eb" },
+		{ name: "Ausbezahlt", value: Math.round(comPaid), color: "#059669" },
+		{ name: "Abgelehnt", value: Math.round(comRejected), color: "#dc2626" },
+	].filter((d) => d.value > 0)
 
 	return (
 		<div className="space-y-6">
@@ -77,6 +99,29 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 					<StatCard label="Offen" value={`${comOpen.toFixed(2)} €`} />
 					<StatCard label="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} />
 				</div>
+			</div>
+
+			<div className="grid gap-4 md:grid-cols-2">
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<CommissionsChart data={chartData} />
+					</CardContent>
+				</Card>
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
+					</CardHeader>
+					<CardContent>
+						{provisionStatusData.length === 0 ? (
+							<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
+						) : (
+							<DonutChart data={provisionStatusData} unit="€" />
+						)}
+					</CardContent>
+				</Card>
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

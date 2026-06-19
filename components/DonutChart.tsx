@@ -3,12 +3,12 @@
 import { Pie, PieChart, Cell } from "recharts"
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart"
 
-// Each slice carries its own color so filtering out zero-values keeps colors aligned
+// Generic donut: each slice carries its own color so filtering out zeros keeps colors aligned
 type Slice = { name: string; value: number; color: string }
 
-const chartConfig = { value: { label: "Unternehmen" } } satisfies ChartConfig
+const chartConfig = { value: { label: "Wert" } } satisfies ChartConfig
 
-export default function CompanyStatusChart({ data }: { data: Slice[] }) {
+export default function DonutChart({ data, unit }: { data: Slice[]; unit?: string }) {
   const total = data.reduce((sum, d) => sum + d.value, 0)
 
   return (
@@ -29,7 +29,8 @@ export default function CompanyStatusChart({ data }: { data: Slice[] }) {
             <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: d.color }} />
             <span className="font-medium">{d.name}</span>
             <span className="text-muted-foreground">
-              {d.value}{total > 0 ? ` (${Math.round((d.value / total) * 100)} %)` : ""}
+              {d.value.toLocaleString("de-DE")}{unit ? ` ${unit}` : ""}
+              {total > 0 ? ` (${Math.round((d.value / total) * 100)} %)` : ""}
             </span>
           </li>
         ))}
