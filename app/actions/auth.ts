@@ -312,10 +312,12 @@ export async function setPassword(formData: FormData) {
     redirect('/auth/set-password?error=update_failed')
   }
 
-  await prisma.user.update({
+  const user = await prisma.user.update({
     where: { supabaseId: data.claims.sub },
     data: { status: UserStatus.ACTIVE },
   })
+
+  await createQrCode(user.id);
 
   redirect('/dashboard')
 }
