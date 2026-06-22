@@ -56,13 +56,13 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
         </Button>
       </div>
 
-     <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-3">
         <StatCard label="Warten auf Freigabe" value={String(pendingAdmins)} />
         <StatCard label="Aktive Unternehmen" value={String(activeAdmins)} />
         <StatCard label="Unternehmen gesamt" value={String(totalCompanies)} trend={companyTrend} />
       </div>
 
-      <div className="flex justify-around">
+      <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle className="text-base font-semibold">Unternehmen nach Status</CardTitle>
