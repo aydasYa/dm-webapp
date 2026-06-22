@@ -13,6 +13,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, Users, QrCode, User, LogOut, Euro, Building2 } from "lucide-react"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { signout } from "@/app/actions/auth"
 import Link from "next/link"
 import Image from "next/image"
@@ -26,6 +27,7 @@ type Props = {
 
 export default function AppSidebar({ role, firstname, lastname }: Props) {
   const pathname = usePathname()
+  const initials = `${firstname?.[0] ?? ""}${lastname?.[0] ?? ""}`.toUpperCase()
 
   // Menü-Einträge je nach Rolle
   const superAdminItems = [
@@ -63,7 +65,6 @@ return (
             className="h-10 w-auto object-contain"
           />
         </Link>
-        <p className="text-xs text-muted-foreground">{firstname} {lastname}</p>
       </div>
     </SidebarHeader>
     <SidebarContent>
@@ -86,6 +87,12 @@ return (
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
+      <div className="flex items-center gap-2 px-2 py-1.5">
+        <Avatar size="sm">
+          <AvatarFallback>{initials}</AvatarFallback>
+        </Avatar>
+        <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
+      </div>
       <form action={signout}>
         <SidebarMenu>
           <SidebarMenuItem>
