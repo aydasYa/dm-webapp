@@ -11,9 +11,9 @@ export const dynamic = "force-dynamic"
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: Promise<{ driver?: string }>
+  searchParams: Promise<{ driver?: string; preset?: string; from?: string; to?: string }>
 }) {
-  const { driver } = await searchParams
+  const { driver, preset, from, to } = await searchParams
 
   const supabase = await createClient()
   const { data } = await supabase.auth.getClaims()
@@ -34,5 +34,5 @@ export default async function DashboardPage({
 
   return user.role === Role.ADMIN
     ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} selectedDriverId={driver} />
-    : <CommissionOverview userId={user.id} isAdmin={false} />
+    : <CommissionOverview userId={user.id} isAdmin={false} preset={preset} from={from} to={to} />
 }

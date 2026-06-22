@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
 import DonutChart from "@/components/DonutChart"
+import DateRangeFilter from "@/components/DateRangeFilter"
+import { resolveRange, inRange } from "@/lib/dateRange"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -18,9 +20,15 @@ const statusStyles: Record<string, string> = {
 export default async function CommissionsOverview({
 	userId,
 	isAdmin,
+	preset,
+	from,
+	to,
 }: {
 	userId: string
 	isAdmin: boolean
+	preset?: string
+	from?: string
+	to?: string
 }) {
 
 
@@ -40,7 +48,10 @@ export default async function CommissionsOverview({
 		orderBy: { createdAt: "desc" },
 	})
 
-	const summaryCommissions = commissions
+	// KPIs/Donut/Liste folgen dem Zeitraum; Chart + Trend bleiben ungefiltert
+	const range = resolveRange(preset, from, to)
+	const ranged = commissions.filter((c) => inRange(c.createdAt, range))
+	const summaryCommissions = ranged
 
 	const totalAmount = summaryCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
 	const pendingAmount = summaryCommissions
@@ -71,7 +82,7 @@ export default async function CommissionsOverview({
 	const currentYear = new Date().getFullYear()
 
 	const chartData = monthNames.map((month, idx) => {
-		const monthTotal = summaryCommissions
+		const monthTotal = commissions
 			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
 			.reduce((sum, c) => sum + Number(c.amount), 0)
 		return { month, amount: monthTotal }
@@ -80,7 +91,7 @@ export default async function CommissionsOverview({
 	// Provision diesen Monat vs. Vormonat
 	const now = new Date()
 	const sumForMonth = (year: number, month: number) =>
-		summaryCommissions
+		commissions
 			.filter((c) => c.createdAt.getFullYear() === year && c.createdAt.getMonth() === month)
 			.reduce((sum, c) => sum + Number(c.amount), 0)
 
@@ -93,13 +104,16 @@ export default async function CommissionsOverview({
 
 	// Gesamtsaldo dieses Jahr (Driver-Sicht)
 	const yearStart = new Date(new Date().getFullYear(), 0, 1)
-	const thisYearCommissions = summaryCommissions.filter((c) => c.createdAt >= yearStart)
+	const thisYearCommissions = commissions.filter((c) => c.createdAt >= yearStart)
 	const totalThisYear = thisYearCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
 
 	return (
 		<div className="space-y-6">
 			<div>
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
+				<div className="mt-4">
+					<DateRangeFilter preset={preset} from={from} to={to} />
+				</div>
 				<div className="grid gap-4 md:grid-cols-3">
 					<StatCard label="Provision verdient" value={`${totalAmount.toFixed(2)} €`} trend={trendProvision} />
 					<StatCard label="Offen" value={`${pendingAmount.toFixed(2)} €`} />
@@ -131,12 +145,12 @@ export default async function CommissionsOverview({
 				</Card>
 				<p className="text-muted-foreground">
 					{isAdmin
-						? `${commissions.length} Einträge insgesamt`
+						? `${summaryCommissions.length} Einträge insgesamt`
 						: `Gesamtsaldo dieses Jahr: ${totalThisYear.toFixed(2)} €`}
 				</p>
 			</div>
 
-			{commissions.length === 0 ? (
+			{summaryCommissions.length === 0 ? (
 				<Card>
 					<CardContent className="pt-6">
 						<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
@@ -144,7 +158,7 @@ export default async function CommissionsOverview({
 				</Card>
 			) : (
 				<div className="flex flex-col gap-3">
-					{commissions.map((c) => (
+					{summaryCommissions.map((c) => (
 						<Card key={c.id}>
 							<CardHeader>
 								<div className="flex items-center justify-between">
