@@ -7,6 +7,10 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
+import { StatCard } from "@/components/StatCard"
+import DonutChart from "@/components/DonutChart"
+import DateRangeFilter from "@/components/DateRangeFilter"
+import { resolveRange, inRange } from "@/lib/dateRange"
 
 export const dynamic = "force-dynamic"
 
@@ -17,7 +21,12 @@ const statusStyles: Record<string, string> = {
 	REJECTED: "bg-red-100 text-red-700 ring-red-200",
 }
 
-export default async function CommissionsPage() {
+export default async function CommissionsPage({
+	searchParams,
+}: {
+	searchParams: Promise<{ preset?: string; from?: string; to?: string }>
+}) {
+	const { preset, from, to } = await searchParams
 	const supabase = await createClient()
 	const { data } = await supabase.auth.getClaims()
 	if (!data?.claims) redirect("/login")
@@ -46,7 +55,10 @@ export default async function CommissionsPage() {
 		orderBy: { createdAt: "desc" },
 	})
 
-	const summaryCommissions = commissions
+	// KPIs/Donut/Liste folgen dem Zeitraum; der Jahres-Chart bleibt ungefiltert
+	const range = resolveRange(preset, from, to)
+	const ranged = commissions.filter((c) => inRange(c.createdAt, range))
+	const summaryCommissions = ranged
 
 	const totalAmount = summaryCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
 	const pendingAmount = summaryCommissions
@@ -55,13 +67,27 @@ export default async function CommissionsPage() {
 	const paidAmount = summaryCommissions
 		.filter((c) => c.status === CommissionStatus.PAID)
 		.reduce((sum, c) => sum + Number(c.amount), 0)
+	const approvedAmount = summaryCommissions
+		.filter((c) => c.status === CommissionStatus.APPROVED)
+		.reduce((sum, c) => sum + Number(c.amount), 0)
+	const rejectedAmount = summaryCommissions
+		.filter((c) => c.status === CommissionStatus.REJECTED)
+		.reduce((sum, c) => sum + Number(c.amount), 0)
+
+	// Commission distribution by status for the donut (amounts, color per slice)
+	const provisionStatusData = [
+		{ name: "Offen", value: Math.round(pendingAmount), color: "#ca8a04" },
+		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "#2563eb" },
+		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "#059669" },
+		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "#dc2626" },
+	].filter((d) => d.value > 0)
 
 	// Chart-Daten: Provision pro Monat (dieses Jahr)
 	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 	const currentYear = new Date().getFullYear()
 
 	const chartData = monthNames.map((month, idx) => {
-		const monthTotal = summaryCommissions
+		const monthTotal = commissions
 			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
 			.reduce((sum, c) => sum + Number(c.amount), 0)
 		return { month, amount: monthTotal }
@@ -69,38 +95,20 @@ export default async function CommissionsPage() {
 
 	// Gesamtsaldo dieses Jahr (Driver-Sicht)
 	const yearStart = new Date(new Date().getFullYear(), 0, 1)
-	const thisYearCommissions = summaryCommissions.filter((c) => c.createdAt >= yearStart)
+	const thisYearCommissions = commissions.filter((c) => c.createdAt >= yearStart)
 	const totalThisYear = thisYearCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
 
 	return (
 		<div className="space-y-6">
 			<div>
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
+				<div className="mt-4">
+					<DateRangeFilter preset={preset} from={from} to={to} />
+				</div>
 				<div className="grid gap-4 md:grid-cols-3">
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Gesamt</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{totalAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Offen (Pending)</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{pendingAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
-					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Ausbezahlt</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-2xl font-bold">{paidAmount.toFixed(2)} €</p>
-						</CardContent>
-					</Card>
+					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} />
+					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} />
+					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} />
 				</div>
 
 				<Card>
@@ -113,14 +121,27 @@ export default async function CommissionsPage() {
 						<CommissionsChart data={chartData} />
 					</CardContent>
 				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
+					</CardHeader>
+					<CardContent>
+						{provisionStatusData.length === 0 ? (
+							<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
+						) : (
+							<DonutChart data={provisionStatusData} unit="€" />
+						)}
+					</CardContent>
+				</Card>
 				<p className="text-muted-foreground">
 					{isAdmin
-						? `${commissions.length} Einträge insgesamt`
+						? `${summaryCommissions.length} Einträge insgesamt`
 						: `Gesamtsaldo dieses Jahr: ${totalThisYear.toFixed(2)} €`}
 				</p>
 			</div>
 
-			{commissions.length === 0 ? (
+			{summaryCommissions.length === 0 ? (
 				<Card>
 					<CardContent className="pt-6">
 						<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
@@ -128,7 +149,7 @@ export default async function CommissionsPage() {
 				</Card>
 			) : (
 				<div className="flex flex-col gap-3">
-					{commissions.map((c) => (
+					{summaryCommissions.map((c) => (
 						<Card key={c.id}>
 							<CardHeader>
 								<div className="flex items-center justify-between">
