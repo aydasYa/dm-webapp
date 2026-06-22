@@ -77,3 +77,17 @@ Review-Ergebnis, nach Wichtigkeit sortiert. Für später.
   - *Kaputt:* Bei der Registrierung eines Abschleppunternehmens bekam der User die Rolle `TOW_TRUCK_DRIVER`, obwohl er Firmen-Admin ist.
   - *Ursache:* Im Registrierungs-Code stand fest `role: TOW_TRUCK_DRIVER` (Überbleibsel vom alten Aufbau ohne Rollen-Hierarchie).
   - *Wo & Fix:* `app/actions/auth.ts`, `signup`-Funktion → `role: ADMIN` + `status: PENDING` (wartet auf Freigabe durch Super-Admin).
+
+## 📌 Als Nächstes: WEBAPP-181 — Kurz-Link QR (wartet auf Mentor-Freigabe)
+
+Ziel: Route `/r/[code]` leitet auf die Angebotsseite mit UTM-Parametern weiter (statt QR mit langer UTM-URL). Vorteile: kürzerer/sauberer Link, Ziel später änderbar ohne neuen QR, Scans optional zählbar. Dazu QR-Karte in der Sidebar (Mini-QR + Link).
+
+Offene Entscheidung (Mentor muss absegnen) — Code im Link:
+- **Echter Kurz-Code (empfohlen):** neues kurzes Feld am `User` (z.B. 6 Zeichen), Link wie `/r/ab3k9z`. Kurz/professionell, druck-/teilbar, interne ID verborgen. **Braucht Prisma-Migration** + Code-Generierung.
+- **User-ID als Code (ohne Migration):** Route `/r/[userId]`, sofort fertig, kein DB-Change. Nachteil: langer/kryptischer Link, interne ID öffentlich.
+
+Umsetzungs-Skizze (nach Freigabe von Variante 1):
+1. Schema: `User.shortCode String? @unique` → `pnpm prisma migrate dev --name add_user_short_code` → Dev-Server neu starten.
+2. `createQrCode` (`app/actions/auth.ts`): Code generieren (falls leer), `qrCode` = `${APP_URL}/r/${shortCode}` speichern.
+3. Route `app/r/[code]/route.ts` (GET): User per `shortCode` finden → 302-Redirect auf `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${companyId}` (optional QRScan loggen).
+4. QR-Karte in der Sidebar: `qrCode` an `AppSidebar` durchreichen (über `dashboard/layout.tsx` → `DashboardShell`), Mini-`QRCodeSVG` + Link anzeigen (Fahrer + Admin).
