@@ -5,6 +5,7 @@ import { StatCard } from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
 import DonutChart from "@/components/DonutChart"
 import CommissionsChart from "@/components/CommissionsChart"
+import { getCommissions } from "@/lib/getCommissions"
 
 // Short, user-facing status labels (UI is German)
 const STATUS_LABEL: Record<UserStatus, string> = {
@@ -14,7 +15,7 @@ const STATUS_LABEL: Record<UserStatus, string> = {
 	REJECTED: "Abgelehnt",
 }
 
-export default async function AdminDashboard({ firstname, companyId, selectedDriverId }: { firstname: string; companyId: string | null; selectedDriverId?: string }) {
+export default async function AdminDashboard({ firstname, companyId, selectedDriverId, adminId, adminName }: { firstname: string; companyId: string | null; selectedDriverId?: string; adminId: string; adminName: string }) {
 	// Drivers of this company (for the filter dropdown)
 	const drivers = await prisma.user.findMany({
 		where: { role: Role.TOW_TRUCK_DRIVER, companyId, deletedAt: null },
@@ -22,19 +23,19 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		orderBy: { firstname: "asc" },
 	})
 
-	// If a driver is selected: only their commissions, otherwise the whole company
-	const commissionWhere = selectedDriverId
-		? { towTruckDriverId: selectedDriverId }
-		: { towTruckDriver: { companyId } }
-
 	// All metrics scoped to the caller's own company (tenant isolation)
 	const totalActiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId } })
 	const totalInactiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE, companyId } })
 	const registeredDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, companyId } })
 	const pendingUsers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.PENDING, companyId } })
 
-	// Commission totals (filtered by selected driver, or whole company)
-	const commissions = await prisma.commission.findMany({ where: commissionWhere, select: { amount: true, status: true, createdAt: true } })
+	// Commission totals from the JSON source (Salesforce simulation), scoped to company + optional driver
+	const commissionRecords = await getCommissions({ companyId: companyId ?? "", driverId: selectedDriverId })
+	const commissions = commissionRecords.map((r) => ({
+		amount: r.amount,
+		status: r.status as string,
+		createdAt: new Date(r.createdAt),
+	}))
 	const comSum = commissions.reduce((s, c) => s + Number(c.amount), 0)
 	const comOpen = commissions.filter(c => c.status === CommissionStatus.PENDING).reduce((s, c) => s + Number(c.amount), 0)
 	const comPaid = commissions.filter(c => c.status === CommissionStatus.PAID).reduce((s, c) => s + Number(c.amount), 0)
@@ -84,6 +85,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 					<label htmlFor="driver" className="text-sm font-medium">Fahrer</label>
 					<select id="driver" name="driver" defaultValue={selectedDriverId ?? ""} className="h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm">
 						<option value="">Alle Fahrer</option>
+						<option value={adminId}>{adminName} (Inhaber)</option>
 						{drivers.map((d) => (
 							<option key={d.id} value={d.id}>{d.firstname} {d.lastname}</option>
 						))}
