@@ -1,16 +1,14 @@
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
-import { Role, CommissionStatus } from "@/src/generated/prisma/enums"
-import { approveCommission, markCommissionAsPaid } from "@/app/actions/commissions"
-import { Button } from "@/components/ui/button"
+import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
 import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { resolveRange, inRange } from "@/lib/dateRange"
+import { getCommissions } from "@/lib/getCommissions"
 
 export const dynamic = "force-dynamic"
 
@@ -39,42 +37,30 @@ export default async function CommissionsPage({
 
 	const isAdmin = user.role === Role.ADMIN
 
-	// Admin sieht alle Provisionen SEINER Firma (über den Fahrer), Driver nur eigene
-	const commissions = await prisma.commission.findMany({
-		where: isAdmin ? { towTruckDriver: { companyId: user.companyId } } : { towTruckDriverId: user.id },
-		include: {
-			lead: {
-				select: { customerLastName: true, vehicleMake: true, vehicleModel: true },
-			},
-			...(isAdmin && {
-				towTruckDriver: {
-					select: { firstname: true, lastname: true, companyName: true },
-				},
-			}),
-		},
-		orderBy: { createdAt: "desc" },
+	// Provisionen aus der JSON (Salesforce-Simulation): Admin = ganze Firma, Fahrer = nur eigene
+	const records = await getCommissions({
+		companyId: user.companyId ?? "",
+		driverId: isAdmin ? undefined : user.id,
 	})
+	const commissions = records.map((r) => ({
+		id: r.id,
+		amount: r.amount,
+		status: r.status as string,
+		driverName: r.driverName,
+		createdAt: new Date(r.createdAt),
+	}))
 
 	// KPIs/Donut/Liste folgen dem Zeitraum; der Jahres-Chart bleibt ungefiltert
 	const range = resolveRange(preset, from, to)
-	const ranged = commissions.filter((c) => inRange(c.createdAt, range))
-	const summaryCommissions = ranged
+	const summaryCommissions = commissions.filter((c) => inRange(c.createdAt, range))
 
-	const totalAmount = summaryCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
-	const pendingAmount = summaryCommissions
-		.filter((c) => c.status === CommissionStatus.PENDING)
-		.reduce((sum, c) => sum + Number(c.amount), 0)
-	const paidAmount = summaryCommissions
-		.filter((c) => c.status === CommissionStatus.PAID)
-		.reduce((sum, c) => sum + Number(c.amount), 0)
-	const approvedAmount = summaryCommissions
-		.filter((c) => c.status === CommissionStatus.APPROVED)
-		.reduce((sum, c) => sum + Number(c.amount), 0)
-	const rejectedAmount = summaryCommissions
-		.filter((c) => c.status === CommissionStatus.REJECTED)
-		.reduce((sum, c) => sum + Number(c.amount), 0)
+	const totalAmount = summaryCommissions.reduce((sum, c) => sum + c.amount, 0)
+	const pendingAmount = summaryCommissions.filter((c) => c.status === "PENDING").reduce((sum, c) => sum + c.amount, 0)
+	const paidAmount = summaryCommissions.filter((c) => c.status === "PAID").reduce((sum, c) => sum + c.amount, 0)
+	const approvedAmount = summaryCommissions.filter((c) => c.status === "APPROVED").reduce((sum, c) => sum + c.amount, 0)
+	const rejectedAmount = summaryCommissions.filter((c) => c.status === "REJECTED").reduce((sum, c) => sum + c.amount, 0)
 
-	// Commission distribution by status for the donut (amounts, color per slice)
+	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
 	const provisionStatusData = [
 		{ name: "Offen", value: Math.round(pendingAmount), color: "#ca8a04" },
 		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "#2563eb" },
@@ -82,21 +68,15 @@ export default async function CommissionsPage({
 		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "#dc2626" },
 	].filter((d) => d.value > 0)
 
-	// Chart-Daten: Provision pro Monat (dieses Jahr)
+	// Provision pro Monat (dieses Jahr) — ungefiltert
 	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 	const currentYear = new Date().getFullYear()
-
-	const chartData = monthNames.map((month, idx) => {
-		const monthTotal = commissions
+	const chartData = monthNames.map((month, idx) => ({
+		month,
+		amount: commissions
 			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
-			.reduce((sum, c) => sum + Number(c.amount), 0)
-		return { month, amount: monthTotal }
-	})
-
-	// Gesamtsaldo dieses Jahr (Driver-Sicht)
-	const yearStart = new Date(new Date().getFullYear(), 0, 1)
-	const thisYearCommissions = commissions.filter((c) => c.createdAt >= yearStart)
-	const totalThisYear = thisYearCommissions.reduce((sum, c) => sum + Number(c.amount), 0)
+			.reduce((sum, c) => sum + c.amount, 0),
+	}))
 
 	return (
 		<div className="space-y-6">
@@ -113,9 +93,7 @@ export default async function CommissionsPage({
 
 				<Card>
 					<CardHeader>
-						<CardTitle className="text-base font-semibold">
-							Provisionen {currentYear} (pro Monat)
-						</CardTitle>
+						<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
 					</CardHeader>
 					<CardContent>
 						<CommissionsChart data={chartData} />
@@ -134,11 +112,7 @@ export default async function CommissionsPage({
 						)}
 					</CardContent>
 				</Card>
-				<p className="text-muted-foreground">
-					{isAdmin
-						? `${summaryCommissions.length} Einträge insgesamt`
-						: `Gesamtsaldo dieses Jahr: ${totalThisYear.toFixed(2)} €`}
-				</p>
+				<p className="text-muted-foreground">{summaryCommissions.length} Einträge insgesamt</p>
 			</div>
 
 			{summaryCommissions.length === 0 ? (
@@ -151,62 +125,17 @@ export default async function CommissionsPage({
 				<div className="flex flex-col gap-3">
 					{summaryCommissions.map((c) => (
 						<Card key={c.id}>
-							<CardHeader>
-								<div className="flex items-center justify-between">
-									<CardTitle className="text-base">
-										{c.lead.customerLastName} — {c.lead.vehicleMake} {c.lead.vehicleModel}
-									</CardTitle>
-									<span className={`text-xs font-medium rounded-full px-2 py-1 ring-1 ring-inset ${statusStyles[c.status] ?? statusStyles.PENDING}`}>
+							<CardContent className="flex items-center justify-between gap-4 pt-6">
+								<div>
+									<p className="font-semibold">{c.driverName}</p>
+									<p className="text-sm text-muted-foreground">{c.createdAt.toLocaleDateString("de-DE")}</p>
+								</div>
+								<div className="flex items-center gap-3">
+									<span className={`rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset ${statusStyles[c.status] ?? statusStyles.PENDING}`}>
 										{c.status}
 									</span>
+									<p className="text-xl font-bold">{c.amount.toFixed(2)} €</p>
 								</div>
-							</CardHeader>
-							<CardContent className="space-y-3 text-sm">
-								<div className="flex items-center justify-between">
-									<p className="text-2xl font-bold">{Number(c.amount).toFixed(2)} €</p>
-									<p className="text-muted-foreground">
-										{c.createdAt.toLocaleDateString("de-DE")}
-									</p>
-								</div>
-
-								{isAdmin && "towTruckDriver" in c && c.towTruckDriver && (
-									<p className="text-muted-foreground">
-										Fahrer: {c.towTruckDriver.firstname} {c.towTruckDriver.lastname}
-										{c.towTruckDriver.companyName && ` — ${c.towTruckDriver.companyName}`}
-									</p>
-								)}
-
-								{c.paidAt && (
-									<p className="text-muted-foreground">
-										Bezahlt am: {c.paidAt.toLocaleDateString("de-DE")}
-										{c.paymentRef && ` (Ref: ${c.paymentRef})`}
-									</p>
-								)}
-
-								{/* Admin-Actions */}
-								{isAdmin && c.status === CommissionStatus.PENDING && (
-									<form action={approveCommission}>
-										<input type="hidden" name="commissionId" value={c.id} />
-										<Button type="submit" size="sm">Freigeben</Button>
-									</form>
-								)}
-
-								{isAdmin && c.status === CommissionStatus.APPROVED && (
-									<form action={markCommissionAsPaid} className="flex gap-2 items-end">
-										<input type="hidden" name="commissionId" value={c.id} />
-										<div className="flex-1">
-											<label htmlFor={`ref-${c.id}`} className="text-xs text-muted-foreground">
-												Payment Ref (optional)
-											</label>
-											<Input
-												id={`ref-${c.id}`}
-												name="paymentRef"
-												placeholder="z.B. SEPA-2026-001"
-											/>
-										</div>
-										<Button type="submit" size="sm">Als bezahlt markieren</Button>
-									</form>
-								)}
 							</CardContent>
 						</Card>
 					))}
