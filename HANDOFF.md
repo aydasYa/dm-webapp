@@ -1,7 +1,7 @@
 # 🧭 Projekt-Übergabe / Kontext (für neuen Chat)
 
-> Vollständiger Kontext der bisherigen Session. Im neuen Chat **zuerst diese Datei + `NOTES.md` lesen**.
-> **Nächstes großes Thema: UI/UX-Überarbeitung** (Details kommen vom User). Dark Mode soll raus.
+> Vollständiger Kontext der bisherigen Sessions. Im neuen Chat **zuerst diese Datei + `NOTES.md` (+ `notes/`) lesen**.
+> **Stand 24.06.2026:** Rollen/Super-Admin ✅, Mandanten-Fix ✅, UI/UX-Redesign ✅, Provisionen laufen über **JSON-Simulation** (Salesforce, statt DB). **Nächstes:** Jira-**Epics 1–3** (Sicherheit · Code-Health · UX) abarbeiten — Details in `notes/`.
 
 ---
 
@@ -37,9 +37,17 @@
 - **🔴 Mandanten-Bug gefixt:** Admin-Ansichten (`users`, `qrcodes`, `commissions`, `leads`, `AdminDashboard`) jetzt nach `companyId` gefiltert (vorher firmenübergreifend sichtbar). Provisionen/Leads über Relation `towTruckDriver: { companyId }`.
 - **E-Mail-Epic (WEBAPP-48) PAUSIERT** bis nach Meeting: `nodemailer` + `@types/nodemailer` installiert, aber `lib/email.ts` noch nicht gebaut. Entscheidung: **Mailtrap statt Resend** (User hat Mailtrap für Magic-Link in Supabase eingerichtet). package.json/lock-Änderung noch **uncommitted**.
 
+## 3c. Session „UI-Redesign & Salesforce-JSON" (24.06.2026)
+- **UI-Redesign (Epic WEBAPP-174) komplett:** `StatCard` (Label/Wert/Trend-Badge, shadcn), Dashboards (Fahrer/Admin/Super-Admin) umgebaut, `DonutChart` + `CompaniesChart`, Zeitraum-Picker (`lib/dateRange.ts` + `components/DateRangeFilter.tsx`, Presets 7d/30d/3m + Von/Bis), Theme **nur Light** (Auto-Dark-Block raus), Sidebar-User-Block mit Avatar.
+- **WEBAPP-181 (leichte Variante):** QR-Code in der Sidebar (vorhandener `qrCode`, keine Migration/Route). Verdrahtet via `layout.tsx → DashboardShell → AppSidebar`.
+- **Provisionen aus JSON statt DB (Salesforce-Simulation):** `lib/getCommissions.ts` (`getCommissions({ companyId, driverId? })` liest `data/aydas-commissions.json` + filtert; async, damit später `fetch()` zu Salesforce rein kann). Verdrahtet in `CommissionOverview` (Fahrer), `AdminDashboard` (Firma) und `commissions/page.tsx`. `createdAt` aus Text → `new Date(...)`. JSON-IDs = echte DB-IDs (sonst kein Treffer). Admin als Fahrer wählbar im Filter („<Name> (Inhaber)"). `scripts/list-ids.ts` gibt IDs aus.
+- **Restliche DB bleibt:** Nur Provisionen kommen aus JSON; User/Firmen/Fahrer/Leads weiter aus Prisma.
+- **Notizen** nach `notes/` aufgeteilt (Index in `NOTES.md`): setup, conventions, tech-debt, open-questions, bugs, salesforce-lernplan, changelog-2026-06-24.
+
 ## 4. Git-Stand
-- Branch **`dashboard-split`** = `main`. Heutige Arbeit in mehreren Commits (Rollen-Subtasks, Mandanten-Fix, Super-Admin-Aktionen, Docs) — vom User selbst committet.
+- Aktiver Branch zuletzt **`salesforce-demo`** (davor `ui-ux-update`). Arbeit in vielen Commits, vom User selbst committet.
 - Remote: `github.com/aydasYa/dm-webapp`. **Solo-Dev → direkter Merge, kein PR.**
+- `tsc --noEmit` läuft sauber durch.
 
 ## 5. Config / Gotchas
 - `.env.local`: `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`.
@@ -50,11 +58,11 @@
 
 ## 6. Offene Arbeit (Roadmap)
 - **Phase 2 — WEBAPP-48 E-Mail-System (PAUSIERT bis nach Meeting):** 147 `sendEmail` (`lib/email.ts`, via **Mailtrap/nodemailer**), 75 Auszahlungs-Mail, 76 Werkstatt-Mail, 40 Bestätigungs-Mail. nodemailer schon installiert.
-- **Phase 3 — Rollen & Super-Admin (WEBAPP-155): ERLEDIGT ✅** (156/157/158/159/162/163).
-- **UI/UX-Update:** Optik überarbeiten, **Dark Mode entfernen**. User legt eigenes UI/UX-Epic an.
-- **Phase 4 — Integrationen:** WEBAPP-47 Salesforce, 130 Lead-Management, 46 Auszahlungsworkflow.
-- **Blocker — Epic 1:** Domain verifizieren (DNS) → SMTP von Mailtrap auf echte Domain.
-- **Tech-Debt & Verbesserungs-Ideen Dashboards:** siehe `NOTES.md` (u.a. 🔴 Server-Actions gegen IDOR härten, `companyId`-Null-Fall absichern).
+- **Rollen & Super-Admin (WEBAPP-155): ERLEDIGT ✅** · **UI/UX-Redesign (WEBAPP-174): ERLEDIGT ✅**
+- **Jira-Epics 1–3 (neu, abzuarbeiten):** 1) Sicherheit & Mandanten-Härtung (🔴 IDOR, companyId-Null), 2) Code-Health & Refactoring, 3) UX-Verbesserungen. Details + Tasks in `notes/tech-debt.md`.
+- **Salesforce Phase 2 (echte API):** JSON-Sim durch echten `fetch()`+SOQL ersetzen — Plan in `notes/salesforce-lernplan.md`. (Noch keine Jira-Tickets.)
+- **Offene Produkt-Entscheidungen:** `notes/open-questions.md` (Admin-eigene-Provision, REJECTED reaktivieren, echtes Löschen). (Noch keine Jira-Tickets.)
+- **E-Mail-System (WEBAPP-48):** pausiert; `nodemailer` installiert, `lib/email.ts` offen.
 
 ## 7. Jira
 - Cloud `dmsbielefeld.atlassian.net`, Projekt-Key **`WEBAPP`** (Cloud-ID `5419d2dd-ed41-40d6-8e3c-3ac24fc99ea3`).
@@ -71,9 +79,9 @@
 - **Starkes ADHS:** zuerst einen **klaren Überblick** geben, dann kleine Schritte. **Kompakt & übersichtlich.**
 - **Der User will LERNEN, nicht stumpf copy-pasten.** Auch wenn du Code gibst: **das Warum erklären** und ihn die Kernteile **selbst tippen** lassen, damit er es versteht. Keine ganzen Dateien zum blinden Einfügen ohne Erklärung.
 
-## 9. Nächste Themen
-1. **E-Mail-System (WEBAPP-48)** — nach dem Meeting (19.06) entscheiden, dann `lib/email.ts` mit `sendEmail({to,subject,html})` via **Mailtrap/nodemailer** (Dev-Creds in `.env.local`: `MAILTRAP_HOST/PORT/USER/PASS`, `EMAIL_FROM`). Danach 75 Auszahlungs- → 76 Werkstatt- → 40 Bestätigungs-Mail.
-2. **UI/UX-Update + Dark Mode raus** — User legt eigenes Epic an, Details kommen von ihm.
-3. **🔴 Server-Actions härten (aus NOTES):** `updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` prüfen nur Rolle, nicht Firma-Zugehörigkeit des Ziels.
+## 9. Nächste Themen — **Jira-Epics 1–3 abarbeiten**
+1. **🔴 Epic 1 — Sicherheit & Mandanten-Härtung:** Server-Actions gegen IDOR härten (`updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` → companyId-Check) · `companyId`-Null-Fall absichern. **Empfohlener Start.**
+2. **🟠 Epic 2 — Code-Health:** Auth-Helper (`lib/auth.ts`), Queries parallelisieren, Role-Enum, Provisions-/Company-Daten entdoppeln, etc.
+3. **🟡 Epic 3 — UX:** Lösch-Bestätigung, Button-Ladezustand, Paginierung, AuditLog, Fahrer-Filter im Provision-Tab.
 
-Reihenfolge mit dem User klären.
+Epics 1–3 sind in Jira angelegt (Nummern beim User; Atlassian-Verbindung war in der Session offline). Alle Task-Details in `notes/tech-debt.md`.
