@@ -20,6 +20,7 @@ Nach Wichtigkeit. Kein Blocker — „später sauber machen".
 - **Lade-/Deaktiviert-Zustand bei Buttons** (`useFormStatus`) gegen Doppelklick.
 - **Paginierung** für Fahrer-, Leads- und Provisions-Listen.
 - **`AuditLog` nutzen** — Model existiert, ungenutzt. Status-Änderungen/Freigaben/Löschungen protokollieren (wer, wann, wen).
+- **Fahrer-Filter im Provision-Tab fehlt noch** (`app/dashboard/commissions/page.tsx`, Admin). Soll funktionieren wie der Fahrer-Filter im Übersicht-Tab (`AdminDashboard`): GET-Param `?driver=` lesen → an `getCommissions({ companyId, driverId })` durchreichen → `DateRangeFilter` um ein Fahrer-Dropdown (inkl. „<Name> (Inhaber)") ergänzen. Aktuell hat der Provision-Tab nur den Zeitraum-Filter.
 
 ## Verhaltens-Notizen (so gewollt, kein Bug)
 - **Soft-Delete** — „Löschen" bei Fahrer/Firmen-Admin setzt `deletedAt` + `INACTIVE` (FK von `Lead`/`Commission` verhindern Hard-Delete). Listen filtern `deletedAt: null`.
