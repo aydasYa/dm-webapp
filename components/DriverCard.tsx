@@ -1,6 +1,6 @@
 "use client"
 
-import { updateUserStatus, deleteDriver } from "@/app/actions/auth"
+import { updateUserStatus, deleteDriver } from "@/app/actions/drivers"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"

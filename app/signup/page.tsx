@@ -2,7 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { FormField } from "@/components/form/FormField"
 import { signupFields } from "@/app/signup/fields"
-import { signup } from "@/app/actions/auth"
+import { signup } from "@/app/actions/account"
 import { Button } from "@/components/ui/button"
 import { PasswordMatchHint } from "@/components/form/PasswordMatchHint"
 import {

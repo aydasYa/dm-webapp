@@ -1,4 +1,4 @@
-import { createDriver } from "@/app/actions/auth"
+import { createDriver } from "@/app/actions/drivers"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"

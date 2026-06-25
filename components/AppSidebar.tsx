@@ -15,7 +15,7 @@ import {
 import { LayoutDashboard, Users, QrCode, User, LogOut, Euro, Building2 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { QRCodeSVG } from "qrcode.react"
-import { signout } from "@/app/actions/auth"
+import { signout } from "@/app/actions/account"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"

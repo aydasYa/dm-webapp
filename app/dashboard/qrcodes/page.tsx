@@ -2,7 +2,7 @@ import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import { Role, UserStatus } from "@/src/generated/prisma/enums"
-import { generateQrCode } from "@/app/actions/auth"
+import { generateQrCode } from "@/app/actions/drivers"
 import QrCodeCard from "@/components/QrCodeCard"
 import { Card, CardContent } from "@/components/ui/card"
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/auth"
+import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/companies"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"

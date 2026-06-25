@@ -1,4 +1,4 @@
-import { signout } from "@/app/actions/auth"
+import { signout } from "@/app/actions/account"
 import { Button } from "./ui/button"
 
 export default function LogoutButton() {

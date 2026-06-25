@@ -1,4 +1,4 @@
-import { setPassword } from "@/app/actions/auth"
+import { setPassword } from "@/app/actions/account"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
