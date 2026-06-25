@@ -7,13 +7,14 @@ type Props = {
     role: "ADMIN" | "TOW_TRUCK_DRIVER" | "SUPER_ADMIN"
     firstname: string
     lastname: string
+    qrCode: string | null
     children: React.ReactNode
 }
 
-export default function DashboardShell({ role, firstname, lastname, children }: Props) {
+export default function DashboardShell({ role, firstname, lastname, qrCode, children }: Props) {
     return (
         <SidebarProvider>
-            <AppSidebar role={role} firstname={firstname} lastname={lastname} />
+            <AppSidebar role={role} firstname={firstname} lastname={lastname} qrCode={qrCode} />
             <SidebarInset>
                 <header className="flex h-14 items-center gap-2 border-b px-4">
                     <SidebarTrigger />

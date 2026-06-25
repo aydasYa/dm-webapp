@@ -21,6 +21,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             lastname: true,
             status: true,
             deletedAt: true,
+            qrCode: true,
         },
     })
     if (!user) redirect("/login")
@@ -38,7 +39,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     }
 
     return (
-        <DashboardShell role={user.role} firstname={user.firstname} lastname={user.lastname}>
+        <DashboardShell role={user.role} firstname={user.firstname} lastname={user.lastname} qrCode={user.qrCode}>
             {children}
         </DashboardShell>
     )

@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/sidebar"
 import { LayoutDashboard, Users, QrCode, User, LogOut, Euro, Building2 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { QRCodeSVG } from "qrcode.react"
 import { signout } from "@/app/actions/auth"
 import Link from "next/link"
 import Image from "next/image"
@@ -23,9 +24,10 @@ type Props = {
   role: "ADMIN" | "TOW_TRUCK_DRIVER" | "SUPER_ADMIN"
   firstname: string
   lastname: string
+  qrCode: string | null
 }
 
-export default function AppSidebar({ role, firstname, lastname }: Props) {
+export default function AppSidebar({ role, firstname, lastname, qrCode }: Props) {
   const pathname = usePathname()
   const initials = `${firstname?.[0] ?? ""}${lastname?.[0] ?? ""}`.toUpperCase()
 
@@ -87,6 +89,21 @@ return (
       </SidebarGroup>
     </SidebarContent>
     <SidebarFooter>
+       {qrCode && (
+        <SidebarGroup>
+          <SidebarGroupLabel className="justify-center">Mein QR-Code</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <div className="flex flex-col items-center gap-2 px-2 py-2">
+              <div className="rounded-lg border bg-white p-2">
+                <QRCodeSVG value={qrCode} size={120} />
+              </div>
+              <a href={qrCode} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground underline-offset-2 hover:underline">
+                Link öffnen
+              </a>
+            </div>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )}
       <div className="flex items-center gap-2 px-2 py-1.5">
         <Avatar size="sm">
           <AvatarFallback>{initials}</AvatarFallback>
