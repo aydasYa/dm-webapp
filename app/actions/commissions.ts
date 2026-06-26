@@ -14,12 +14,15 @@ export async function approveCommission(formData: FormData) {
     const supabase = await createClient()
     const { data } = await supabase.auth.getClaims()
     if (!data?.claims) redirect("/login")
+    
 
     const caller = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
         select: { role: true, companyId: true },
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+
+    if (!caller.companyId) throw new Error("Keine Berechtigung")
 
     const result = await prisma.commission.updateMany({
         where: {
@@ -50,6 +53,8 @@ export async function markCommissionAsPaid(formData: FormData) {
         select: { role: true, companyId: true },
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+
+    if (!caller.companyId) throw new Error("Keine Berechtigung")
 
     const result = await prisma.commission.updateMany({
         where: {

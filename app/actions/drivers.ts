@@ -7,6 +7,7 @@ import { Role, UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 import { NAME_PATTERN, EMAIL_PATTERN, str } from '@/app/actions/validation'
 import { createQrCode } from '@/lib/qr'
+import { assertSameCompany } from '@/lib/auth'
 
 
 // Admin-Aktion: neuen Fahrer anlegen + Einladungslink (Magic Link) verschicken
@@ -103,10 +104,7 @@ export async function deleteDriver(formData: FormData) {
 
   const userId = formData.get("userId") as string
 
-  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
-  if (!target || target.companyId !== caller.companyId) {
-    throw new Error("Keine Berechtigung")
-  }
+  await assertSameCompany(caller.companyId, userId)
 
   await prisma.user.update({
     where: { id: userId },
@@ -139,10 +137,7 @@ export async function updateUserStatus(formData: FormData) {
   }
 
   // IDOR-Schutz: Ziel muss zur Firma des Aufrufers gehören
-  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
-  if (!target || target.companyId !== caller.companyId) {
-    throw new Error("Keine Berechtigung")
-  }
+   await assertSameCompany(caller.companyId, userId)
 
   await prisma.user.update({
     where: { id: userId },
@@ -172,10 +167,7 @@ export async function generateQrCode(formData: FormData) {
 
   const userId = formData.get("userId") as string
 
-  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
-    if (!target || target.companyId !== caller.companyId) {
-      throw new Error("Keine Berechtigung")
-    }
+  await assertSameCompany(caller.companyId, userId)
 
   await createQrCode(userId)
 
