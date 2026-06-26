@@ -17,7 +17,7 @@ export async function approveCommission(formData: FormData) {
 
     const caller = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { role: true },
+        select: { role: true, companyId: true },
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
@@ -25,6 +25,7 @@ export async function approveCommission(formData: FormData) {
         where: {
             id: commissionId,
             status: CommissionStatus.PENDING,
+            towTruckDriver: { companyId: caller.companyId }
         },
         data: { status: CommissionStatus.APPROVED },
     })
@@ -46,7 +47,7 @@ export async function markCommissionAsPaid(formData: FormData) {
 
     const caller = await prisma.user.findUnique({
         where: { supabaseId: data.claims.sub },
-        select: { role: true },
+        select: { role: true, companyId: true },
     })
     if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
@@ -54,6 +55,7 @@ export async function markCommissionAsPaid(formData: FormData) {
         where: {
             id: commissionId,
             status: CommissionStatus.APPROVED,
+            towTruckDriver: { companyId: caller.companyId }
         },
         data: {
             status: CommissionStatus.PAID,

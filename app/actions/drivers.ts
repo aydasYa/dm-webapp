@@ -97,11 +97,17 @@ export async function deleteDriver(formData: FormData) {
 
   const caller = await prisma.user.findUnique({
     where: { supabaseId: sessionData.claims.sub },
-    select: { role: true },
+    select: { role: true, companyId: true },
   })
   if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   const userId = formData.get("userId") as string
+
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
+  if (!target || target.companyId !== caller.companyId) {
+    throw new Error("Keine Berechtigung")
+  }
+
   await prisma.user.update({
     where: { id: userId },
     data: { deletedAt: new Date(), status: UserStatus.INACTIVE },
@@ -121,7 +127,7 @@ export async function updateUserStatus(formData: FormData) {
 
   const caller = await prisma.user.findUnique({
     where: { supabaseId: sessionData.claims.sub },
-    select: { role: true },
+    select: { role: true, companyId: true },
   })
   if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
@@ -130,6 +136,12 @@ export async function updateUserStatus(formData: FormData) {
 
   if (!Object.values(UserStatus).includes(newStatus)) {
     throw new Error("Ungültiger Nutzerstatus")
+  }
+
+  // IDOR-Schutz: Ziel muss zur Firma des Aufrufers gehören
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
+  if (!target || target.companyId !== caller.companyId) {
+    throw new Error("Keine Berechtigung")
   }
 
   await prisma.user.update({
@@ -154,11 +166,16 @@ export async function generateQrCode(formData: FormData) {
 
   const caller = await prisma.user.findUnique({
     where: { supabaseId: sessionData.claims.sub },
-    select: { role: true },
+    select: { role: true, companyId: true },
   })
   if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   const userId = formData.get("userId") as string
+
+  const target = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
+    if (!target || target.companyId !== caller.companyId) {
+      throw new Error("Keine Berechtigung")
+    }
 
   await createQrCode(userId)
 
