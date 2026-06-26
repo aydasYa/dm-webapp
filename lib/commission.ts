@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma"
-import { LeadStatus } from "@/src/generated/prisma/enums"
+import { LeadStatus, CommissionStatus } from "@/src/generated/prisma/enums"
 
 /**
  * Berechnet den Provisionsbetrag für einen Driver basierend auf der Anzahl
@@ -35,3 +35,21 @@ export async function calculateCommissionAmount(driverId: string, excludedLeadId
     return 50
 }
 
+
+type CommissionLike = { amount: number; status: string }
+
+// Summiert Provisionsbeträge: gesamt + je Status
+export function summarizeCommissions(items: CommissionLike[]) {
+  const sumBy = (status?: CommissionStatus) =>
+    items
+      .filter((c) => status === undefined || c.status === status)
+      .reduce((sum, c) => sum + Number(c.amount), 0)
+
+  return {
+    total: sumBy(),
+    pending: sumBy(CommissionStatus.PENDING),
+    approved: sumBy(CommissionStatus.APPROVED),
+    paid: sumBy(CommissionStatus.PAID),
+    rejected: sumBy(CommissionStatus.REJECTED),
+  }
+}

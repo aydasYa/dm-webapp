@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { summarizeCommissions } from "@/lib/commission"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
 import DonutChart from "@/components/DonutChart"
@@ -40,11 +41,7 @@ export default async function CommissionOverview({
 	const range = resolveRange(preset, from, to)
 	const summaryCommissions = commissions.filter((c) => inRange(c.createdAt, range))
 
-	const totalAmount = summaryCommissions.reduce((sum, c) => sum + c.amount, 0)
-	const pendingAmount = summaryCommissions.filter((c) => c.status === "PENDING").reduce((sum, c) => sum + c.amount, 0)
-	const paidAmount = summaryCommissions.filter((c) => c.status === "PAID").reduce((sum, c) => sum + c.amount, 0)
-	const approvedAmount = summaryCommissions.filter((c) => c.status === "APPROVED").reduce((sum, c) => sum + c.amount, 0)
-	const rejectedAmount = summaryCommissions.filter((c) => c.status === "REJECTED").reduce((sum, c) => sum + c.amount, 0)
+	const { total: totalAmount, pending: pendingAmount, paid: paidAmount, approved: approvedAmount, rejected: rejectedAmount } = summarizeCommissions(summaryCommissions)
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
 	const provisionStatusData = [

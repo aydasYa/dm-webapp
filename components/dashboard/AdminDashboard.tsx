@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma"
-import { Role, UserStatus, CommissionStatus } from "@/src/generated/prisma/enums"
+import { Role, UserStatus } from "@/src/generated/prisma/enums"
+import { summarizeCommissions } from "@/lib/commission"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { StatCard } from "@/components/StatCard"
 import { Button } from "@/components/ui/button"
@@ -41,11 +42,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		status: r.status as string,
 		createdAt: new Date(r.createdAt),
 	}))
-	const comSum = commissions.reduce((s, c) => s + Number(c.amount), 0)
-	const comOpen = commissions.filter(c => c.status === CommissionStatus.PENDING).reduce((s, c) => s + Number(c.amount), 0)
-	const comPaid = commissions.filter(c => c.status === CommissionStatus.PAID).reduce((s, c) => s + Number(c.amount), 0)
-	const comApproved = commissions.filter(c => c.status === CommissionStatus.APPROVED).reduce((s, c) => s + Number(c.amount), 0)
-	const comRejected = commissions.filter(c => c.status === CommissionStatus.REJECTED).reduce((s, c) => s + Number(c.amount), 0)
+	const { total: comSum, pending: comOpen, paid: comPaid, approved: comApproved, rejected: comRejected } = summarizeCommissions(commissions)
 
 	// Month-over-month commission trend (respects the driver filter above)
 	const now = new Date()
