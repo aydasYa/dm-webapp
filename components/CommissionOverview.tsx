@@ -6,6 +6,8 @@ import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { resolveRange, inRange } from "@/lib/dateRange"
 import { getCommissions } from "@/lib/getCommissions"
+import { getLeads } from "@/lib/getLeads"
+import LeadsChart from "@/components/LeadsChart"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -27,8 +29,11 @@ export default async function CommissionOverview({
 	from?: string
 	to?: string
 }) {
-	// Provisionen aus der JSON (Salesforce-Simulation): nur die eigenen des Fahrers
-	const records = await getCommissions({ companyId: companyId ?? "", driverId: userId })
+	// Provisionen + Leads aus der JSON (Salesforce-Simulation): nur die eigenen des Fahrers
+	const [records, leadRecords] = await Promise.all([
+		getCommissions({ companyId: companyId ?? "", driverId: userId }),
+		getLeads({ companyId: companyId ?? "", driverId: userId }),
+	])
 	const commissions = records.map((r) => ({
 		id: r.id,
 		amount: r.amount,
@@ -73,6 +78,23 @@ export default async function CommissionOverview({
 	const diff = thisMonthSum - lastMonthSum
 	const trendProvision = `${diff >= 0 ? "↑" : "↓"} ${Math.abs(diff).toFixed(0)} € vs. ${monthNames[lastMonthDate.getMonth()]}`
 
+	// Eigene Leads: pro Tag (Liniendiagramm) + Status-Verteilung (Donut)
+	const daysInMonth = new Date(currentYear, now.getMonth() + 1, 0).getDate()
+	const leadTrendData = Array.from({ length: daysInMonth }, (_, i) => {
+		const day = i + 1
+		const count = leadRecords.filter((l) => {
+			const d = new Date(l.createdAt)
+			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
+		}).length
+		return { day: String(day).padStart(2, "0"), count }
+	})
+	const leadStatusData = [
+		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "#059669" },
+		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "#2563eb" },
+		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "#ca8a04" },
+		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "#dc2626" },
+	].filter((d) => d.value > 0)
+
 	return (
 		<div className="space-y-6">
 			<div>
@@ -107,6 +129,32 @@ export default async function CommissionOverview({
 						)}
 					</CardContent>
 				</Card>
+			</div>
+
+			<div>
+				<h2 className="font-semibold mb-2">Meine Leads ({now.toLocaleDateString("de-DE", { month: "long" })})</h2>
+				<div className="grid gap-4 md:grid-cols-2">
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Lead-Entwicklung</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<LeadsChart data={leadTrendData} />
+						</CardContent>
+					</Card>
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Lead-Status-Verteilung</CardTitle>
+						</CardHeader>
+						<CardContent>
+							{leadStatusData.length === 0 ? (
+								<p className="text-center text-muted-foreground">Keine Leads vorhanden</p>
+							) : (
+								<DonutChart data={leadStatusData} />
+							)}
+						</CardContent>
+					</Card>
+				</div>
 			</div>
 
 			{summaryCommissions.length === 0 ? (
