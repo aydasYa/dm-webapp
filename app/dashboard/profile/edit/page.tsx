@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Role } from "@/src/generated/prisma/enums"
 
 export const dynamic = "force-dynamic"
 
@@ -22,6 +23,7 @@ export default async function ProfileEditPage() {
       lastname: true,
       email: true,
       phone: true,
+      role: true,
       companyName: true,
       companyAddress: true,
       companyPostcode: true,
@@ -71,7 +73,8 @@ export default async function ProfileEditPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        {user.role === Role.ADMIN && (
+          <Card>
           <CardHeader>
             <CardTitle className="text-base">Firmendaten</CardTitle>
             <CardDescription>Deine Niederlassung und Ansprechpartner</CardDescription>
@@ -116,7 +119,7 @@ export default async function ProfileEditPage() {
               </div>
             </FieldGroup>
           </CardContent>
-        </Card>
+        </Card>)}
 
         <div className="flex gap-3">
           <Button asChild variant="outline" className="flex-1">
