@@ -10,7 +10,7 @@ type Props = {
         firstname: string
         lastname: string
         qrCode: string | null
-        companyName: string | null
+        company: { name: string } | null
     }
     generateAction: (formData: FormData) => void
 }
@@ -21,8 +21,8 @@ export default function QrCodeCard({ driver, generateAction }: Props) {
             <CardContent className="pt-6 flex flex-col items-center text-center gap-3">
                 <div>
                     <p className="font-medium">{driver.firstname} {driver.lastname}</p>
-                    {driver.companyName && (
-                        <p className="text-xs text-muted-foreground">{driver.companyName}</p>
+                    {driver.company?.name && (
+                        <p className="text-xs text-muted-foreground">{driver.company.name}</p>
                     )}
                 </div>
 

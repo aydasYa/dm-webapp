@@ -70,7 +70,7 @@ export default async function LeadsPage({
       createdAt: true,
       ...(isAdmin && {
         towTruckDriver: {
-          select: { firstname: true, lastname: true, companyName: true },
+          select: { firstname: true, lastname: true, company: { select: { name: true } } },
         },
       }),
     },

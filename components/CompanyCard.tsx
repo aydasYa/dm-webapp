@@ -16,15 +16,17 @@ export type CompanyCardUser = {
   phone: string | null
   status: UserStatus
   createdAt: Date
-  companyName: string | null
-  companyAddress: string | null
-  companyPostcode: string | null
-  companyCity: string | null
-  companyPhone: string | null
-  companyEmail: string | null
-  companyWebsite: string | null
-  companyContactFirstname: string | null
-  companyContactLastname: string | null
+  company: {
+    name: string
+    address: string | null
+    postcode: string | null
+    city: string | null
+    phone: string | null
+    email: string | null
+    website: string | null
+    contactFirstname: string | null
+    contactLastname: string | null
+  } | null
 }
 
 const STATUS_LABEL: Record<UserStatus, string> = {
@@ -52,7 +54,7 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
           <div className="cursor-pointer rounded-t-xl hover:bg-muted/50 transition-colors">
             <CardHeader>
               <div className="flex items-center justify-between gap-2">
-                <CardTitle className="text-xl font-bold">{user.companyName ?? "—"}</CardTitle>
+                <CardTitle className="text-xl font-bold">{user.company?.name ?? "—"}</CardTitle>
                 <span className={`text-xs font-medium rounded-full px-2 py-1 ${STATUS_STYLE[user.status]}`}>
                   {STATUS_LABEL[user.status]}
                 </span>
@@ -69,19 +71,19 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
 
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>{user.companyName ?? "Unternehmen"}</DialogTitle>
+            <DialogTitle>{user.company?.name ?? "Unternehmen"}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3 text-sm">
             <div className="space-y-1">
               <p className="text-xs uppercase tracking-wide text-muted-foreground">Firma</p>
-              {user.companyName && <p>{user.companyName}</p>}
-              {user.companyAddress && <p>{user.companyAddress}</p>}
-              {(user.companyPostcode || user.companyCity) && (
-                <p>{[user.companyPostcode, user.companyCity].filter(Boolean).join(" ")}</p>
+              {user.company?.name && <p>{user.company.name}</p>}
+              {user.company?.address && <p>{user.company.address}</p>}
+              {(user.company?.postcode || user.company?.city) && (
+                <p>{[user.company?.postcode, user.company?.city].filter(Boolean).join(" ")}</p>
               )}
-              {user.companyPhone && <p>Tel: {user.companyPhone}</p>}
-              {user.companyEmail && <p>E-Mail: {user.companyEmail}</p>}
-              {user.companyWebsite && <p>Web: {user.companyWebsite}</p>}
+              {user.company?.phone && <p>Tel: {user.company.phone}</p>}
+              {user.company?.email && <p>E-Mail: {user.company.email}</p>}
+              {user.company?.website && <p>Web: {user.company.website}</p>}
             </div>
 
             <div className="space-y-1 border-t pt-3">
@@ -89,9 +91,9 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
               <p>{user.firstname} {user.lastname}</p>
               <p>{user.email}</p>
               {user.phone && <p>Tel: {user.phone}</p>}
-              {(user.companyContactFirstname || user.companyContactLastname) && (
+              {(user.company?.contactFirstname || user.company?.contactLastname) && (
                 <p>
-                  Kontakt: {[user.companyContactFirstname, user.companyContactLastname].filter(Boolean).join(" ")}
+                  Kontakt: {[user.company?.contactFirstname, user.company?.contactLastname].filter(Boolean).join(" ")}
                 </p>
               )}
             </div>

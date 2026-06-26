@@ -17,14 +17,16 @@ export type DriverCardUser = {
   status: UserStatus
   qrCode: string | null
   createdAt: Date
-  companyName: string | null
-  companyAddress: string | null
-  companyPostcode: string | null
-  companyCity: string | null
-  companyPhone: string | null
-  companyEmail: string | null
-  companyContactFirstname: string | null
-  companyContactLastname: string | null
+  company: {
+    name: string
+    address: string | null
+    postcode: string | null
+    city: string | null
+    phone: string | null
+    email: string | null
+    contactFirstname: string | null
+    contactLastname: string | null
+  } | null
   phone: string | null
 }
 
@@ -80,18 +82,18 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
             </div>
             <div className="space-y-1 border-t pt-3">
               <p className="text-xs uppercase tracking-wide text-muted-foreground">Firma</p>
-              {user.companyName && <p>{user.companyName}</p>}
-              {user.companyAddress && <p>{user.companyAddress}</p>}
-              {(user.companyPostcode || user.companyCity) && (
-                <p>{[user.companyPostcode, user.companyCity].filter(Boolean).join(" ")}</p>
+              {user.company?.name && <p>{user.company.name}</p>}
+              {user.company?.address && <p>{user.company.address}</p>}
+              {(user.company?.postcode || user.company?.city) && (
+                <p>{[user.company?.postcode, user.company?.city].filter(Boolean).join(" ")}</p>
               )}
-              {user.companyPhone && <p>Tel: {user.companyPhone}</p>}
-              {user.companyEmail && <p>E-Mail: {user.companyEmail}</p>}
+              {user.company?.phone && <p>Tel: {user.company.phone}</p>}
+              {user.company?.email && <p>E-Mail: {user.company.email}</p>}
             </div>
-            {(user.companyContactFirstname || user.companyContactLastname) && (
+            {(user.company?.contactFirstname || user.company?.contactLastname) && (
               <div className="space-y-1 border-t pt-3">
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">Ansprechpartner</p>
-                <p>{[user.companyContactFirstname, user.companyContactLastname].filter(Boolean).join(" ")}</p>
+                <p>{[user.company?.contactFirstname, user.company?.contactLastname].filter(Boolean).join(" ")}</p>
               </div>
             )}
             {user.qrCode ? (

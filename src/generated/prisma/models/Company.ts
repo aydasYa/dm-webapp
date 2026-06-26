@@ -27,6 +27,14 @@ export type AggregateCompany = {
 export type CompanyMinAggregateOutputType = {
   id: string | null
   name: string | null
+  address: string | null
+  postcode: string | null
+  city: string | null
+  phone: string | null
+  email: string | null
+  website: string | null
+  contactFirstname: string | null
+  contactLastname: string | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -35,6 +43,14 @@ export type CompanyMinAggregateOutputType = {
 export type CompanyMaxAggregateOutputType = {
   id: string | null
   name: string | null
+  address: string | null
+  postcode: string | null
+  city: string | null
+  phone: string | null
+  email: string | null
+  website: string | null
+  contactFirstname: string | null
+  contactLastname: string | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -43,6 +59,14 @@ export type CompanyMaxAggregateOutputType = {
 export type CompanyCountAggregateOutputType = {
   id: number
   name: number
+  address: number
+  postcode: number
+  city: number
+  phone: number
+  email: number
+  website: number
+  contactFirstname: number
+  contactLastname: number
   createdAt: number
   updatedAt: number
   deletedAt: number
@@ -53,6 +77,14 @@ export type CompanyCountAggregateOutputType = {
 export type CompanyMinAggregateInputType = {
   id?: true
   name?: true
+  address?: true
+  postcode?: true
+  city?: true
+  phone?: true
+  email?: true
+  website?: true
+  contactFirstname?: true
+  contactLastname?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -61,6 +93,14 @@ export type CompanyMinAggregateInputType = {
 export type CompanyMaxAggregateInputType = {
   id?: true
   name?: true
+  address?: true
+  postcode?: true
+  city?: true
+  phone?: true
+  email?: true
+  website?: true
+  contactFirstname?: true
+  contactLastname?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -69,6 +109,14 @@ export type CompanyMaxAggregateInputType = {
 export type CompanyCountAggregateInputType = {
   id?: true
   name?: true
+  address?: true
+  postcode?: true
+  city?: true
+  phone?: true
+  email?: true
+  website?: true
+  contactFirstname?: true
+  contactLastname?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -150,6 +198,14 @@ export type CompanyGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type CompanyGroupByOutputType = {
   id: string
   name: string
+  address: string | null
+  postcode: string | null
+  city: string | null
+  phone: string | null
+  email: string | null
+  website: string | null
+  contactFirstname: string | null
+  contactLastname: string | null
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
@@ -179,6 +235,14 @@ export type CompanyWhereInput = {
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   id?: Prisma.StringFilter<"Company"> | string
   name?: Prisma.StringFilter<"Company"> | string
+  address?: Prisma.StringNullableFilter<"Company"> | string | null
+  postcode?: Prisma.StringNullableFilter<"Company"> | string | null
+  city?: Prisma.StringNullableFilter<"Company"> | string | null
+  phone?: Prisma.StringNullableFilter<"Company"> | string | null
+  email?: Prisma.StringNullableFilter<"Company"> | string | null
+  website?: Prisma.StringNullableFilter<"Company"> | string | null
+  contactFirstname?: Prisma.StringNullableFilter<"Company"> | string | null
+  contactLastname?: Prisma.StringNullableFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
@@ -188,6 +252,14 @@ export type CompanyWhereInput = {
 export type CompanyOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  postcode?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactFirstname?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactLastname?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -200,6 +272,14 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.CompanyWhereInput[]
   NOT?: Prisma.CompanyWhereInput | Prisma.CompanyWhereInput[]
   name?: Prisma.StringFilter<"Company"> | string
+  address?: Prisma.StringNullableFilter<"Company"> | string | null
+  postcode?: Prisma.StringNullableFilter<"Company"> | string | null
+  city?: Prisma.StringNullableFilter<"Company"> | string | null
+  phone?: Prisma.StringNullableFilter<"Company"> | string | null
+  email?: Prisma.StringNullableFilter<"Company"> | string | null
+  website?: Prisma.StringNullableFilter<"Company"> | string | null
+  contactFirstname?: Prisma.StringNullableFilter<"Company"> | string | null
+  contactLastname?: Prisma.StringNullableFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Company"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Company"> | Date | string | null
@@ -209,6 +289,14 @@ export type CompanyWhereUniqueInput = Prisma.AtLeast<{
 export type CompanyOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  address?: Prisma.SortOrderInput | Prisma.SortOrder
+  postcode?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  email?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactFirstname?: Prisma.SortOrderInput | Prisma.SortOrder
+  contactLastname?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -223,6 +311,14 @@ export type CompanyScalarWhereWithAggregatesInput = {
   NOT?: Prisma.CompanyScalarWhereWithAggregatesInput | Prisma.CompanyScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Company"> | string
   name?: Prisma.StringWithAggregatesFilter<"Company"> | string
+  address?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  postcode?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  phone?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  email?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  website?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  contactFirstname?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
+  contactLastname?: Prisma.StringNullableWithAggregatesFilter<"Company"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Company"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Company"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Company"> | Date | string | null
@@ -231,6 +327,14 @@ export type CompanyScalarWhereWithAggregatesInput = {
 export type CompanyCreateInput = {
   id?: string
   name: string
+  address?: string | null
+  postcode?: string | null
+  city?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  contactFirstname?: string | null
+  contactLastname?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -240,6 +344,14 @@ export type CompanyCreateInput = {
 export type CompanyUncheckedCreateInput = {
   id?: string
   name: string
+  address?: string | null
+  postcode?: string | null
+  city?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  contactFirstname?: string | null
+  contactLastname?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -249,6 +361,14 @@ export type CompanyUncheckedCreateInput = {
 export type CompanyUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -258,6 +378,14 @@ export type CompanyUpdateInput = {
 export type CompanyUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -267,6 +395,14 @@ export type CompanyUncheckedUpdateInput = {
 export type CompanyCreateManyInput = {
   id?: string
   name: string
+  address?: string | null
+  postcode?: string | null
+  city?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  contactFirstname?: string | null
+  contactLastname?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -275,6 +411,14 @@ export type CompanyCreateManyInput = {
 export type CompanyUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -283,6 +427,14 @@ export type CompanyUpdateManyMutationInput = {
 export type CompanyUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -296,6 +448,14 @@ export type CompanyNullableScalarRelationFilter = {
 export type CompanyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  contactFirstname?: Prisma.SortOrder
+  contactLastname?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -304,6 +464,14 @@ export type CompanyCountOrderByAggregateInput = {
 export type CompanyMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  contactFirstname?: Prisma.SortOrder
+  contactLastname?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -312,6 +480,14 @@ export type CompanyMaxOrderByAggregateInput = {
 export type CompanyMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  postcode?: Prisma.SortOrder
+  city?: Prisma.SortOrder
+  phone?: Prisma.SortOrder
+  email?: Prisma.SortOrder
+  website?: Prisma.SortOrder
+  contactFirstname?: Prisma.SortOrder
+  contactLastname?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -336,6 +512,14 @@ export type CompanyUpdateOneWithoutUsersNestedInput = {
 export type CompanyCreateWithoutUsersInput = {
   id?: string
   name: string
+  address?: string | null
+  postcode?: string | null
+  city?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  contactFirstname?: string | null
+  contactLastname?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -344,6 +528,14 @@ export type CompanyCreateWithoutUsersInput = {
 export type CompanyUncheckedCreateWithoutUsersInput = {
   id?: string
   name: string
+  address?: string | null
+  postcode?: string | null
+  city?: string | null
+  phone?: string | null
+  email?: string | null
+  website?: string | null
+  contactFirstname?: string | null
+  contactLastname?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -368,6 +560,14 @@ export type CompanyUpdateToOneWithWhereWithoutUsersInput = {
 export type CompanyUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -376,6 +576,14 @@ export type CompanyUpdateWithoutUsersInput = {
 export type CompanyUncheckedUpdateWithoutUsersInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  postcode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactFirstname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  contactLastname?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -415,6 +623,14 @@ export type CompanyCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.E
 export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  address?: boolean
+  postcode?: boolean
+  city?: boolean
+  phone?: boolean
+  email?: boolean
+  website?: boolean
+  contactFirstname?: boolean
+  contactLastname?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -425,6 +641,14 @@ export type CompanySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  address?: boolean
+  postcode?: boolean
+  city?: boolean
+  phone?: boolean
+  email?: boolean
+  website?: boolean
+  contactFirstname?: boolean
+  contactLastname?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -433,6 +657,14 @@ export type CompanySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  address?: boolean
+  postcode?: boolean
+  city?: boolean
+  phone?: boolean
+  email?: boolean
+  website?: boolean
+  contactFirstname?: boolean
+  contactLastname?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -441,12 +673,20 @@ export type CompanySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type CompanySelectScalar = {
   id?: boolean
   name?: boolean
+  address?: boolean
+  postcode?: boolean
+  city?: boolean
+  phone?: boolean
+  email?: boolean
+  website?: boolean
+  contactFirstname?: boolean
+  contactLastname?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
 }
 
-export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["company"]>
+export type CompanyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "address" | "postcode" | "city" | "phone" | "email" | "website" | "contactFirstname" | "contactLastname" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["company"]>
 export type CompanyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Company$usersArgs<ExtArgs>
   _count?: boolean | Prisma.CompanyCountOutputTypeDefaultArgs<ExtArgs>
@@ -462,6 +702,14 @@ export type $CompanyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
+    address: string | null
+    postcode: string | null
+    city: string | null
+    phone: string | null
+    email: string | null
+    website: string | null
+    contactFirstname: string | null
+    contactLastname: string | null
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -891,6 +1139,14 @@ export interface Prisma__CompanyClient<T, Null = never, ExtArgs extends runtime.
 export interface CompanyFieldRefs {
   readonly id: Prisma.FieldRef<"Company", 'String'>
   readonly name: Prisma.FieldRef<"Company", 'String'>
+  readonly address: Prisma.FieldRef<"Company", 'String'>
+  readonly postcode: Prisma.FieldRef<"Company", 'String'>
+  readonly city: Prisma.FieldRef<"Company", 'String'>
+  readonly phone: Prisma.FieldRef<"Company", 'String'>
+  readonly email: Prisma.FieldRef<"Company", 'String'>
+  readonly website: Prisma.FieldRef<"Company", 'String'>
+  readonly contactFirstname: Prisma.FieldRef<"Company", 'String'>
+  readonly contactLastname: Prisma.FieldRef<"Company", 'String'>
   readonly createdAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Company", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Company", 'DateTime'>

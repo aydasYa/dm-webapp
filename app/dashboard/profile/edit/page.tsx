@@ -59,38 +59,38 @@ export default async function ProfileEditPage() {
             <FieldGroup>
               <Field>
                 <FieldLabel htmlFor="companyName">Firmenname</FieldLabel>
-                <Input id="companyName" name="companyName" defaultValue={user.companyName ?? ""} />
+                <Input id="companyName" name="companyName" defaultValue={user.company?.name ?? ""} />
               </Field>
               <Field>
                 <FieldLabel htmlFor="companyAddress">Straße und Hausnummer</FieldLabel>
-                <Input id="companyAddress" name="companyAddress" defaultValue={user.companyAddress ?? ""} />
+                <Input id="companyAddress" name="companyAddress" defaultValue={user.company?.address ?? ""} />
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field>
                   <FieldLabel htmlFor="companyPostcode">PLZ</FieldLabel>
-                  <Input id="companyPostcode" name="companyPostcode" defaultValue={user.companyPostcode ?? ""} />
+                  <Input id="companyPostcode" name="companyPostcode" defaultValue={user.company?.postcode ?? ""} />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="companyCity">Ort</FieldLabel>
-                  <Input id="companyCity" name="companyCity" defaultValue={user.companyCity ?? ""} />
+                  <Input id="companyCity" name="companyCity" defaultValue={user.company?.city ?? ""} />
                 </Field>
               </div>
               <Field>
                 <FieldLabel htmlFor="companyPhone">Firmentelefon</FieldLabel>
-                <Input id="companyPhone" name="companyPhone" type="tel" defaultValue={user.companyPhone ?? ""} />
+                <Input id="companyPhone" name="companyPhone" type="tel" defaultValue={user.company?.phone ?? ""} />
               </Field>
               <Field>
                 <FieldLabel htmlFor="companyEmail">Firmen-E-Mail</FieldLabel>
-                <Input id="companyEmail" name="companyEmail" type="email" defaultValue={user.companyEmail ?? ""} />
+                <Input id="companyEmail" name="companyEmail" type="email" defaultValue={user.company?.email ?? ""} />
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field>
                   <FieldLabel htmlFor="companyContactFirstname">Vorname Ansprechpartner</FieldLabel>
-                  <Input id="companyContactFirstname" name="companyContactFirstname" defaultValue={user.companyContactFirstname ?? ""} />
+                  <Input id="companyContactFirstname" name="companyContactFirstname" defaultValue={user.company?.contactFirstname ?? ""} />
                 </Field>
                 <Field>
                   <FieldLabel htmlFor="companyContactLastname">Nachname Ansprechpartner</FieldLabel>
-                  <Input id="companyContactLastname" name="companyContactLastname" defaultValue={user.companyContactLastname ?? ""} />
+                  <Input id="companyContactLastname" name="companyContactLastname" defaultValue={user.company?.contactLastname ?? ""} />
                 </Field>
               </div>
             </FieldGroup>

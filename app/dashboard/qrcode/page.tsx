@@ -17,8 +17,8 @@ export default async function QrCodePage() {
           <CardTitle className="text-base">
             {user.firstname} {user.lastname}
           </CardTitle>
-          {user.companyName && (
-            <CardDescription>{user.companyName}</CardDescription>
+          {user.company?.name && (
+            <CardDescription>{user.company.name}</CardDescription>
           )}
         </CardHeader>
         <CardContent>

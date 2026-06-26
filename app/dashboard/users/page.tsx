@@ -16,15 +16,19 @@ const USER_SELECT = {
   phone: true,
   status: true, 
   qrCode: true,
-  createdAt: true, 
-  companyName: true, 
-  companyAddress: true, 
-  companyPostcode: true,
-  companyCity: true, 
-  companyPhone: true, 
-  companyEmail: true,
-  companyContactFirstname: true, 
-  companyContactLastname: true,
+  createdAt: true,
+  company: {
+    select: {
+      name: true,
+      address: true,
+      postcode: true,
+      city: true,
+      phone: true,
+      email: true,
+      contactFirstname: true,
+      contactLastname: true,
+    },
+  },
 } as const
 
 export default async function UsersPage() {

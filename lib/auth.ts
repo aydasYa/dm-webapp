@@ -27,6 +27,7 @@ export async function requireUser(role?: Role) {
     
     const user = await prisma.user.findUnique({
         where: { supabaseId: data?.claims.sub},
+        include: { company: true },
     })
     if(!user) redirect("/login")
     

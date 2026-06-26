@@ -20,29 +20,34 @@ export async function updateProfile(formData: FormData) {
   const companyPhone = (formData.get("companyPhone") as string || null)
   const companyEmail = (formData.get("companyEmail") as string || null)
   const companyWebsite = (formData.get("companyWebsite") as string || null)
+  const companyContactFirstname = (formData.get("companyContactFirstname") as string || null)
+  const companyContactLastname = (formData.get("companyContactLastname") as string || null)
 
   const me = await requireUser()
 
-    // 4. Update: persönliche Felder immer; Firmendaten NUR für Admin
+  // 3. Persönliche Daten immer aktualisieren
   await prisma.user.update({
     where: { id: me.id },
-    data: {
-      firstname,
-      lastname,
-      phone,
-      ...(me.role === Role.ADMIN
-        ? {
-            companyName,
-            companyAddress,
-            companyPostcode,
-            companyCity,
-            companyPhone,
-            companyEmail,
-            companyWebsite,
-          }
-        : {}),
-    },
+    data: { firstname, lastname, phone },
   })
+
+  // 4. Firmendaten NUR für Admin – jetzt im Company-Model
+  if (me.role === Role.ADMIN && me.companyId) {
+    await prisma.company.update({
+      where: { id: me.companyId },
+      data: {
+        ...(companyName ? { name: companyName } : {}),
+        address: companyAddress,
+        postcode: companyPostcode,
+        city: companyCity,
+        phone: companyPhone,
+        email: companyEmail,
+        website: companyWebsite,
+        contactFirstname: companyContactFirstname,
+        contactLastname: companyContactLastname,
+      },
+    })
+  }
 
   // 5. Redirect zurück zum Dashbaord
   redirect("/dashboard/profile")

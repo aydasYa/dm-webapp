@@ -71,26 +71,16 @@ model User {
   qrCode       String?    @unique
   salesforceId String?    @unique
 
-  // ─── Company (TODO: in eigenes Model auslagern) ───
-  // Wenn aufgeteilt: alle companyXyz-Felder in neues Company-Model,
-  // User bekommt companyId + Relation zu Company.
-  companyId               String?
-  companyName             String?
-  companyAddress          String?
-  companyCity             String?
-  companyPostcode         String?
-  companyPhone            String?
-  companyEmail            String?
-  companyContactFirstname String?
-  companyContactLastname  String?
-  companyWebsite          String?
+  // ─── Company ───
+  // Firmendaten leben im Company-Model; User verweist nur über companyId.
+  companyId String?
 
   // ─── Relations ───
   leads          Lead[]
   commissions    Commission[]
   auditLogs      AuditLog[]
   cancelledLeads Lead[]       @relation("CancelledLeads")
-  company   Company? @relation(fields: [companyId], references: [id])
+  company        Company?     @relation(fields: [companyId], references: [id])
 
   // ─── Timestamps ───
   createdAt DateTime  @default(now())
@@ -101,13 +91,21 @@ model User {
 }
 
 model Company {
-  id String @id @default(cuid())
-  name  String
+  id               String  @id @default(cuid())
+  name             String
+  address          String?
+  postcode         String?
+  city             String?
+  phone            String?
+  email            String?
+  website          String?
+  contactFirstname String?
+  contactLastname  String?
 
   users User[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
   @@map("companies")

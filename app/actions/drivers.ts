@@ -47,15 +47,8 @@ export async function createDriver(formData: FormData) {
         lastname,
         role: Role.TOW_TRUCK_DRIVER,
         status: UserStatus.PENDING,
+        // Fahrer erbt die Firma über die companyId-Relation (keine flachen Kopien mehr)
         companyId: caller.companyId,
-        companyName: caller.companyName,
-        companyAddress: caller.companyAddress,
-        companyCity: caller.companyCity,
-        companyPostcode: caller.companyPostcode,
-        companyPhone: caller.companyPhone,
-        companyEmail: caller.companyEmail,
-        companyContactFirstname: caller.companyContactFirstname,
-        companyContactLastname: caller.companyContactLastname,
       },
     })
   } catch (prismaError) {

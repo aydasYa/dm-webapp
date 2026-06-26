@@ -48,7 +48,21 @@ export async function signup(formData: FormData) {
   }
 
   try {
-    const created = await prisma.user.create({
+    // Erst die Firma mit allen Details anlegen
+    const company = await prisma.company.create({
+      data: {
+        name: companyName,
+        address: companyAddress,
+        postcode: companyPostcode,
+        city: companyCity,
+        phone: companyPhone,
+        email: companyEmail,
+        website: companyWebsite,
+      },
+    })
+
+    // Dann den Admin-User, direkt mit der companyId verknüpft
+    await prisma.user.create({
       data: {
         supabaseId: data.user.id,
         email,
@@ -57,17 +71,9 @@ export async function signup(formData: FormData) {
         phone,
         role: Role.ADMIN,
         status: UserStatus.PENDING,
-        companyName,
-        companyAddress,
-        companyPostcode,
-        companyCity,
-        companyPhone,
-        companyEmail,
-        companyWebsite,
+        companyId: company.id,
       },
     })
-    const company = await prisma.company.create({ data: { name: companyName } })
-    await prisma.user.update({ where: { id: created.id }, data: { companyId: company.id } })
   } catch (prismaError) {
     // DB-Fehler: Supabase-Account zurückrollen, damit kein verwaister Auth-Nutzer entsteht
     console.error('Prisma Fehler, Supabase-Nutzer wird zurückgesetzt:', prismaError)

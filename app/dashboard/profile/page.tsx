@@ -35,15 +35,15 @@ export default async function ProfilePage() {
                     <CardTitle>Firmendaten</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                    <p><span className="text-muted-foreground">Firma:</span> {user.companyName ?? "—"}</p>
-                    <p><span className="text-muted-foreground">Adresse:</span> {user.companyAddress ?? "—"}</p>
-                    <p><span className="text-muted-foreground">PLZ/Ort:</span> {user.companyPostcode ?? "—"} {user.companyCity ?? ""}</p>
-                    <p><span className="text-muted-foreground">Telefon:</span> {user.companyPhone ?? "—"}</p>
-                    <p><span className="text-muted-foreground">E-Mail:</span> {user.companyEmail ?? "—"}</p>
+                    <p><span className="text-muted-foreground">Firma:</span> {user.company?.name ?? "—"}</p>
+                    <p><span className="text-muted-foreground">Adresse:</span> {user.company?.address ?? "—"}</p>
+                    <p><span className="text-muted-foreground">PLZ/Ort:</span> {user.company?.postcode ?? "—"} {user.company?.city ?? ""}</p>
+                    <p><span className="text-muted-foreground">Telefon:</span> {user.company?.phone ?? "—"}</p>
+                    <p><span className="text-muted-foreground">E-Mail:</span> {user.company?.email ?? "—"}</p>
                     <p>
                         <span className="text-muted-foreground">Ansprechpartner:</span>{" "}
-                        {user.companyContactFirstname || user.companyContactLastname
-                            ? `${user.companyContactFirstname ?? ""} ${user.companyContactLastname ?? ""}`.trim()
+                        {user.company?.contactFirstname || user.company?.contactLastname
+                            ? `${user.company?.contactFirstname ?? ""} ${user.company?.contactLastname ?? ""}`.trim()
                             : "—"}
                     </p>
                 </CardContent>

@@ -22,7 +22,7 @@ export default async function QrCodesPage() {
             firstname: true,
             lastname: true,
             qrCode: true,
-            companyName: true,
+            company: { select: { name: true } },
         },
     })
 
