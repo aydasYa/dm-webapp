@@ -19,9 +19,11 @@ import { signout } from "@/app/actions/account"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
+import { Role } from "@/src/generated/prisma/enums"
+
 
 type Props = {
-  role: "ADMIN" | "TOW_TRUCK_DRIVER" | "SUPER_ADMIN"
+  role: Role
   firstname: string
   lastname: string
   qrCode: string | null
@@ -52,7 +54,7 @@ const driverItems = [
   { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
 ]
 
-const items = role === "ADMIN" ? adminItems : role === "SUPER_ADMIN" ? superAdminItems : driverItems
+  const items = role === Role.ADMIN ? adminItems : role === Role.SUPER_ADMIN ? superAdminItems : driverItems
 
 return (
   <Sidebar>

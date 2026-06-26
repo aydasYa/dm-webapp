@@ -2,9 +2,10 @@
 
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar"
 import AppSidebar from "@/components/AppSidebar"
+import { Role } from "@/src/generated/prisma/enums"
 
 type Props = {
-    role: "ADMIN" | "TOW_TRUCK_DRIVER" | "SUPER_ADMIN"
+    role: Role
     firstname: string
     lastname: string
     qrCode: string | null
