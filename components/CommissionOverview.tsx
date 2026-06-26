@@ -13,7 +13,7 @@ const statusStyles: Record<string, string> = {
 	REJECTED: "bg-red-100 text-red-700 ring-red-200",
 }
 
-export default async function CommissionsOverview({
+export default async function CommissionOverview({
 	userId,
 	companyId,
 	preset,
