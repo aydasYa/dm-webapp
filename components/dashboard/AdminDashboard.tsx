@@ -90,6 +90,11 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "#dc2626" },
 	].filter((d) => d.value > 0)
 
+	// KPI-Kennzahlen für die Karten-Reihe oben
+	const totalLeads = leadRecords.length
+	const completedLeads = leadRecords.filter((l) => l.status === "COMPLETED").length
+	const conversionRate = totalLeads > 0 ? (completedLeads / totalLeads) * 100 : 0
+
 	// Commission distribution by status for the donut (amounts, color per slice)
 	const provisionStatusData = [
 		{ name: "Offen", value: Math.round(comOpen), color: "#ca8a04" },
@@ -119,6 +124,13 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				</div>
 				<Button type="submit" variant="outline" size="sm">Filtern</Button>
 			</form>
+
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+				<StatCard label="Leads gesamt" value={String(totalLeads)} />
+				<StatCard label="Abschlüsse" value={String(completedLeads)} />
+				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} />
+				<StatCard label="Provision verdient" value={`${comSum.toFixed(2)} €`} trend={commissionTrend} />
+			</div>
 
 			<div>
 				<h2 className="font-semibold mb-2">Provisionen</h2>
