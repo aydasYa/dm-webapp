@@ -82,6 +82,14 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		return { day: String(day).padStart(2, "0"), count }
 	})
 
+	// Lead-Status-Verteilung für den Donut (Anzahl je Status)
+	const leadStatusData = [
+		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "#059669" },
+		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "#2563eb" },
+		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "#ca8a04" },
+		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "#dc2626" },
+	].filter((d) => d.value > 0)
+
 	// Commission distribution by status for the donut (amounts, color per slice)
 	const provisionStatusData = [
 		{ name: "Offen", value: Math.round(comOpen), color: "#ca8a04" },
@@ -151,16 +159,31 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} />
 			</div>
 
-			<Card>
-				<CardHeader>
-					<CardTitle className="text-base font-semibold">
-						Lead-Entwicklung ({now.toLocaleDateString("de-DE", { month: "long" })})
-					</CardTitle>
-				</CardHeader>
-				<CardContent>
-					<LeadsChart data={leadTrendData} />
-				</CardContent>
-			</Card>
+			<div className="grid gap-4 md:grid-cols-2">
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">
+							Lead-Entwicklung ({now.toLocaleDateString("de-DE", { month: "long" })})
+						</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<LeadsChart data={leadTrendData} />
+					</CardContent>
+				</Card>
+
+				<Card>
+					<CardHeader>
+						<CardTitle className="text-base font-semibold">Lead-Status-Verteilung</CardTitle>
+					</CardHeader>
+					<CardContent>
+						{leadStatusData.length === 0 ? (
+							<p className="text-center text-muted-foreground">Keine Leads vorhanden</p>
+						) : (
+							<DonutChart data={leadStatusData} />
+						)}
+					</CardContent>
+				</Card>
+			</div>
 
 			<div>
 				<h2 className="font-semibold mb-2">Fahrer</h2>
