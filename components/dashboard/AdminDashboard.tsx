@@ -1,3 +1,5 @@
+import LeadsChart from "@/components/LeadsChart"
+import { getLeads } from "@/lib/getLeads"
 import prisma from "@/lib/prisma"
 import { Role, UserStatus } from "@/src/generated/prisma/enums"
 import { summarizeCommissions } from "@/lib/commission"
@@ -7,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import DonutChart from "@/components/DonutChart"
 import CommissionsChart from "@/components/CommissionsChart"
 import { getCommissions } from "@/lib/getCommissions"
+
 
 // Short, user-facing status labels (UI is German)
 const STATUS_LABEL: Record<UserStatus, string> = {
@@ -25,6 +28,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		registeredDrivers,
 		pendingUsers,
 		commissionRecords,
+		leadRecords,
 	] = await Promise.all([
 		prisma.user.findMany({
 			where: { role: Role.TOW_TRUCK_DRIVER, companyId, deletedAt: null },
@@ -36,6 +40,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, companyId } }),
 		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.PENDING, companyId } }),
 		getCommissions({ companyId: companyId ?? "", driverId: selectedDriverId }),
+		getLeads({ companyId: companyId ?? "", driverId: selectedDriverId }),
 	])
 	const commissions = commissionRecords.map((r) => ({
 		amount: r.amount,
@@ -65,6 +70,17 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			.filter(c => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
 			.reduce((s, c) => s + Number(c.amount), 0),
 	}))
+
+	// Leads pro Tag im aktuellen Monat (für das Lead-Entwicklung-Diagramm)
+	const daysInMonth = new Date(currentYear, now.getMonth() + 1, 0).getDate()
+	const leadTrendData = Array.from({ length: daysInMonth }, (_, i) => {
+		const day = i + 1
+		const count = leadRecords.filter((l) => {
+			const d = new Date(l.createdAt)
+			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
+		}).length
+		return { day: String(day).padStart(2, "0"), count }
+	})
 
 	// Commission distribution by status for the donut (amounts, color per slice)
 	const provisionStatusData = [
@@ -134,6 +150,17 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				<StatCard label="Alle registrierten" value={String(registeredDrivers)} />
 				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} />
 			</div>
+
+			<Card>
+				<CardHeader>
+					<CardTitle className="text-base font-semibold">
+						Lead-Entwicklung ({now.toLocaleDateString("de-DE", { month: "long" })})
+					</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<LeadsChart data={leadTrendData} />
+				</CardContent>
+			</Card>
 
 			<div>
 				<h2 className="font-semibold mb-2">Fahrer</h2>
