@@ -1,0 +1,20 @@
+{
+  "records": [
+    { "id": "LEAD-1001", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "COMPLETED",   "createdAt": "2026-06-02" },
+    { "id": "LEAD-1002", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "OPEN",        "createdAt": "2026-06-03" },
+    { "id": "LEAD-1003", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "IN_PROGRESS", "createdAt": "2026-06-05" },
+    { "id": "LEAD-1004", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "OPEN",        "createdAt": "2026-06-07" },
+    { "id": "LEAD-1005", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "COMPLETED",   "createdAt": "2026-06-09" },
+    { "id": "LEAD-1006", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "CANCELLED",   "createdAt": "2026-06-10" },
+    { "id": "LEAD-1007", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "OPEN",        "createdAt": "2026-06-12" },
+    { "id": "LEAD-1008", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "IN_PROGRESS", "createdAt": "2026-06-14" },
+    { "id": "LEAD-1009", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "COMPLETED",   "createdAt": "2026-06-15" },
+    { "id": "LEAD-1010", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "OPEN",        "createdAt": "2026-06-16" },
+    { "id": "LEAD-1011", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "IN_PROGRESS", "createdAt": "2026-06-18" },
+    { "id": "LEAD-1012", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "OPEN",        "createdAt": "2026-06-20" },
+    { "id": "LEAD-1013", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "COMPLETED",   "createdAt": "2026-06-22" },
+    { "id": "LEAD-1014", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "OPEN",        "createdAt": "2026-06-23" },
+    { "id": "LEAD-1015", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0ta1l0003lwrqa9vldw5v", "status": "CANCELLED",   "createdAt": "2026-06-24" },
+    { "id": "LEAD-1016", "companyId": "cmqv0t9pw0001lwrqdn1lc1a3", "driverId": "cmqv0t9wu0002lwrq31d0z78u", "status": "IN_PROGRESS", "createdAt": "2026-06-25" }
+  ]
+}
