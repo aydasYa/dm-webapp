@@ -8,22 +8,40 @@ import DonutChart from "@/components/DonutChart"
 import CompaniesChart from "@/components/CompaniesChart"
 
 export default async function SuperAdminDashboard({ firstname }: { firstname: string }) {
-  const pendingAdmins = await prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.PENDING } })
-  const activeAdmins = await prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.ACTIVE } })
-  const inactiveAdmins = await prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.INACTIVE } })
-  const totalCompanies = await prisma.company.count({ where: { deletedAt: null } })
-  const rejectedCompanies = await prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.REJECTED } })
-
-  // New companies this month vs last month
+  // Daten zuerst (synchron) – damit alle Queries parallel laufen können
   const now = new Date()
   const startThisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
   const startLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-  const newThisMonth = await prisma.company.count({ where: { deletedAt: null, createdAt: { gte: startThisMonth } } })
-  const newLastMonth = await prisma.company.count({ where: { deletedAt: null, createdAt: { gte: startLastMonth, lt: startThisMonth } } })
+  const currentYear = now.getFullYear()
+  const yearStart = new Date(currentYear, 0, 1)
+
+  const [
+    pendingAdmins,
+    activeAdmins,
+    inactiveAdmins,
+    totalCompanies,
+    rejectedCompanies,
+    newThisMonth,
+    newLastMonth,
+    companiesThisYear,
+  ] = await Promise.all([
+    prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.PENDING } }),
+    prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.ACTIVE } }),
+    prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.INACTIVE } }),
+    prisma.company.count({ where: { deletedAt: null } }),
+    prisma.user.count({ where: { role: Role.ADMIN, status: UserStatus.REJECTED } }),
+    prisma.company.count({ where: { deletedAt: null, createdAt: { gte: startThisMonth } } }),
+    prisma.company.count({ where: { deletedAt: null, createdAt: { gte: startLastMonth, lt: startThisMonth } } }),
+    prisma.company.findMany({
+      where: { deletedAt: null, createdAt: { gte: yearStart } },
+      select: { createdAt: true },
+    }),
+  ])
+
   const companyDiff = newThisMonth - newLastMonth
   const companyTrend = `${companyDiff >= 0 ? "↑" : "↓"} ${Math.abs(companyDiff)} vs. ${startLastMonth.toLocaleDateString("de-DE", { month: "short" })}`
 
-  // Company-admin status distribution for the donut (color travels with each slice)
+  // Status-Verteilung der Firmen-Admins für den Donut
   const statusData = [
     { name: "Aktiv", value: activeAdmins, color: "#059669" },
     { name: "Ausstehend", value: pendingAdmins, color: "#ca8a04" },
@@ -31,14 +49,8 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
     { name: "Abgelehnt", value: rejectedCompanies, color: "#dc2626" },
   ].filter((d) => d.value > 0)
 
-  // New companies per month (current year) for the bar chart
+  // Neue Firmen pro Monat (aktuelles Jahr) für das Balkendiagramm
   const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
-  const currentYear = now.getFullYear()
-  const yearStart = new Date(currentYear, 0, 1)
-  const companiesThisYear = await prisma.company.findMany({
-    where: { deletedAt: null, createdAt: { gte: yearStart } },
-    select: { createdAt: true },
-  })
   const companyChartData = monthNames.map((month, idx) => ({
     month,
     count: companiesThisYear.filter((c) => c.createdAt.getMonth() === idx).length,

@@ -17,20 +17,25 @@ const STATUS_LABEL: Record<UserStatus, string> = {
 
 export default async function AdminDashboard({ firstname, companyId, selectedDriverId, adminId, adminName }: { firstname: string; companyId: string | null; selectedDriverId?: string; adminId: string; adminName: string }) {
 	// Drivers of this company (for the filter dropdown)
-	const drivers = await prisma.user.findMany({
-		where: { role: Role.TOW_TRUCK_DRIVER, companyId, deletedAt: null },
-		select: { id: true, firstname: true, lastname: true, email: true, status: true, createdAt: true },
-		orderBy: { firstname: "asc" },
-	})
-
-	// All metrics scoped to the caller's own company (tenant isolation)
-	const totalActiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId } })
-	const totalInactiveDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE, companyId } })
-	const registeredDrivers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, companyId } })
-	const pendingUsers = await prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.PENDING, companyId } })
-
-	// Commission totals from the JSON source (Salesforce simulation), scoped to company + optional driver
-	const commissionRecords = await getCommissions({ companyId: companyId ?? "", driverId: selectedDriverId })
+	const [
+		drivers,
+		totalActiveDrivers,
+		totalInactiveDrivers,
+		registeredDrivers,
+		pendingUsers,
+		commissionRecords,
+	] = await Promise.all([
+		prisma.user.findMany({
+			where: { role: Role.TOW_TRUCK_DRIVER, companyId, deletedAt: null },
+			select: { id: true, firstname: true, lastname: true, email: true, status: true, createdAt: true },
+			orderBy: { firstname: "asc" },
+		}),
+		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId } }),
+		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.INACTIVE, companyId } }),
+		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, companyId } }),
+		prisma.user.count({ where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.PENDING, companyId } }),
+		getCommissions({ companyId: companyId ?? "", driverId: selectedDriverId }),
+	])
 	const commissions = commissionRecords.map((r) => ({
 		amount: r.amount,
 		status: r.status as string,
