@@ -1,26 +1,17 @@
 "use server"
 
-import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
-import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { Role, CommissionStatus } from "@/src/generated/prisma/enums"
+import { requireUser } from "@/lib/auth"
+
 
 // Admin: Commission freigeben (PENDING → APPROVED)
 export async function approveCommission(formData: FormData) {
     const commissionId = formData.get("commissionId") as string
 
-    // Login + Admin-Check
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
-    if (!data?.claims) redirect("/login")
-    
-
-    const caller = await prisma.user.findUnique({
-        where: { supabaseId: data.claims.sub },
-        select: { role: true, companyId: true },
-    })
-    if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+    const caller = await requireUser()
+    if (caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
     if (!caller.companyId) throw new Error("Keine Berechtigung")
 
@@ -39,20 +30,14 @@ export async function approveCommission(formData: FormData) {
     revalidatePath("/dashboard/commissions")
 }
 
+
 // Admin: Commission als bezahlt markieren (APPROVED → PAID)
 export async function markCommissionAsPaid(formData: FormData) {
     const commissionId = formData.get("commissionId") as string
     const paymentRef = formData.get("paymentRef") as string | null
 
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
-    if (!data?.claims) redirect("/login")
-
-    const caller = await prisma.user.findUnique({
-        where: { supabaseId: data.claims.sub },
-        select: { role: true, companyId: true },
-    })
-    if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+    const caller = await requireUser()
+    if (caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
     if (!caller.companyId) throw new Error("Keine Berechtigung")
 

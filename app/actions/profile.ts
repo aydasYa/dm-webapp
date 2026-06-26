@@ -1,9 +1,9 @@
 "use server"
 
-import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Role } from "@/src/generated/prisma/enums"
+import { requireUser } from '@/lib/auth'
 
 
 export async function updateProfile(formData: FormData) {
@@ -21,21 +21,11 @@ export async function updateProfile(formData: FormData) {
   const companyEmail = (formData.get("companyEmail") as string || null)
   const companyWebsite = (formData.get("companyWebsite") as string || null)
 
-  // 3. Login prüfen + Rolle holen
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getClaims()
-  if(!data?.claims) redirect("/login")
-
-  const me = await prisma.user.findUnique({
-    where: { supabaseId: data.claims.sub },
-    select: { role: true },
-  })
-
-  if(!me) redirect("/login")
+  const me = await requireUser()
 
     // 4. Update: persönliche Felder immer; Firmendaten NUR für Admin
   await prisma.user.update({
-    where: { supabaseId: data.claims.sub },
+    where: { id: me.id },
     data: {
       firstname,
       lastname,

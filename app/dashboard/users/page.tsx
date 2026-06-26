@@ -1,32 +1,34 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent } from "@/components/ui/card"
 import { DriverCard } from "@/components/DriverCard"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { requireUser } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 const USER_SELECT = {
-  id: true, firstname: true, lastname: true, email: true, phone: true,
-  status: true, qrCode: true,
-  createdAt: true, companyName: true, companyAddress: true, companyPostcode: true,
-  companyCity: true, companyPhone: true, companyEmail: true,
-  companyContactFirstname: true, companyContactLastname: true,
+  id: true, 
+  firstname: true,
+  lastname: true, 
+  email: true, 
+  phone: true,
+  status: true, 
+  qrCode: true,
+  createdAt: true, 
+  companyName: true, 
+  companyAddress: true, 
+  companyPostcode: true,
+  companyCity: true, 
+  companyPhone: true, 
+  companyEmail: true,
+  companyContactFirstname: true, 
+  companyContactLastname: true,
 } as const
 
 export default async function UsersPage() {
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getClaims()
-  if (!data?.claims) redirect("/login")
-
-  const caller = await prisma.user.findUnique({
-    where: { supabaseId: data.claims.sub },
-    select: { role: true, companyId: true },
-  })
-  if (caller?.role !== Role.ADMIN) redirect("/dashboard")
+  const caller = await requireUser(Role.ADMIN)
 
   const drivers = await prisma.user.findMany({
     // Nur Fahrer der EIGENEN Firma (Mandanten-Trennung)

@@ -1,40 +1,16 @@
 import Link from "next/link"
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
-import prisma from "@/lib/prisma"
 import { updateProfile } from "@/app/actions/profile"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Role } from "@/src/generated/prisma/enums"
+import { requireUser } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 export default async function ProfileEditPage() {
-  const supabase = await createClient()
-  const { data } = await supabase.auth.getClaims()
-  if (!data?.claims) redirect("/login")
-
-  const user = await prisma.user.findUnique({
-    where: { supabaseId: data.claims.sub },
-    select: {
-      firstname: true,
-      lastname: true,
-      email: true,
-      phone: true,
-      role: true,
-      companyName: true,
-      companyAddress: true,
-      companyPostcode: true,
-      companyCity: true,
-      companyPhone: true,
-      companyEmail: true,
-      companyContactFirstname: true,
-      companyContactLastname: true,
-    },
-  })
-  if (!user) redirect("/login")
+   const user = await requireUser()
 
   return (
     <div className="space-y-6 max-w-xl">

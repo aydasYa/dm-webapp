@@ -1,7 +1,5 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
-import prisma from "@/lib/prisma"
 import Link from "next/link"
+import { requireUser } from "@/lib/auth"
 import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,30 +8,7 @@ import { Role } from "@/src/generated/prisma/enums"
 export const dynamic = "force-dynamic"
 
 export default async function ProfilePage() {
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
-    if (!data?.claims) redirect("/login")
-
-    const user = await prisma.user.findUnique({
-        where: { supabaseId: data.claims.sub },
-        select: {
-            role: true,
-            firstname: true,
-            lastname: true,
-            email: true,
-            phone: true,
-            qrCode: true,
-            companyName: true,
-            companyAddress: true,
-            companyPostcode: true,
-            companyCity: true,
-            companyPhone: true,
-            companyEmail: true,
-            companyContactFirstname: true,
-            companyContactLastname: true,
-        },
-    })
-    if (!user) redirect("/login")
+    const user = await requireUser()
 
     return (
         <div className="space-y-6">

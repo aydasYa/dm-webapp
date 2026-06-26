@@ -1,34 +1,22 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import prisma from "@/lib/prisma"
 import { Role, UserStatus } from "@/src/generated/prisma/enums"
 import { generateQrCode } from "@/app/actions/drivers"
 import QrCodeCard from "@/components/QrCodeCard"
 import { Card, CardContent } from "@/components/ui/card"
+import { requireUser } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
 export default async function QrCodesPage() {
-    const supabase = await createClient()
-    const { data } = await supabase.auth.getClaims()
-    if (!data?.claims) redirect("/login")
-
-    const caller = await prisma.user.findUnique({
-        where: { supabaseId: data.claims.sub },
-        select: { role: true,
-            id: true,
-            firstname: true,
-            lastname: true,
-            qrCode: true,
-            companyName: true,
-            companyId: true,
-        },
-    })
-    if (caller?.role !== Role.ADMIN) redirect("/dashboard")
+   const caller = await requireUser(Role.ADMIN)
 
     const drivers = await prisma.user.findMany({
         // Nur Fahrer der EIGENEN Firma (Mandanten-Trennung)
-        where: { role: Role.TOW_TRUCK_DRIVER, status: UserStatus.ACTIVE, companyId: caller.companyId },
+        where: { 
+            role: Role.TOW_TRUCK_DRIVER, 
+            status: UserStatus.ACTIVE, 
+            companyId: caller.companyId 
+        },
         select: {
             id: true,
             firstname: true,

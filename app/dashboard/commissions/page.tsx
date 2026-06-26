@@ -1,6 +1,3 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
-import prisma from "@/lib/prisma"
 import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import CommissionsChart from "@/components/CommissionsChart"
@@ -9,6 +6,7 @@ import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { resolveRange, inRange } from "@/lib/dateRange"
 import { getCommissions } from "@/lib/getCommissions"
+import { requireUser } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -25,15 +23,7 @@ export default async function CommissionsPage({
 	searchParams: Promise<{ preset?: string; from?: string; to?: string }>
 }) {
 	const { preset, from, to } = await searchParams
-	const supabase = await createClient()
-	const { data } = await supabase.auth.getClaims()
-	if (!data?.claims) redirect("/login")
-
-	const user = await prisma.user.findUnique({
-		where: { supabaseId: data.claims.sub },
-		select: { id: true, role: true, companyId: true },
-	})
-	if (!user) redirect("/login")
+	const user = await requireUser()
 
 	const isAdmin = user.role === Role.ADMIN
 

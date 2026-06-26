@@ -1,40 +1,20 @@
 "use server"
 
-import { createClient } from '@/lib/supabase/server'
 import prisma from '@/lib/prisma'
 import { redirect } from 'next/navigation'
 import { Role, UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 import { NAME_PATTERN, EMAIL_PATTERN, str } from '@/app/actions/validation'
 import { createQrCode } from '@/lib/qr'
-import { assertSameCompany } from '@/lib/auth'
+import { assertSameCompany, requireUser } from '@/lib/auth'
 
 
 // Admin-Aktion: neuen Fahrer anlegen + Einladungslink (Magic Link) verschicken
 // Der Fahrer wird sofort als Supabase-Account angelegt (noch ohne Passwort) und
 // bekommt per E-Mail einen Magic Link. Beim Öffnen setzt er sein Passwort selbst.
 export async function createDriver(formData: FormData) {
-  // 1. Aufrufer muss Admin sein – Server Actions sind öffentliche Endpunkte
-  const supabase = await createClient()
-  const { data: sessionData } = await supabase.auth.getClaims()
-  if (!sessionData?.claims) redirect('/login')
-
-  const caller = await prisma.user.findUnique({
-    where: { supabaseId: sessionData.claims.sub },
-    select: {
-      role: true,
-      companyId: true,
-      companyName: true,
-      companyAddress: true,
-      companyCity: true,
-      companyPostcode: true,
-      companyPhone: true,
-      companyEmail: true,
-      companyContactFirstname: true,
-      companyContactLastname: true,
-    },
-  })
-  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+  const caller = await requireUser()
+  if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   // 2. Formularfelder lesen + validieren
   const firstname = str(formData, 'firstname')
@@ -92,15 +72,8 @@ export async function createDriver(formData: FormData) {
 
 // Admin-Aktion: Fahrer löschen (Soft-Delete – Daten bleiben wegen Leads/Provisionen erhalten)
 export async function deleteDriver(formData: FormData) {
-  const supabase = await createClient()
-  const { data: sessionData } = await supabase.auth.getClaims()
-  if (!sessionData?.claims) redirect('/login')
-
-  const caller = await prisma.user.findUnique({
-    where: { supabaseId: sessionData.claims.sub },
-    select: { role: true, companyId: true },
-  })
-  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+  const caller = await requireUser()
+  if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   const userId = formData.get("userId") as string
 
@@ -118,16 +91,8 @@ export async function deleteDriver(formData: FormData) {
 // Admin-Aktion: Nutzer freigeben (ACTIVE) oder ablehnen (REJECTED)
 // Wird direkt aus dem Admin-Dashboard aufgerufen
 export async function updateUserStatus(formData: FormData) {
-  // Erst prüfen ob der Aufrufer wirklich Admin ist – Server Actions sind öffentliche Endpunkte
-  const supabase = await createClient()
-  const { data: sessionData } = await supabase.auth.getClaims()
-  if (!sessionData?.claims) redirect('/login')
-
-  const caller = await prisma.user.findUnique({
-    where: { supabaseId: sessionData.claims.sub },
-    select: { role: true, companyId: true },
-  })
-  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+  const caller = await requireUser()
+  if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   const userId = formData.get("userId") as string
   const newStatus = formData.get("newStatus") as UserStatus
@@ -155,15 +120,8 @@ export async function updateUserStatus(formData: FormData) {
 // welcher Abschlepper den Kunden gebracht hat (utm_medium = userId, utm_source = Firmenname)
 export async function generateQrCode(formData: FormData) {
   // Gleiche Admin-Prüfung wie bei updateUserStatus
-  const supabase = await createClient()
-  const { data: sessionData } = await supabase.auth.getClaims()
-  if (!sessionData?.claims) redirect('/login')
-
-  const caller = await prisma.user.findUnique({
-    where: { supabaseId: sessionData.claims.sub },
-    select: { role: true, companyId: true },
-  })
-  if (caller?.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
+  const caller = await requireUser()
+  if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
   const userId = formData.get("userId") as string
 
