@@ -3,6 +3,7 @@ import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent } from "@/components/ui/card"
 import { DriverCard } from "@/components/DriverCard"
 import Link from "next/link"
+import { Pagination } from "@/components/Pagination"
 import { Button } from "@/components/ui/button"
 import { requireUser } from "@/lib/auth"
 
@@ -31,22 +32,38 @@ const USER_SELECT = {
   },
 } as const
 
-export default async function UsersPage() {
+export default async function UsersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>
+}) {
   const caller = await requireUser(Role.ADMIN)
 
-  const drivers = await prisma.user.findMany({
-    // Nur Fahrer der EIGENEN Firma (Mandanten-Trennung)
-    where: { role: Role.TOW_TRUCK_DRIVER, deletedAt: null, companyId: caller.companyId },
-    select: USER_SELECT,
-    orderBy: { createdAt: "desc" },
-  })
+  const { page: pageParam } = await searchParams
+  const page = Math.max(1, Number(pageParam) || 1)
+  const pageSize = 5
+
+  const where = { role: Role.TOW_TRUCK_DRIVER, deletedAt: null, companyId: caller.companyId }
+
+  const [total, drivers] = await Promise.all([
+    prisma.user.count({ where }),
+    prisma.user.findMany({
+      where,
+      select: USER_SELECT,
+      orderBy: { createdAt: "desc" },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+    }),
+  ])
+
+  const totalPages = Math.ceil(total / pageSize)
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Fahrer-Verwaltung</h1>
-          <p className="text-muted-foreground">{drivers.length} Fahrer</p>
+          <p className="text-muted-foreground">{total} Fahrer</p>
         </div>
         <Button asChild>
           <Link href="/dashboard/users/new">Fahrer anlegen</Link>
@@ -54,6 +71,7 @@ export default async function UsersPage() {
       </div>
 
       {drivers.length === 0 ? (
+        
         <Card>
           <CardContent className="pt-6">
             <p className="text-center text-muted-foreground">Noch keine Fahrer</p>
@@ -66,6 +84,7 @@ export default async function UsersPage() {
           ))}
         </div>
       )}
+      <Pagination page={page} totalPages={totalPages} basePath="/dashboard/users" />
     </div>
   )
 }
