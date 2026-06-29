@@ -2,12 +2,12 @@
 
 import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/companies"
 import { UserStatus } from "@/src/generated/prisma/enums"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
 import { ConfirmActionButton } from "./ConfirmActionButton"
+import { SubmitButton } from "./SubmitButton"
 
 export type CompanyCardUser = {
   id: string
@@ -115,12 +115,12 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
               <form action={updateCompanyAdminStatus}>
                 <input type="hidden" name="userId" value={user.id} />
                 <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
-                <Button type="submit" size="sm">Freigeben</Button>
+                <SubmitButton size="sm">Freigeben</SubmitButton>
               </form>
               <form action={updateCompanyAdminStatus}>
                 <input type="hidden" name="userId" value={user.id} />
                 <input type="hidden" name="newStatus" value={UserStatus.REJECTED} />
-                <Button type="submit" size="sm" variant="outline">Ablehnen</Button>
+                <SubmitButton size="sm" variant="outline">Ablehnen</SubmitButton>
               </form>
             </>
           ) : (
@@ -129,7 +129,7 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
                 <form action={updateCompanyAdminStatus}>
                   <input type="hidden" name="userId" value={user.id} />
                   <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
-                  <Button type="submit" size="sm" variant="outline">Aktivieren</Button>
+                  <SubmitButton size="sm" variant="outline">Aktivieren</SubmitButton>
                 </form>
               ) : (
                 <ConfirmActionButton

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { SubmitButton } from "./SubmitButton"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader,
   DialogTitle, DialogDescription, DialogFooter, DialogClose,
@@ -45,7 +46,7 @@ export function ConfirmActionButton({
             {Object.entries(fields).map(([name, value]) => (
               <input key={name} type="hidden" name={name} value={value} />
             ))}
-            <Button type="submit" variant={confirmVariant}>{confirmLabel}</Button>
+            <SubmitButton variant={confirmVariant}>{confirmLabel}</SubmitButton>
           </form>
         </DialogFooter>
       </DialogContent>

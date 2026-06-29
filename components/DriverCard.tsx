@@ -3,9 +3,9 @@
 import { updateUserStatus, deleteDriver } from "@/app/actions/drivers"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { QRCodeSVG } from "qrcode.react"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfirmActionButton } from "./ConfirmActionButton"
+import { SubmitButton } from "./SubmitButton"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
@@ -118,7 +118,7 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
             <form action={updateUserStatus}>
               <input type="hidden" name="userId" value={user.id} />
               <input type="hidden" name="newStatus" value="ACTIVE" />
-              <Button type="submit" size="sm" variant="outline">Aktivieren</Button>
+              <SubmitButton size="sm" variant="outline">Aktivieren</SubmitButton>
             </form>
           ) : (
             <ConfirmActionButton
