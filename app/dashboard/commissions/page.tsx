@@ -1,4 +1,5 @@
 import { Role } from "@/src/generated/prisma/enums"
+import prisma from "@/lib/prisma"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { summarizeCommissions } from "@/lib/commission"
 import CommissionsChart from "@/components/CommissionsChart"
@@ -21,17 +22,29 @@ const statusStyles: Record<string, string> = {
 export default async function CommissionsPage({
 	searchParams,
 }: {
-	searchParams: Promise<{ preset?: string; from?: string; to?: string }>
+	searchParams: Promise<{ preset?: string; from?: string; to?: string; driver?: string }>
 }) {
-	const { preset, from, to } = await searchParams
+	const { preset, from, to, driver } = await searchParams
 	const user = await requireUser()
 
 	const isAdmin = user.role === Role.ADMIN
 
-	// Provisionen aus der JSON (Salesforce-Simulation): Admin = ganze Firma, Fahrer = nur eigene
+	// Admin: Fahrerliste fürs Filter-Dropdown
+	const drivers = isAdmin
+		? await prisma.user.findMany({
+			where: { role: Role.TOW_TRUCK_DRIVER, companyId: user.companyId, deletedAt: null },
+			select: { id: true, firstname: true, lastname: true },
+			orderBy: { firstname: "asc" },
+		})
+		: []
+
+	// Fahrer sieht nur eigene; Admin den gewählten Fahrer (oder alle)
+	const driverId = isAdmin ? (driver || undefined) : user.id
+
+	// Provisionen aus der JSON (Salesforce-Simulation)
 	const records = await getCommissions({
 		companyId: user.companyId ?? "",
-		driverId: isAdmin ? undefined : user.id,
+		driverId,
 	})
 	const commissions = records.map((r) => ({
 		id: r.id,
@@ -70,7 +83,15 @@ export default async function CommissionsPage({
 			<div>
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
 				<div className="mt-4">
-					<DateRangeFilter preset={preset} from={from} to={to} />
+					<DateRangeFilter
+					preset={preset}
+					from={from}
+					to={to}
+					drivers={isAdmin ? drivers : undefined}
+					selectedDriver={driver}
+					adminId={user.id}
+					adminName={`${user.firstname} ${user.lastname}`}
+				/>
 				</div>
 				<div className="grid gap-4 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} />
