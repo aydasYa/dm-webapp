@@ -3,11 +3,11 @@
 import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/companies"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
-import { ConfirmDeleteButton } from "./ConfirmDeleteButton"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
+import { ConfirmActionButton } from "./ConfirmActionButton"
 
 export type CompanyCardUser = {
   id: string
@@ -125,18 +125,33 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
             </>
           ) : (
             <>
-              <form action={updateCompanyAdminStatus}>
-                <input type="hidden" name="userId" value={user.id} />
-                <input type="hidden" name="newStatus" value={isInactive ? UserStatus.ACTIVE : UserStatus.INACTIVE} />
-                <Button type="submit" size="sm" variant="outline">
-                  {isInactive ? "Aktivieren" : "Deaktivieren"}
-                </Button>
-              </form>
-             <ConfirmDeleteButton 
+              {isInactive ? (
+                <form action={updateCompanyAdminStatus}>
+                  <input type="hidden" name="userId" value={user.id} />
+                  <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
+                  <Button type="submit" size="sm" variant="outline">Aktivieren</Button>
+                </form>
+              ) : (
+                <ConfirmActionButton
+                  action={updateCompanyAdminStatus}
+                  fields={{ userId: user.id, newStatus: UserStatus.INACTIVE }}
+                  triggerLabel="Deaktivieren"
+                  confirmLabel="Deaktivieren"
+                  triggerVariant="outline"
+                  confirmVariant="outline"
+                  title="Unternehmen deaktivieren?"
+                  description={`Unternehmen „${user.company?.name ?? ""}" wird deaktiviert.`}
+                />
+              )}
+
+              <ConfirmActionButton
                 action={deleteCompanyAdmin}
-                userId={user.id}
-                description={`Unternehmen „${user.company?.name ?? ""}" wird deaktiviert.`}
-             />
+                fields={{ userId: user.id }}
+                triggerLabel="Löschen"
+                confirmLabel="Löschen"
+                title="Wirklich löschen?"
+                description={`Unternehmen „${user.company?.name ?? ""}" wird gelöscht.`}
+              />
             </>
           )}
         </div>

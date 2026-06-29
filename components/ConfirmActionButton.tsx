@@ -8,21 +8,29 @@ import {
 
 type Props = {
   action: (formData: FormData) => void
-  userId: string
+  fields: Record<string, string>        // versteckte Felder, z.B. { userId } oder { userId, newStatus }
+  triggerLabel: string                  // Text auf dem öffnenden Button
+  confirmLabel?: string                 // Text auf dem Bestätigen-Button
   title?: string
   description?: string
+  triggerVariant?: "outline" | "destructive"
+  confirmVariant?: "outline" | "destructive" | "default"
 }
 
-export function ConfirmDeleteButton({
+export function ConfirmActionButton({
   action,
-  userId,
-  title = "Wirklich löschen?",
+  fields,
+  triggerLabel,
+  confirmLabel = "Bestätigen",
+  title = "Bist du sicher?",
   description = "Diese Aktion kann nicht rückgängig gemacht werden.",
+  triggerVariant = "destructive",
+  confirmVariant = "destructive",
 }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type="button" size="sm" variant="destructive">Löschen</Button>
+        <Button type="button" size="sm" variant={triggerVariant}>{triggerLabel}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -34,8 +42,10 @@ export function ConfirmDeleteButton({
             <Button type="button" variant="outline">Abbrechen</Button>
           </DialogClose>
           <form action={action}>
-            <input type="hidden" name="userId" value={userId} />
-            <Button type="submit" variant="destructive">Löschen</Button>
+            {Object.entries(fields).map(([name, value]) => (
+              <input key={name} type="hidden" name={name} value={value} />
+            ))}
+            <Button type="submit" variant={confirmVariant}>{confirmLabel}</Button>
           </form>
         </DialogFooter>
       </DialogContent>
