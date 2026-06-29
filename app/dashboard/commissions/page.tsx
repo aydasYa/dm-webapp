@@ -6,6 +6,7 @@ import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
 import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
+import { Pagination } from "@/components/Pagination"
 import { resolveRange, inRange } from "@/lib/dateRange"
 import { getCommissions } from "@/lib/getCommissions"
 import { requireUser } from "@/lib/auth"
@@ -22,9 +23,9 @@ const statusStyles: Record<string, string> = {
 export default async function CommissionsPage({
 	searchParams,
 }: {
-	searchParams: Promise<{ preset?: string; from?: string; to?: string; driver?: string }>
+	searchParams: Promise<{ preset?: string; from?: string; to?: string; driver?: string; page?: string }>
 }) {
-	const { preset, from, to, driver } = await searchParams
+	const { preset, from, to, driver, page: pageParam } = await searchParams
 	const user = await requireUser()
 
 	const isAdmin = user.role === Role.ADMIN
@@ -58,6 +59,12 @@ export default async function CommissionsPage({
 	const range = resolveRange(preset, from, to)
 	const summaryCommissions = commissions.filter((c) => inRange(c.createdAt, range))
 
+	// Paginierung: nur 10 pro Seite anzeigen
+	const pageSize = 5
+	const pageNum = Math.max(1, Number(pageParam) || 1)
+	const totalPages = Math.ceil(summaryCommissions.length / pageSize)
+	const pageItems = summaryCommissions.slice((pageNum - 1) * pageSize, pageNum * pageSize)
+
 	const { total: totalAmount, pending: pendingAmount, paid: paidAmount, approved: approvedAmount, rejected: rejectedAmount } = summarizeCommissions(summaryCommissions)
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
@@ -84,14 +91,14 @@ export default async function CommissionsPage({
 				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
 				<div className="mt-4">
 					<DateRangeFilter
-					preset={preset}
-					from={from}
-					to={to}
-					drivers={isAdmin ? drivers : undefined}
-					selectedDriver={driver}
-					adminId={user.id}
-					adminName={`${user.firstname} ${user.lastname}`}
-				/>
+						preset={preset}
+						from={from}
+						to={to}
+						drivers={isAdmin ? drivers : undefined}
+						selectedDriver={driver}
+						adminId={user.id}
+						adminName={`${user.firstname} ${user.lastname}`}
+					/>
 				</div>
 				<div className="grid gap-4 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} />
@@ -99,27 +106,28 @@ export default async function CommissionsPage({
 					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} />
 				</div>
 
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<CommissionsChart data={chartData} />
-					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
-					</CardHeader>
-					<CardContent>
-						{provisionStatusData.length === 0 ? (
-							<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
-						) : (
-							<DonutChart data={provisionStatusData} unit="€" />
-						)}
-					</CardContent>
-				</Card>
+				<div className="flex">
+					<Card className="flex-grow">
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<CommissionsChart data={chartData} />
+						</CardContent>
+					</Card>
+					<Card className="flex-grow">
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
+						</CardHeader>
+						<CardContent>
+							{provisionStatusData.length === 0 ? (
+								<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
+							) : (
+								<DonutChart data={provisionStatusData} unit="€" />
+							)}
+						</CardContent>
+					</Card>
+				</div>
 				<p className="text-muted-foreground">{summaryCommissions.length} Einträge insgesamt</p>
 			</div>
 
@@ -131,7 +139,7 @@ export default async function CommissionsPage({
 				</Card>
 			) : (
 				<div className="flex flex-col gap-3">
-					{summaryCommissions.map((c) => (
+					{pageItems.map((c) => (
 						<Card key={c.id}>
 							<CardContent className="flex items-center justify-between gap-4 pt-6">
 								<div>
@@ -149,6 +157,12 @@ export default async function CommissionsPage({
 					))}
 				</div>
 			)}
+			<Pagination
+					page={pageNum}
+					totalPages={totalPages}
+					basePath="/dashboard/commissions"
+					query={{ preset, from, to, driver }}
+				/>
 		</div>
 	)
 }

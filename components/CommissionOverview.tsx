@@ -8,6 +8,7 @@ import { resolveRange, inRange } from "@/lib/dateRange"
 import { getCommissions } from "@/lib/getCommissions"
 import { getLeads } from "@/lib/getLeads"
 import LeadsChart from "@/components/LeadsChart"
+import { Pagination } from "@/components/Pagination"
 
 const statusStyles: Record<string, string> = {
 	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
@@ -22,12 +23,14 @@ export default async function CommissionOverview({
 	preset,
 	from,
 	to,
+	page,
 }: {
 	userId: string
 	companyId: string | null
 	preset?: string
 	from?: string
 	to?: string
+	page?: string
 }) {
 	// Provisionen + Leads aus der JSON (Salesforce-Simulation): nur die eigenen des Fahrers
 	const [records, leadRecords] = await Promise.all([
@@ -45,6 +48,12 @@ export default async function CommissionOverview({
 	// KPIs/Donut/Liste folgen dem Zeitraum; Chart + Trend bleiben ungefiltert
 	const range = resolveRange(preset, from, to)
 	const summaryCommissions = commissions.filter((c) => inRange(c.createdAt, range))
+
+	// Paginierung: nur 10 pro Seite anzeigen
+	const pageSize = 10
+	const pageNum = Math.max(1, Number(page) || 1)
+	const totalPages = Math.ceil(summaryCommissions.length / pageSize)
+	const pageItems = summaryCommissions.slice((pageNum - 1) * pageSize, pageNum * pageSize)
 
 	const { total: totalAmount, pending: pendingAmount, paid: paidAmount, approved: approvedAmount, rejected: rejectedAmount } = summarizeCommissions(summaryCommissions)
 
@@ -165,7 +174,7 @@ export default async function CommissionOverview({
 				</Card>
 			) : (
 				<div className="flex flex-col gap-3">
-					{summaryCommissions.map((c) => (
+					{pageItems.map((c) => (
 						<Card key={c.id}>
 							<CardContent className="flex items-center justify-between gap-4 pt-6">
 								<div>
@@ -183,6 +192,13 @@ export default async function CommissionOverview({
 					))}
 				</div>
 			)}
+
+			<Pagination
+				page={pageNum}
+				totalPages={totalPages}
+				basePath="/dashboard"
+				query={{ preset, from, to }}
+			/>
 		</div>
 	)
 }

@@ -63,6 +63,7 @@
 - **Salesforce Phase 2 (echte API):** JSON-Sim durch echten `fetch()`+SOQL ersetzen — Plan in `notes/salesforce-lernplan.md`. (Noch keine Jira-Tickets.)
 - **Offene Produkt-Entscheidungen:** `notes/open-questions.md` (Admin-eigene-Provision, REJECTED reaktivieren, echtes Löschen). (Noch keine Jira-Tickets.)
 - **E-Mail-System (WEBAPP-48):** pausiert; `nodemailer` installiert, `lib/email.ts` offen.
+- **Komponenten-Logik auslagern (Refactoring):** Mehrere Server-Komponenten (z.B. `app/dashboard/commissions/page.tsx`, `components/dashboard/AdminDashboard.tsx`, `components/CommissionOverview.tsx`) haben viel Aufbereitungs-/Berechnungslogik **vor dem `return`** (Mappings, Filtern, Summen, Paginierung, Chart-Daten). Diese in `lib/`-Helper (oder eigene Funktionen) auslagern, sodass die Komponente nur noch rendert. Ziel: schlankere Komponenten, wiederverwendbare + testbare Logik.
 
 ## 7. Jira
 - Cloud `dmsbielefeld.atlassian.net`, Projekt-Key **`WEBAPP`** (Cloud-ID `5419d2dd-ed41-40d6-8e3c-3ac24fc99ea3`).

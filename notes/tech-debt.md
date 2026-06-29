@@ -34,6 +34,9 @@ Stand: 26.06.2026.
 - **`lib/lead-status.ts`** — wurde nur von den entfernten Lead-Seiten genutzt; vermutlich toter Code. Prüfen + entfernen.
 - **`calculateCommissionAmount`** in `lib/commission.ts` — wurde von `app/actions/leads.ts` (entfernt) genutzt; jetzt ungenutzt. Prüfen + entfernen (nutzt `prisma.lead` / `LeadStatus`).
 
+## 🟠 Komponenten verschlanken (offen)
+- **Logik vor dem `return` auslagern** — Server-Komponenten (`commissions/page.tsx`, `AdminDashboard`, `CommissionOverview`) haben viel Aufbereitung (Mappings, Filter, Summen, Paginierung, Chart-Daten) im Body. In `lib/`-Helper auslagern, damit die Komponente nur noch rendert (schlanker, wiederverwendbar, testbar).
+
 ## 🔌 Salesforce / Daten (offen)
 - **Echte Salesforce-Anbindung** — `getLeads` (und `getCommissions`) lesen aktuell aus JSON. Später nur das Innere auf `fetch()` umstellen; Signatur bleibt gleich, Aufrufer unverändert.
 - **Demo-Leads nur für Berlin** — `data/demo-leads.json` hat nur Datensätze für Abschlepp Berlin (Markus Weber + Tom Schulz). Andere Firmen/Fahrer zeigen leere Lead-Charts, bis sie Lead-Daten bekommen.
