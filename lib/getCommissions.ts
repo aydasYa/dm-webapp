@@ -1,4 +1,4 @@
-import data from "@/data/aydas-commissions.json"
+import data from "@/data/demo-commissions.json"
 
 // Eine Provisions-Zeile (so wie die JSON / später Salesforce sie liefert)
 export type CommissionRecord = {

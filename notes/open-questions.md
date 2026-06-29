@@ -5,7 +5,7 @@ Leads & Provisionen leben in **Salesforce** (deinmotorschaden.de). Die WebApp so
 Auf dem **Admin-Dashboard („Übersicht")** sollen nur **zwei Read-only-Diagramme** erscheinen:
 1. **Lead Entwicklung** — Liniendiagramm: Anzahl Leads pro Tag (Datum).
 2. **Lead Status Verteilung** — Donut: Abgeschlossen · In Bearbeitung · Offen · Storniert.
-Quelle: **Salesforce-JSON-Simulation** (wie `data/aydas-commissions.json` bei Provisionen).
+Quelle: **Salesforce-JSON-Simulation** (wie `data/demo-commissions.json` bei Provisionen).
 Folgen:
 - Bestehende Lead-Management-Seiten (`app/dashboard/leads/` — Liste/neu/Detail/bearbeiten) + zugehörige Logik (`app/actions/leads.ts`, `LeadForm`, `CancelLeadDialog`) → **entfernen** (im UI-Update-Epic).
 - Gehört thematisch zu **Salesforce-Integration / neues UI-Epic**, nicht ins Code-Health-Epic 2.

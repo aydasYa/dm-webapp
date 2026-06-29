@@ -30,7 +30,7 @@ Alle Admin-Ansichten nach `companyId` gefiltert (vorher firmenübergreifend sich
 
 ## D) Salesforce-Provisionen als JSON-Simulation
 Provisionen kommen aus einer JSON (simuliert Salesforce), Rest weiter aus DB.
-- **`data/aydas-commissions.json`** — flache `records`-Liste: `id, companyId, driverId, driverName, amount, status, createdAt`. IDs = echte DB-IDs (Company-ID + User-IDs).
+- **`data/demo-commissions.json`** — flache `records`-Liste: `id, companyId, driverId, driverName, amount, status, createdAt`. IDs = echte DB-IDs (Company-ID + User-IDs).
 - **`lib/getCommissions.ts`** — `getCommissions({ companyId, driverId? })`: liest JSON + filtert. (Async, damit später `fetch()` zu Salesforce ohne Aufruf-Änderung rein kann.)
 - **`scripts/list-ids.ts`** — gibt Company- + User-IDs aus (`pnpm tsx scripts/list-ids.ts`), um die JSON korrekt zu befüllen.
 - **Verdrahtet:** `CommissionOverview.tsx` (Fahrer: `driverId = userId`), `AdminDashboard.tsx` (Firma: nur `companyId`), `app/dashboard/commissions/page.tsx` (Admin = Firma, Fahrer = eigene). Überall `createdAt` aus Text → `new Date(...)` umgewandelt, damit Summen/Charts/Filter weiter laufen.

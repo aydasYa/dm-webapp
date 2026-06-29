@@ -13,7 +13,7 @@ Damit sich beide Epics nicht überschneiden:
 
 ## Hintergrund
 
-Siehe Entscheidung in `notes/open-questions.md` (25.06.2026): Leads & Provisionen leben in Salesforce; die WebApp zeigt nur Auswertungen. Quelle wird per JSON simuliert (wie `data/aydas-commissions.json` + `lib/getCommissions.ts` bei den Provisionen).
+Siehe Entscheidung in `notes/open-questions.md` (25.06.2026): Leads & Provisionen leben in Salesforce; die WebApp zeigt nur Auswertungen. Quelle wird per JSON simuliert (wie `data/demo-commissions.json` + `lib/getCommissions.ts` bei den Provisionen).
 
 ## Tickets (Reihenfolge 1 → 5)
 
@@ -31,6 +31,9 @@ Obere Karten nach Mockup: Leads gesamt, Abschlüsse, Conversion Rate, Provision 
 
 ### 5 — Alte Lead-Management-Seiten entfernen
 Entfernen: `app/dashboard/leads/*` (Liste/neu/Detail/bearbeiten), `app/actions/leads.ts`, `components/LeadForm.tsx`, `components/CancelLeadDialog.tsx`. Vorher prüfen, dass nichts Aktives mehr darauf verweist. `tsc` grün halten.
+
+## Nachzügler / Follow-up
+- **Provisions-Donut im Fahrer-Dashboard zeigt keine Daten** — der Donut „Provisionen nach Status" existiert in `CommissionOverview` (Z.122), ist aber leer, weil `data/demo-commissions.json` noch alte IDs (`cmqi…`) von vor dem Reseed hat (aktuelle Seed-DB: `cmqv…`). Fix: `companyId`/`driverId` in `demo-commissions.json` auf aktuelle Seed-IDs umbiegen (per `scripts/list-ids.ts`). Generell: JSON-Demo-Daten nach jedem `seed-demo` neu verknüpfen (auch `demo-leads.json`).
 
 ## Referenz
 

@@ -37,7 +37,7 @@ Stand: 26.06.2026.
 ## 🔌 Salesforce / Daten (offen)
 - **Echte Salesforce-Anbindung** — `getLeads` (und `getCommissions`) lesen aktuell aus JSON. Später nur das Innere auf `fetch()` umstellen; Signatur bleibt gleich, Aufrufer unverändert.
 - **Demo-Leads nur für Berlin** — `data/demo-leads.json` hat nur Datensätze für Abschlepp Berlin (Markus Weber + Tom Schulz). Andere Firmen/Fahrer zeigen leere Lead-Charts, bis sie Lead-Daten bekommen.
-- **IDs in den JSON-Dateien** hängen an der Seed-DB — nach jedem `seed-demo` neu setzen (per `scripts/list-ids.ts`). Betrifft `demo-leads.json` und `aydas-commissions.json`.
+- **IDs in den JSON-Dateien** hängen an der Seed-DB — nach jedem `seed-demo` neu setzen (per `scripts/list-ids.ts`). Betrifft `demo-leads.json` und `demo-commissions.json`.
 
 ## Verhaltens-Notizen (so gewollt, kein Bug)
 - **Soft-Delete** — „Löschen" bei Fahrer/Firmen-Admin setzt `deletedAt` + `INACTIVE` (FK von `Lead`/`Commission` verhindern Hard-Delete). Listen filtern `deletedAt: null`.

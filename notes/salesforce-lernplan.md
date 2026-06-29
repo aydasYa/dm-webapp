@@ -18,7 +18,7 @@ Aktuell lesen 3 Stellen direkt aus Prisma:
 - **OAuth Client-Credentials** = einfachster Server-Token (kein Login, keine Zertifikate). Für Next.js-Backend empfohlen (JWT-Bearer wäre komplexer).
 
 ## Phase 1 — JSON → WebApp (OHNE Salesforce) ← hier starten, hands-on
-1. JSON im Repo — **haben wir**: `data/aydas-commissions.json`.
+1. JSON im Repo — **haben wir**: `data/demo-commissions.json`.
 2. `getCommissions()` in `lib/` schreiben: JSON lesen + auf App-Typ **mappen**.
 3. Demo-Seite `/dashboard/sf-demo`: „Provision pro Monat, alle Fahrer von Aydas".
 → Danach verstehst du den ganzen Fluss (Quelle → mappen → anzeigen).

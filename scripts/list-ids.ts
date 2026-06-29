@@ -3,7 +3,7 @@ import "./load-env"
 import prisma from "@/lib/prisma"
 import { Role } from "@/src/generated/prisma/enums"
 
-// Prints company IDs + user IDs so they can be used in data/aydas-commissions.json
+// Prints company IDs + user IDs so they can be used in data/demo-commissions.json and data/demo-leads.json
 async function main() {
   const companies = await prisma.company.findMany({
     select: { id: true, name: true },
