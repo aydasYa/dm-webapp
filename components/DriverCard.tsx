@@ -3,6 +3,7 @@
 import { updateUserStatus, deleteDriver } from "@/app/actions/drivers"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { QRCodeSVG } from "qrcode.react"
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ConfirmActionButton } from "./ConfirmActionButton"
 import {
@@ -110,12 +111,16 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
         </DialogContent>
       </Dialog>
 
-      {/* Aktionen — bewusst AUSSERHALB des Triggers, damit der Klick darauf nicht das Popup öffnet */}
+      {/* Aktionen — bewusst AUSSERHALB des Triggers */}
       <CardContent className="pt-0">
         <div className="flex justify-end gap-2">
-          <form action={updateUserStatus}>
-            <input type="hidden" name="userId" value={user.id} />
-            <input type="hidden" name="newStatus" value={isInactive ? "ACTIVE" : "INACTIVE"} />
+          {isInactive ? (
+            <form action={updateUserStatus}>
+              <input type="hidden" name="userId" value={user.id} />
+              <input type="hidden" name="newStatus" value="ACTIVE" />
+              <Button type="submit" size="sm" variant="outline">Aktivieren</Button>
+            </form>
+          ) : (
             <ConfirmActionButton
               action={updateUserStatus}
               fields={{ userId: user.id, newStatus: "INACTIVE" }}
@@ -126,8 +131,9 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
               title="Fahrer deaktivieren?"
               description={`Fahrer „${user.firstname} ${user.lastname}" wird deaktiviert.`}
             />
-          </form>
-         <ConfirmActionButton
+          )}
+
+          <ConfirmActionButton
             action={deleteDriver}
             fields={{ userId: user.id }}
             triggerLabel="Löschen"
