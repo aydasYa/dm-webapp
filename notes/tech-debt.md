@@ -1,26 +1,43 @@
 # Tech-Debt & Verbesserungs-Ideen
 
 Nach Wichtigkeit. Kein Blocker — „später sauber machen".
+Stand: 26.06.2026.
 
-## 🔴 Sicherheit / Korrektheit
-- **Server-Actions gegen IDOR härten** — `updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` prüfen nur „ist Admin?", nicht „gehört das Ziel zu *meiner* Firma?". Fix: in jeder Action prüfen, dass das Ziel dieselbe `companyId` hat wie der Aufrufer.
-- **`companyId`-Null-Fall absichern** — fehlt einem Admin die `companyId`, matchen Filter `companyId: null` → er sähe alle firmenlosen Datensätze. „Kein Treffer" erzwingen, wenn `companyId` fehlt.
+## ✅ Erledigt
 
-## 🟠 Code-Gesundheit
-- **Login-/Rollen-Check zentralisieren** — Muster `getClaims → findUnique → Rolle prüfen` steht in ~8 Dateien. Helper `requireUser(role)` in `lib/auth.ts`.
-- **DB-Abfragen parallelisieren** — `AdminDashboard` / `SuperAdminDashboard` machen mehrere Abfragen nacheinander; mit `Promise.all([...])` parallel.
-- **Rollen-Enum statt String-Unions** — `DashboardShell` / `AppSidebar` nutzen hartkodierte Strings (`"ADMIN" | …`); besser den `Role`-Enum.
-- **Provisions-Summen dupliziert** — Gesamt/Offen/Ausbezahlt in `CommissionOverview`, `commissions/page.tsx`, `AdminDashboard`. In Helper (`lib/commission.ts`) bündeln.
-- **Company-Daten doppelt** — `Company`-Model + `companyId` da, aber alte `companyXyz`-Felder liegen weiter flach auf `User`. Echte Migration der Felder steht aus.
-- **`CommissionOverview`-Funktionsname** — Funktion heißt `CommissionsOverview`, Datei `CommissionOverview.tsx` (egal, default export, aber inkonsistent).
-- **ESLint `ignoreRestSiblings`** — `validateSignup` filtert `companyWebsite` per Rest-Destructure → unused-var Warning. Optional Regel `{ ignoreRestSiblings: true }` setzen.
+### Epic 1 — Sicherheit & Mandant-Härtung
+- IDOR-Härtung der Server-Actions (`assertSameCompany`-Helper) ✅
+- `companyId`-Null-Fall abgesichert ✅
+- Fahrer dürfen Firmendaten nicht bearbeiten (WEBAPP-215) ✅
 
-## 🟡 UX / Funktion
+### Epic 2 — Code-Health
+- `requireUser`-Helper (Login-/Rollen-Check zentralisiert) ✅
+- Dashboard-Queries parallelisiert (`Promise.all`) ✅
+- Role-Enum statt String-Unions ✅
+- Provisions-Summen entdoppelt (`summarizeCommissions`) ✅
+- ESLint `ignoreRestSiblings` ✅
+- `CommissionOverview`-Funktionsname angeglichen ✅
+- **Company-Daten ins Company-Model migriert (WEBAPP-199)** ✅ — flache `companyXyz`-Felder von `User` entfernt.
+
+### Epic 4 — UI-Verbesserungen
+- Lead-Charts (Entwicklung + Status-Donut), KPI-Karten, Fahrer-Charts, `getLeads`-Quelle ✅
+- Altes Lead-Management entfernt ✅
+
+## 🟡 Epic 3 — UX / Funktion (offen)
 - **Lösch-Bestätigung** — „Löschen" ist 1 Klick = weg. Bestätigungs-Dialog ergänzen.
 - **Lade-/Deaktiviert-Zustand bei Buttons** (`useFormStatus`) gegen Doppelklick.
-- **Paginierung** für Fahrer-, Leads- und Provisions-Listen.
+- **Paginierung** für Fahrer- und Provisions-Listen.
 - **`AuditLog` nutzen** — Model existiert, ungenutzt. Status-Änderungen/Freigaben/Löschungen protokollieren (wer, wann, wen).
 - **Fahrer-Filter im Provision-Tab fehlt noch** (`app/dashboard/commissions/page.tsx`, Admin). Soll funktionieren wie der Fahrer-Filter im Übersicht-Tab (`AdminDashboard`): GET-Param `?driver=` lesen → an `getCommissions({ companyId, driverId })` durchreichen → `DateRangeFilter` um ein Fahrer-Dropdown (inkl. „<Name> (Inhaber)") ergänzen. Aktuell hat der Provision-Tab nur den Zeitraum-Filter.
+
+## 🧹 Aufräumer (durch Epic 4 entstanden)
+- **`lib/lead-status.ts`** — wurde nur von den entfernten Lead-Seiten genutzt; vermutlich toter Code. Prüfen + entfernen.
+- **`calculateCommissionAmount`** in `lib/commission.ts` — wurde von `app/actions/leads.ts` (entfernt) genutzt; jetzt ungenutzt. Prüfen + entfernen (nutzt `prisma.lead` / `LeadStatus`).
+
+## 🔌 Salesforce / Daten (offen)
+- **Echte Salesforce-Anbindung** — `getLeads` (und `getCommissions`) lesen aktuell aus JSON. Später nur das Innere auf `fetch()` umstellen; Signatur bleibt gleich, Aufrufer unverändert.
+- **Demo-Leads nur für Berlin** — `data/demo-leads.json` hat nur Datensätze für Abschlepp Berlin (Markus Weber + Tom Schulz). Andere Firmen/Fahrer zeigen leere Lead-Charts, bis sie Lead-Daten bekommen.
+- **IDs in den JSON-Dateien** hängen an der Seed-DB — nach jedem `seed-demo` neu setzen (per `scripts/list-ids.ts`). Betrifft `demo-leads.json` und `aydas-commissions.json`.
 
 ## Verhaltens-Notizen (so gewollt, kein Bug)
 - **Soft-Delete** — „Löschen" bei Fahrer/Firmen-Admin setzt `deletedAt` + `INACTIVE` (FK von `Lead`/`Commission` verhindern Hard-Delete). Listen filtern `deletedAt: null`.

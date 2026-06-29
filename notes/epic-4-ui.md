@@ -1,6 +1,6 @@
 # Epic 4 — UI-Verbesserungen
 
-**Stand:** 26.06.2026 · **Status:** angelegt, noch nicht begonnen
+**Stand:** 26.06.2026 · **Status:** abgeschlossen ✅ (alle Tickets inkl. Fahrer-Charts; Lead-Management entfernt)
 
 Dashboard-Darstellung nach dem neuen Mockup. Leads werden in der WebApp **nur noch als Diagramme** angezeigt (Quelle: **Salesforce**), kein Lead-Management mehr.
 
