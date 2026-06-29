@@ -4,6 +4,7 @@ import { updateUserStatus, deleteDriver } from "@/app/actions/drivers"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
+import { ConfirmDeleteButton } from "./ConfirmDeleteButton"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
@@ -120,10 +121,11 @@ export function DriverCard({ user }: { user: DriverCardUser }) {
               {isInactive ? "Aktivieren" : "Deaktivieren"}
             </Button>
           </form>
-          <form action={deleteDriver}>
-            <input type="hidden" name="userId" value={user.id} />
-            <Button type="submit" size="sm" variant="destructive">Löschen</Button>
-          </form>
+         <ConfirmDeleteButton 
+            action={deleteDriver}
+            userId={user.id}
+            description={`Fahrer „${user.firstname} ${user.lastname}" wird deaktiviert.`}
+         />
         </div>
       </CardContent>
     </Card>

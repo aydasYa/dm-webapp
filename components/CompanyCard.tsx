@@ -3,6 +3,7 @@
 import { updateCompanyAdminStatus, deleteCompanyAdmin } from "@/app/actions/companies"
 import { UserStatus } from "@/src/generated/prisma/enums"
 import { Button } from "@/components/ui/button"
+import { ConfirmDeleteButton } from "./ConfirmDeleteButton"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
@@ -131,10 +132,11 @@ export function CompanyCard({ user }: { user: CompanyCardUser }) {
                   {isInactive ? "Aktivieren" : "Deaktivieren"}
                 </Button>
               </form>
-              <form action={deleteCompanyAdmin}>
-                <input type="hidden" name="userId" value={user.id} />
-                <Button type="submit" size="sm" variant="destructive">Löschen</Button>
-              </form>
+             <ConfirmDeleteButton 
+                action={deleteCompanyAdmin}
+                userId={user.id}
+                description={`Unternehmen „${user.company?.name ?? ""}" wird deaktiviert.`}
+             />
             </>
           )}
         </div>
