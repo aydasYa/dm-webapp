@@ -10,13 +10,8 @@ import { getCommissions } from "@/lib/getCommissions"
 import { getLeads } from "@/lib/getLeads"
 import LeadsChart from "@/components/LeadsChart"
 import { Pagination } from "@/components/Pagination"
-
-const statusStyles: Record<string, string> = {
-	PENDING: "bg-yellow-100 text-yellow-700 ring-yellow-200",
-	APPROVED: "bg-blue-100 text-blue-700 ring-blue-200",
-	PAID: "bg-emerald-100 text-emerald-800 ring-emerald-300",
-	REJECTED: "bg-red-100 text-red-700 ring-red-200",
-}
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { StatusBadge, COMMISSION_STATUS } from "@/components/StatusBadge"
 
 export default async function CommissionOverview({
 	userId,
@@ -173,24 +168,33 @@ export default async function CommissionOverview({
 					</CardContent>
 				</Card>
 			) : (
-				<div className="flex flex-col gap-3">
-					{pageItems.map((c) => (
-						<Card key={c.id}>
-							<CardContent className="flex items-center justify-between gap-4 pt-6">
-								<div>
-									<p className="font-semibold">{c.driverName}</p>
-									<p className="text-sm text-muted-foreground">{c.createdAt.toLocaleDateString("de-DE")}</p>
-								</div>
-								<div className="flex items-center gap-3">
-									<span className={`rounded-full px-2 py-1 text-xs font-medium ring-1 ring-inset ${statusStyles[c.status] ?? statusStyles.PENDING}`}>
-										{c.status}
-									</span>
-									<p className="text-xl font-bold">{c.amount.toFixed(2)} €</p>
-								</div>
-							</CardContent>
-						</Card>
-					))}
-				</div>
+				<Card>
+					<CardContent className="p-0">
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>Fahrer</TableHead>
+									<TableHead>Datum</TableHead>
+									<TableHead>Status</TableHead>
+									<TableHead className="text-right">Betrag</TableHead>
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{pageItems.map((c) => {
+									const s = COMMISSION_STATUS[c.status] ?? COMMISSION_STATUS.PENDING
+									return (
+										<TableRow key={c.id}>
+											<TableCell className="font-medium">{c.driverName}</TableCell>
+											<TableCell className="text-muted-foreground">{c.createdAt.toLocaleDateString("de-DE")}</TableCell>
+											<TableCell><StatusBadge tone={s.tone}>{s.label}</StatusBadge></TableCell>
+											<TableCell className="text-right font-semibold tabular-nums">{c.amount.toFixed(2)} €</TableCell>
+										</TableRow>
+									)
+								})}
+							</TableBody>
+						</Table>
+					</CardContent>
+				</Card>
 			)}
 
 			<Pagination
