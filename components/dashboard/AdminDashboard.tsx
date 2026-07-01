@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import DonutChart from "@/components/DonutChart"
 import CommissionsChart from "@/components/CommissionsChart"
 import { getCommissions } from "@/lib/getCommissions"
+import { Users, CircleCheckBig, TrendingUp, Wallet } from "lucide-react"
 
 
 // Short, user-facing status labels (UI is German)
@@ -126,10 +127,10 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			</form>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<StatCard label="Leads gesamt" value={String(totalLeads)} />
-				<StatCard label="Abschlüsse" value={String(completedLeads)} />
-				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} />
-				<StatCard label="Provision verdient" value={`${comSum.toFixed(2)} €`} trend={commissionTrend} />
+				<StatCard label="Leads gesamt" value={String(totalLeads)} icon={Users} color="blue" />
+				<StatCard label="Abschlüsse" value={String(completedLeads)} icon={CircleCheckBig} color="green" />
+				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} icon={TrendingUp} color="purple" />
+				<StatCard label="Provision verdient" value={`${comSum.toFixed(2)} €`} icon={Wallet} color="amber" trend={commissionTrend} />
 			</div>
 
 			<div>
