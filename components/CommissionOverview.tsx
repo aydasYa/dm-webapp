@@ -109,7 +109,7 @@ export default async function CommissionOverview({
 				<div className="mt-4">
 					<DateRangeFilter preset={preset} from={from} to={to} />
 				</div>
-				<div className="grid gap-4 md:grid-cols-3">
+				<div className="grid gap-6 md:grid-cols-3">
 					<StatCard label="Provision verdient" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" trend={trendProvision} />
 					<StatCard label="Offen" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
 					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
@@ -140,7 +140,7 @@ export default async function CommissionOverview({
 
 			<div>
 				<h2 className="font-semibold mb-2">Meine Leads ({now.toLocaleDateString("de-DE", { month: "long" })})</h2>
-				<div className="grid gap-4 md:grid-cols-2">
+				<div className="grid gap-6 md:grid-cols-2">
 					<Card>
 						<CardContent>
 							<LeadsChart data={leadTrendData} title="Lead-Entwicklung" />

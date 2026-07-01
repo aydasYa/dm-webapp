@@ -128,7 +128,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				<Button type="submit" variant="outline" size="sm">Filtern</Button>
 			</form>
 
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 				<StatCard label="Leads gesamt" value={String(totalLeads)} icon={Users} color="blue" />
 				<StatCard label="Abschlüsse" value={String(completedLeads)} icon={CircleCheckBig} color="green" />
 				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} icon={TrendingUp} color="purple" />
@@ -137,14 +137,14 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 
 			<div>
 				<h2 className="font-semibold mb-2">Provisionen</h2>
-				<div className="grid gap-4 md:grid-cols-3">
+				<div className="grid gap-6 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${comSum.toFixed(2)} €`} icon={Wallet} color="blue" trend={commissionTrend} />
 					<StatCard label="Offen" value={`${comOpen.toFixed(2)} €`} icon={Clock} color="amber" />
 					<StatCard label="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
 				</div>
 			</div>
 
-			<div className="grid gap-4 md:grid-cols-2">
+			<div className="grid gap-6 md:grid-cols-2">
 				<Card>
 					<CardHeader>
 						<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
@@ -167,14 +167,14 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				</Card>
 			</div>
 
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} icon={UserCheck} color="green" />
 				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} icon={UserX} color="amber" />
 				<StatCard label="Alle registrierten" value={String(registeredDrivers)} icon={Users} color="blue" />
 				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" />
 			</div>
 
-			<div className="grid gap-4 md:grid-cols-2">
+			<div className="grid gap-6 md:grid-cols-2">
 				<Card>
 					<CardContent>
 						<LeadsChart data={leadTrendData} title={`Lead-Entwicklung (${now.toLocaleDateString("de-DE", { month: "long" })})`} />

@@ -18,7 +18,7 @@ export default function DashboardShell({ role, firstname, lastname, qrCode, comp
         <SidebarProvider>
             <AppSidebar role={role} firstname={firstname} lastname={lastname} qrCode={qrCode} companyName={companyName} />
             <SidebarInset>
-                <header className="flex h-14 items-center gap-2 border-b px-4">
+                <header className="flex h-14 items-center gap-2 border-b px-4 md:hidden">
                     <SidebarTrigger />
                 </header>
                 <main className="flex-1 p-6">{children}</main>

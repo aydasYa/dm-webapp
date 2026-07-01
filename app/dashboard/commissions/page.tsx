@@ -86,7 +86,7 @@ export default async function CommissionsPage({
 		<div className="space-y-6">
 			<div>
 				<PageHeader title={isAdmin ? "Alle Provisionen" : "Meine Provisionen"} />
-				<div className="grid gap-4 md:grid-cols-3">
+				<div className="grid gap-6 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" />
 					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
 					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CircleCheckBig} color="green" />

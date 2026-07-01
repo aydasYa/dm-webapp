@@ -11,6 +11,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 import {
   DropdownMenu,
@@ -44,22 +45,20 @@ export default function AppSidebar({ role, firstname, lastname, qrCode, companyN
   const initials = `${firstname?.[0] ?? ""}${lastname?.[0] ?? ""}`.toUpperCase()
 
   // Menü-Einträge je nach Rolle
+  // Profil ist bewusst NICHT hier — es steckt im Profil-Dropdown unten
   const superAdminItems = [
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
     { title: "Unternehmen", url: "/dashboard/companies", icon: Building2 },
-    { title: "Profil", url: "/dashboard/profile", icon: User },
   ]
 
   const adminItems = [
     { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
     { title: "Fahrer", url: "/dashboard/users", icon: Users },
     { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
-    { title: "Profil", url: "/dashboard/profile", icon: User },
     { title: "Provisionen", url: "/dashboard/commissions", icon: Euro },
   ]
 
   const driverItems = [
-    { title: "Profil", url: "/dashboard/profile", icon: User },
     { title: "Provisionen", url: "/dashboard", icon: Euro },
     { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
   ]
@@ -67,9 +66,12 @@ export default function AppSidebar({ role, firstname, lastname, qrCode, companyN
   const items = role === Role.ADMIN ? adminItems : role === Role.SUPER_ADMIN ? superAdminItems : driverItems
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <div className="flex flex-col items-center gap-1 px-2 py-3">
+        <div className="flex justify-end px-1 pt-1">
+          <SidebarTrigger />
+        </div>
+        <div className="flex flex-col items-center gap-1 px-2 pb-3 group-data-[collapsible=icon]:hidden">
           <Link href="/dashboard">
             <Image
               src="/logo.png"
@@ -88,7 +90,7 @@ export default function AppSidebar({ role, firstname, lastname, qrCode, companyN
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="gap-1">
               {items.map((item) => (
                 <SidebarMenuItem key={item.url}>
                   <SidebarMenuButton asChild isActive={item.url === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(item.url)}>
@@ -105,7 +107,7 @@ export default function AppSidebar({ role, firstname, lastname, qrCode, companyN
       </SidebarContent>
       <SidebarFooter>
         {qrCode && (
-          <div className="mx-2 mb-2 rounded-xl border border-sidebar-border bg-sidebar-accent/40 p-3">
+          <div className="mx-2 mb-2 rounded-xl border border-sidebar-border bg-sidebar-accent/40 p-3 group-data-[collapsible=icon]:hidden">
             <div className="flex flex-col items-center gap-2 text-center">
               <div>
                 <p className="text-sm font-semibold">Mein QR-Code</p>
@@ -127,7 +129,7 @@ export default function AppSidebar({ role, firstname, lastname, qrCode, companyN
             </div>
           </div>
         )}
-        <div className="flex items-center gap-1 px-1 pb-1">
+        <div className="flex items-center gap-1 px-1 pb-1 group-data-[collapsible=icon]:hidden">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring">
