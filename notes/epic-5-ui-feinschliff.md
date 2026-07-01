@@ -49,8 +49,15 @@ Erlaubt: **4 · 8 · 12 · 16 · 24 · 32** — nichts dazwischen.
 3. ✅ **Sidebar** — Aktiv-Pille, Logo-Kopf, QR-Karte, Profil-Dropdown. Nav = reale Routen (nur umgestylt).
 4. ✅ **KPI-Karten (StatCard)** — farbige Icon-Badges, große Zahl, grüne Trend-Pille. Auf alle StatCards ausgerollt.
 5. ✅ **Charts** — Leads: Gradient-Fläche, Datums-Achse, saubere Y-Ticks, Tooltip, Legende, Täglich/Wöchentlich-Toggle. Donut: „Gesamt" mittig + farbige Legende mit %.
-6. ⏭️ **Tabelle + Filterzeile + Badges/Status** — Letzte-Leads-Tabelle, Filter (Datum/Fahrer/Status/Suche), Status-Badges farbig. Marken-Logos klären.
+6. ⏭️ **Tabellen + Filterzeile + Badges/Status** — *(neu geschnitten 01.07., siehe unten)* bestehende Listen → shadcn-Tabellen, Token-Badges, Filterzeile + Datepicker. **Keine** Leads-Tabelle, **keine** Marken-Logos/Glocke.
 7. ⏳ **Formulare/Felder + Login/Signup/QR-Seiten** — Inputs, Selects, Buttons, Header-Pattern; Auth- und QR-Seiten.
+
+### Story 6 — Entscheidungen (01.07.2026)
+- **„Letzte Leads"-Tabelle: weggelassen.** Leads bleiben nur als Charts (App = „nur Auswertungen", Lead-Mgmt in Epic 4 entfernt).
+- **Bestehende Listen → echte shadcn-`Table`** statt Karten: Provisionen (`commissions/page` + `CommissionOverview`), Fahrer (`users`), Unternehmen (`companies`).
+- **Status-Badges token-basiert** (`--success/--info/--warning/--destructive`) — ersetzt hart codierte `bg-yellow-100`-Maps (`statusStyles`) und die Status-Chips in `DriverCard`/`CompanyCard`.
+- **Filterzeile** poliert + **Datepicker** via `popover`+`calendar` (`pnpm dlx shadcn@latest add popover calendar`).
+- **Bewusst NICHT:** Fahrzeug-Marken-Logos, Benachrichtigungs-Glocke (bei Bedarf eigene Tickets).
 
 ## Umsetzungs-Log (was konkret gebaut wurde)
 
@@ -73,12 +80,24 @@ Optionales Icon-Badge (`LucideIcon`-Prop, Token-Farbe `bg-<token>/10 text-<token
 - **Donut-Farben token-basiert**: alle hart codierten Hex (`#059669` etc.) → `var(--success/info/warning/destructive/muted-foreground)` in AdminDashboard, CommissionOverview, SuperAdminDashboard, commissions/page.
 - **Demo-Daten** (`data/demo-leads.json`): pro Firma mit Fahrern (Berlin/Hamburg/München) ~44–52 Leads im **aktuellen Monat**, Wellen-Verteilung → sichtbarer Verlauf. ⚠️ **Gotcha**: nutzt echte DB-IDs (companyId/driverId) und den *aktuellen Monat* — nach `seed-demo` oder Monatswechsel neu generieren (Skript nutzt `now`). Firmen ohne Fahrer (Köln, Stuttgart) haben bewusst keine Leads.
 
+### ✅ Story 6 — Tabellen + Filterzeile + Badges
+- **`components/StatusBadge.tsx`** (neu): Token-Badge (`bg-<token>/10 text-<token>`) + zentrale Maps `COMMISSION_STATUS`, `DRIVER_STATUS` (REJECTED→„Deaktiviert"), `COMPANY_STATUS` (REJECTED→„Abgelehnt"/rot).
+- **Provisionen** → shadcn-`Table` (Fahrer/Datum/Status/Betrag) in `commissions/page` + `CommissionOverview`; hart codierte `statusStyles` raus.
+- **Fahrer** → `Table` mit neuer **`DriverRow`** (Name-Klick → Detail-Dialog + QR, Aktionen-Spalte). `DriverCard` nur noch als Typ-Export.
+- **Unternehmen** → `Table` mit neuer **`CompanyRow`** (Detail-Dialog, Freigeben/Ablehnen/Deaktivieren/Löschen). `CompanyCard` nur noch als Typ-Export.
+- **Filterzeile** (`DateRangeFilter`): umrandete Box wie Mockup, Labels über Feldern, „Filter zurücksetzen" (`FilterX`, Reset via `href="?"`).
+- **Offen/optional:** shadcn-`calendar`-Datepicker (aktuell native `input[type=date]`). Alte `DriverCard`/`CompanyCard`-Komponenten = toter Code (nur Typ genutzt) → bei Gelegenheit entfernen.
+
 ## shadcn-Komponenten (Entscheidung 01.07.2026)
 Config: `style: radix-nova`, `baseColor: neutral`, `iconLibrary: lucide` ✅, CSS-Variablen an.
 - **Schon installiert (wiederverwenden, nur via Tokens umstylen):** sidebar, card, badge, chart, table, select, input, field, label, textarea, button, avatar, tooltip, dialog, dropdown-menu (auch Theme-Toggle), skeleton, separator, sheet, slider, tabs.
 - **Neu hinzufügen:** `popover` + `calendar` (Datums-Picker Von/Bis + Zeitraum oben, echter Kalender), `sonner` (Toasts = kurze Bestätigungs-Einblendungen nach Aktionen).
   - Befehl (lokal): `pnpm dlx shadcn@latest add popover calendar sonner`
 - **Bewusst NICHT:** `command`/Combobox — Fahrer-Filter bleibt `select`, Textsuche deckt das vorhandene Suchfeld ab.
+
+## Feinschliff-Backlog (später, nach den Stories)
+- **Tabellen-Größe/Lesbarkeit:** Zeilen der Tabellen (v.a. Fahrer-Liste) etwas **größer** — mehr Zeilenhöhe + größerer Text pro Zeile, damit's nicht so gedrängt wirkt. Dabei klären: Fahrer-Tabelle nur im eigenen Tab oder **auch in der Übersicht** anzeigen?
+- **Border-Konsistenz (global):** *jede* Border soll denselben, dezenten Ton nutzen — **nicht** hart weiß/schwarz, sondern der `--border`-Token passend zum Theme (hell/dunkel), so leicht wie ein Schatten. Audit: alle Komponenten auf `border-border` (bzw. Token) prüfen, hart codierte/zu kräftige Ränder ersetzen. Ggf. `--border` noch dezenter einstellen.
 
 ## Offene Struktur-Fragen (je Komponente entscheiden)
 - Benachrichtigungs-Glocke (Badge „3") — echtes Feature oder erstmal Deko/weglassen?
