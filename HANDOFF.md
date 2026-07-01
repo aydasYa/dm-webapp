@@ -1,88 +1,96 @@
 # 🧭 Projekt-Übergabe / Kontext (für neuen Chat)
 
-> Vollständiger Kontext der bisherigen Sessions. Im neuen Chat **zuerst diese Datei + `NOTES.md` (+ `notes/`) lesen**.
-> **Stand 24.06.2026:** Rollen/Super-Admin ✅, Mandanten-Fix ✅, UI/UX-Redesign ✅, Provisionen laufen über **JSON-Simulation** (Salesforce, statt DB). **Nächstes:** Jira-**Epics 1–3** (Sicherheit · Code-Health · UX) abarbeiten — Details in `notes/`.
+> **Im neuen Chat zuerst diese Datei + `NOTES.md` (+ Ordner `notes/`) lesen.**
+> **Stand: 01.07.2026.** Epics 1–4 ✅ · Epic 3 (UX) ✅ · **Nächstes = Epic 5 „UI-Feinschliff (Mockup)".**
 
 ---
 
 ## 1. Projekt
-**DeinMotorschaden WebApp** — Plattform für ein Abschlepper-Netzwerk. Multi-Tenant: jedes **Abschleppunternehmen** hat einen **Admin**, der **Fahrer** einlädt. Fahrer haben persönliche **QR-Codes** (UTM-Parameter → Lead-Tracking auf der Angebotsseite) und verdienen **Provisionen** (Staffel-Logik).
+**DeinMotorschaden WebApp** — Plattform für ein Abschlepper-Netzwerk. Multi-Tenant: jedes **Abschleppunternehmen** hat einen **Admin**, der **Fahrer** einlädt. Fahrer haben persönliche **QR-Codes** (UTM → Lead-Tracking auf der Angebotsseite) und verdienen **Provisionen**. Leads & Provisionen kommen aus **Salesforce** (aktuell per JSON simuliert), die WebApp **zeigt nur Auswertungen** — kein Lead-Management mehr.
 
-**Tech-Stack:** Next.js 16 (App Router — **modifiziert!** Docs in `node_modules/next/dist/docs/` lesen bevor man Next-Code schreibt), Prisma 7 + PostgreSQL (Supabase), Supabase Auth, Resend/Mailtrap (E-Mail), shadcn/Radix UI + Tailwind. **Package-Manager: `pnpm`.**
+**Tech-Stack:** Next.js 16 (App Router), Prisma 7 + PostgreSQL (Supabase), Supabase Auth, shadcn/Radix UI + Tailwind, recharts, qrcode.react. **Package-Manager: `pnpm`.** UI-Sprache Deutsch, Code Englisch. Theme: **nur hell** (kein Dark Mode).
 
 ## 2. Rollen & Datenmodell
-- **Hierarchie:** `SUPER_ADMIN` (DeinMotorschaden — **gebaut ✅**) → `ADMIN` (Firma) → `TOW_TRUCK_DRIVER` (Fahrer).
-- `Company`-Model existiert (`id`, `name`) + `User.companyId`. **Aber:** alte `companyXyz`-Felder liegen weiterhin flach auf `User` (Doppelung).
-- Fahrer **erben** die Firma des Admins beim Einladen.
-- `UserStatus`: `PENDING` (eingeladen/wartend), `ACTIVE`, `INACTIVE` (deaktiviert/gesperrt), `REJECTED`. In der **Fahrer-Verwaltung** heißt `INACTIVE` jetzt „Deaktiviert" (kein „Abgelehnt" mehr); `REJECTED` nur noch im Super-Admin-Flow (Firma ablehnen).
-- Admin kann auch selbst als „Fahrer" agieren (eigener QR) → siehe offene Design-Frage in NOTES.md.
+- **Hierarchie:** `SUPER_ADMIN` (DeinMotorschaden) → `ADMIN` (Firma) → `TOW_TRUCK_DRIVER` (Fahrer).
+- **`Company`-Model** trägt jetzt ALLE Firmendaten (`name, address, postcode, city, phone, email, website, contactFirstname, contactLastname`). `User.companyId` verweist darauf. Fahrer erben die Firma über die Relation. **Die früher flachen `companyXyz`-Felder auf `User` sind ENTFERNT** (WEBAPP-199).
+- `UserStatus`: `PENDING`, `ACTIVE`, `INACTIVE`, `REJECTED`. In der Fahrer-Verwaltung heißt `INACTIVE` „Deaktiviert"; `REJECTED` nur im Super-Admin-Flow (Firma ablehnen).
+- Admin kann selbst als „Fahrer" agieren (eigener QR) → im Filter als „(Inhaber)".
+- `AuditLog`-Model wird jetzt beschrieben (siehe unten), aber es gibt noch **keine Ansicht** dafür.
 
-## 3. Was diese Session gebaut wurde (alles auf `main`)
-- **Registrierungsformular:** Ansprechpartner-Felder aus „Firma" raus, `companyWebsite` rein.
-- **Setup-Fixes:** pnpm, Prisma-Version gekoppelt, `prisma.config.ts` lädt `.env.local`.
-- **WEBAPP-132 Dashboard-Aufteilung:** Admin/Driver-Split (thin chooser `page.tsx`), `CommissionOverview` extrahiert (DRY), Fahrer landet auf Provisionsübersicht, 3 Tabs, Sidebar „Fahrer".
-- **WEBAPP-138 QR + Company:** `Company`-Model + Migration + Backfill. QR-Schema: `?utm_medium={userId}&utm_source={companyId}` (fahrerId / firmenId).
-- **WEBAPP-135 Magic-Link:** Admin lädt Fahrer ein (`inviteUserByEmail`), `/auth/set-password`-Seite, Fahrer erbt Firma. Status `PENDING` → `ACTIVE` beim Passwort-Setzen. Läuft **via Mailtrap (Dev)**. Echter Domain-Versand = **Blocker**.
-- **WEBAPP-164 (Epic 3) Fahrer-Verwaltung & Dashboard-UI:** Listenansicht statt Tabs, klickbare Karte → Detail-Popup, QR im Popup, Status-Badge, **Sperren/Löschen (Soft-Delete)/Reaktivieren**, Leads raus (Admin+Fahrer), Admin-Übersicht zeigt Provision, Admin eigener QR.
-- **Zugriffsschutz:** `INACTIVE`/`deletedAt` → ausgeloggt → `/blocked` (gelöscht vs. deaktiviert = unterschiedliche Meldung via `?reason=`). Fahrer-Selbst-Pause (`pauseSelf`).
+## 3. Was in den letzten Sessions gebaut wurde (alles auf `main`, außer neuer Feature-Branch)
 
-## 3b. Session „Rollen-Block & Mandanten-Fix" (neu)
-- **WEBAPP-155 komplett** (Rollen-Hierarchie & Super-Admin), alle 6 Subtasks:
-  - **156** `SUPER_ADMIN` ins Role-Enum (Migration `add_super_admin_role`).
-  - **159** `signup` legt Firmen-Admin als `ADMIN` + `PENDING` an (vorher fälschlich `TOW_TRUCK_DRIVER`).
-  - **158** Bootstrap-Script `scripts/create-super-admin.ts` (+ `scripts/load-env.ts`): legt 1. Super-Admin in Supabase **und** DB an, idempotent. Run: `pnpm tsx scripts/create-super-admin.ts`. Braucht `SUPER_ADMIN_EMAIL/PASSWORD/FIRSTNAME/LASTNAME` in `.env.local`.
-  - **157** Super-Admin-Dashboard: `SuperAdminDashboard` (Landing), Sidebar-Tab „Unternehmen" (`/dashboard/companies`), `CompanyCard` mit Detail-Popup + Aktionen Freigeben/Ablehnen/Deaktivieren/Aktivieren/Löschen. Actions: `updateCompanyAdminStatus`, `deleteCompanyAdmin` (beide `SUPER_ADMIN`-gated, Ziel muss `ADMIN` sein).
-  - **162** Fahrer-Verwaltung: `INACTIVE` → „Deaktiviert", Buttons „Deaktivieren/Aktivieren".
-  - **163** QR-Auto-Generierung: `setPassword` ruft jetzt `createQrCode(user.id)` → QR entsteht automatisch beim Aktivieren.
-- **🔴 Mandanten-Bug gefixt:** Admin-Ansichten (`users`, `qrcodes`, `commissions`, `leads`, `AdminDashboard`) jetzt nach `companyId` gefiltert (vorher firmenübergreifend sichtbar). Provisionen/Leads über Relation `towTruckDriver: { companyId }`.
-- **E-Mail-Epic (WEBAPP-48) PAUSIERT** bis nach Meeting: `nodemailer` + `@types/nodemailer` installiert, aber `lib/email.ts` noch nicht gebaut. Entscheidung: **Mailtrap statt Resend** (User hat Mailtrap für Magic-Link in Supabase eingerichtet). package.json/lock-Änderung noch **uncommitted**.
+### Epic 1 — Sicherheit & Mandant-Härtung ✅
+- IDOR-Härtung aller Server-Actions via `assertSameCompany(callerCompanyId, userId)` in `lib/auth.ts`.
+- `companyId`-Null-Fall abgesichert (kein „alle firmenlosen sehen").
+- WEBAPP-215: Fahrer können Firmendaten nicht bearbeiten (Server + UI).
 
-## 3c. Session „UI-Redesign & Salesforce-JSON" (24.06.2026)
-- **UI-Redesign (Epic WEBAPP-174) komplett:** `StatCard` (Label/Wert/Trend-Badge, shadcn), Dashboards (Fahrer/Admin/Super-Admin) umgebaut, `DonutChart` + `CompaniesChart`, Zeitraum-Picker (`lib/dateRange.ts` + `components/DateRangeFilter.tsx`, Presets 7d/30d/3m + Von/Bis), Theme **nur Light** (Auto-Dark-Block raus), Sidebar-User-Block mit Avatar.
-- **WEBAPP-181 (leichte Variante):** QR-Code in der Sidebar (vorhandener `qrCode`, keine Migration/Route). Verdrahtet via `layout.tsx → DashboardShell → AppSidebar`.
-- **Provisionen aus JSON statt DB (Salesforce-Simulation):** `lib/getCommissions.ts` (`getCommissions({ companyId, driverId? })` liest `data/demo-commissions.json` + filtert; async, damit später `fetch()` zu Salesforce rein kann). Verdrahtet in `CommissionOverview` (Fahrer), `AdminDashboard` (Firma) und `commissions/page.tsx`. `createdAt` aus Text → `new Date(...)`. JSON-IDs = echte DB-IDs (sonst kein Treffer). Admin als Fahrer wählbar im Filter („<Name> (Inhaber)"). `scripts/list-ids.ts` gibt IDs aus.
-- **Restliche DB bleibt:** Nur Provisionen kommen aus JSON; User/Firmen/Fahrer/Leads weiter aus Prisma.
-- **Notizen** nach `notes/` aufgeteilt (Index in `NOTES.md`): setup, conventions, tech-debt, open-questions, bugs, salesforce-lernplan, changelog-2026-06-24.
+### Epic 2 — Code-Health ✅
+- **`requireUser(role?)`** in `lib/auth.ts` — zentraler Login-/Rollen-Check (ersetzt ~20× Boilerplate). Lädt den User **inkl. `company`-Relation** (`include: { company: true }`). Ausnahmen bewusst: `app/page.tsx`, `account.ts setPassword`.
+- Dashboard-Queries parallelisiert (`Promise.all`).
+- Role-Enum statt String-Unions (`DashboardShell`, `AppSidebar`).
+- Provisions-Summen entdoppelt → `summarizeCommissions()` in `lib/commission.ts`.
+- ESLint `ignoreRestSiblings`; `CommissionOverview`-Funktionsname angeglichen.
+- **WEBAPP-199 Company-Migration** (5 Phasen, siehe `notes/`): Firmendaten von `User` → `Company`. Migrationen `add_company_detail_fields` + `drop_user_company_fields`.
 
-## 4. Git-Stand
-- Aktiver Branch zuletzt **`salesforce-demo`** (davor `ui-ux-update`). Arbeit in vielen Commits, vom User selbst committet.
-- Remote: `github.com/aydasYa/dm-webapp`. **Solo-Dev → direkter Merge, kein PR.**
-- `tsc --noEmit` läuft sauber durch.
+### Epic 4 — UI-Verbesserungen (Lead-Charts) ✅
+- **`lib/getLeads.ts`** + `data/demo-leads.json` (Salesforce-Simulation, analog `getCommissions`). Filter nach companyId/driverId. Status: `COMPLETED/IN_PROGRESS/OPEN/CANCELLED`.
+- **`components/LeadsChart.tsx`** (Flächen-Diagramm, recharts) — „Lead-Entwicklung" (Leads pro Tag).
+- Lead-Status-Donut (`DonutChart` wiederverwendet).
+- KPI-Karten oben: Leads gesamt, Abschlüsse, Conversion Rate, Provision verdient.
+- Fahrer sehen dieselben 2 Lead-Charts, driver-scoped, in `CommissionOverview`.
+- **Altes Lead-Management entfernt** (`app/dashboard/leads/*`, `app/actions/leads.ts`, `LeadForm`, `CancelLeadDialog`).
 
-## 5. Config / Gotchas
-- `.env.local`: `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_APP_URL`, `RESEND_API_KEY`.
-- **Nach `prisma generate`/`migrate dev` → `pnpm dev` neu starten** (sonst stale Client).
-- **Supabase SMTP = aktuell Mailtrap-Sandbox** (Dev, fängt alle Mails ab). Echte Domain in Resend verifizieren = offen (Blocker, DNS-Inhaber).
-- **Super-Admin anlegen:** via `scripts/create-super-admin.ts` (nicht mehr nur DB-Handarbeit). `SUPER_ADMIN_*` in `.env.local` nötig.
-- **`createQrCode`** braucht die interne `user.id`, nicht `supabaseId`. `updateUserStatus` (Admin) und `setPassword` (Fahrer-Aktivierung) rufen es auf.
+### Epic 3 — UX-Verbesserungen ✅
+- **`ConfirmActionButton`** (flexibler Bestätigungs-Dialog, `fields`-Prop) — für Löschen **und** Deaktivieren bei Fahrer + Unternehmen. Aktivieren = Ein-Klick.
+- **`SubmitButton`** (`useFormStatus`) — Spinner + disabled beim Absenden (kein Doppelklick).
+- **Fahrer-Filter im Provisions-Tab** — `DateRangeFilter` um optionales Fahrer-Dropdown erweitert.
+- **`Pagination`-Komponente** — Fahrer-Verwaltung (DB `skip`/`take`, 5/Seite) + Provisions-Listen (Array-`slice`, 10/Seite, in `commissions/page.tsx` **und** `CommissionOverview`). Behält Filter (`query`-Prop), `scroll={false}` gegen Hochscrollen.
+- **AuditLog** — `lib/audit.ts` `logAudit({ action, actorId, details })`; aufgerufen in `updateUserStatus`, `deleteDriver`, `updateCompanyAdminStatus`, `deleteCompanyAdmin`. **Ansicht fehlt noch** (nur via `pnpm prisma studio` → Tabelle `audit_logs` testbar).
 
-## 6. Offene Arbeit (Roadmap)
-- **Phase 2 — WEBAPP-48 E-Mail-System (PAUSIERT bis nach Meeting):** 147 `sendEmail` (`lib/email.ts`, via **Mailtrap/nodemailer**), 75 Auszahlungs-Mail, 76 Werkstatt-Mail, 40 Bestätigungs-Mail. nodemailer schon installiert.
-- **Rollen & Super-Admin (WEBAPP-155): ERLEDIGT ✅** · **UI/UX-Redesign (WEBAPP-174): ERLEDIGT ✅**
-- **Jira-Epics 1–3 (neu, abzuarbeiten):** 1) Sicherheit & Mandanten-Härtung (🔴 IDOR, companyId-Null), 2) Code-Health & Refactoring, 3) UX-Verbesserungen. Details + Tasks in `notes/tech-debt.md`.
-- **Salesforce Phase 2 (echte API):** JSON-Sim durch echten `fetch()`+SOQL ersetzen — Plan in `notes/salesforce-lernplan.md`. (Noch keine Jira-Tickets.)
-- **Offene Produkt-Entscheidungen:** `notes/open-questions.md` (Admin-eigene-Provision, REJECTED reaktivieren, echtes Löschen). (Noch keine Jira-Tickets.)
-- **E-Mail-System (WEBAPP-48):** pausiert; `nodemailer` installiert, `lib/email.ts` offen.
-- **Komponenten-Logik auslagern (Refactoring):** Mehrere Server-Komponenten (z.B. `app/dashboard/commissions/page.tsx`, `components/dashboard/AdminDashboard.tsx`, `components/CommissionOverview.tsx`) haben viel Aufbereitungs-/Berechnungslogik **vor dem `return`** (Mappings, Filtern, Summen, Paginierung, Chart-Daten). Diese in `lib/`-Helper (oder eigene Funktionen) auslagern, sodass die Komponente nur noch rendert. Ziel: schlankere Komponenten, wiederverwendbare + testbare Logik.
+## 4. Wichtige Dateien / Architektur
+- `lib/auth.ts` — `requireUser(role?)`, `assertSameCompany(...)`.
+- `lib/getCommissions.ts` (liest `data/demo-commissions.json`) + `lib/getLeads.ts` (liest `data/demo-leads.json`) — austauschbare Datenquellen (später `fetch()` → Salesforce, Signatur bleibt).
+- `lib/commission.ts` — `summarizeCommissions()` (+ ungenutztes `calculateCommissionAmount`, toter Code).
+- `lib/dateRange.ts` + `components/DateRangeFilter.tsx` (Zeitraum + optional Fahrer-Dropdown).
+- `lib/audit.ts` — AuditLog-Helper.
+- `components/`: `Pagination`, `ConfirmActionButton`, `SubmitButton`, `StatCard`, `DonutChart`, `LeadsChart`, `CommissionsChart`, `CompaniesChart`, `DriverCard`, `CompanyCard`, `QrCodeCard`, `AppSidebar`, `DashboardShell`, `dashboard/AdminDashboard`, `dashboard/SuperAdminDashboard`, `CommissionOverview`.
+- **Achtung Refactor-Schuld:** Server-Komponenten (`commissions/page.tsx`, `AdminDashboard`, `CommissionOverview`) haben viel Aufbereitungslogik VOR dem `return` → nach `lib/` auslagern (in `notes/tech-debt.md`).
 
-## 7. Jira
-- Cloud `dmsbielefeld.atlassian.net`, Projekt-Key **`WEBAPP`** (Cloud-ID `5419d2dd-ed41-40d6-8e3c-3ac24fc99ea3`).
-- Epic 3 = **WEBAPP-164** (Tasks 165–172) — von mir angelegt, alle Yasin zugewiesen. **Noch nicht auf „Done" gesetzt.**
-- Epics 1 (Produktiver E-Mail-Versand, ~WEBAPP-150) & 2 (Rollen & Super-Admin) vom User manuell angelegt.
-- Hinweis: verbundener Atlassian-Account = **Rahmi Kaya**, nicht Yasin.
+## 5. Demo-Daten & Seed (WICHTIG)
+- **Seed-Skript:** `pnpm tsx scripts/seed-demo.ts` — legt an: 1 Super-Admin, 3 Firmen (je 1 Admin + 4 Fahrer, aktiv, mit QR), 1 PENDING-Admin, 1 REJECTED-Admin. Passwort für alle: **`test1234`**. Wiederholbar (löscht vorher alle `@demo.de`-Daten in DB + Supabase). Alle Logins in **`notes/demo-logins.md`**.
+- **🔴 Gotcha:** `data/demo-leads.json` und `data/demo-commissions.json` referenzieren **echte DB-IDs**. Nach **jedem** `seed-demo`-Lauf ändern sich die IDs → JSON zeigt ins Leere. Fix: IDs via `pnpm tsx scripts/list-ids.ts` holen und in beiden JSON-Dateien neu setzen. Aktuell verknüpft mit **Abschlepp Berlin** (Markus Weber = Inhaber, Tom Schulz = Fahrer).
 
-## 8. Arbeitsweise mit dem User (wichtig!)
-- **Mentor/Senior-Dev-Modus:** anleiten + passende Docs nennen + lehren. **Der User tippt selbst** — NUR direkt umsetzen, wenn er „mach das für mich" sagt.
-- **ADHD:** kleine Häppchen, ein Schritt nach dem anderen, **kompakt**.
-- **Jeder Schritt mit Kopf:** `📍 Phase X · Epic <KEY> · Ticket <KEY> — Titel` + Fortschrittszeile.
-- **Jira = Quelle der Wahrheit** — vor Start jeden Task bestätigen.
-- **Mini-Hinweise / Tech-Debt immer in `NOTES.md`** eintragen (nicht nur im Chat sagen).
-- **Starkes ADHS:** zuerst einen **klaren Überblick** geben, dann kleine Schritte. **Kompakt & übersichtlich.**
-- **Der User will LERNEN, nicht stumpf copy-pasten.** Auch wenn du Code gibst: **das Warum erklären** und ihn die Kernteile **selbst tippen** lassen, damit er es versteht. Keine ganzen Dateien zum blinden Einfügen ohne Erklärung.
+## 6. Config / Gotchas
+- `.env.local`: `DATABASE_URL`, `DIRECT_URL`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `NEXT_PUBLIC_APP_URL`, `SUPER_ADMIN_*`.
+- **Nach `prisma generate`/`migrate dev` → `pnpm dev` neu starten** (sonst stale Client → z.B. „column does not exist").
+- **Sandbox kann keine Prisma-Engines laden** und kein `tsx` mit DB — Migrationen/Seed/Studio laufen **lokal beim User**. `tsc`/`eslint` laufen im Sandbox.
+- Prüf-Kommandos: `pnpm exec tsc --noEmit`, `pnpm exec eslint`.
 
-## 9. Nächste Themen — **Jira-Epics 1–3 abarbeiten**
-1. **🔴 Epic 1 — Sicherheit & Mandanten-Härtung:** Server-Actions gegen IDOR härten (`updateUserStatus`, `deleteDriver`, `generateQrCode`, `approveCommission`, `markCommissionAsPaid` → companyId-Check) · `companyId`-Null-Fall absichern. **Empfohlener Start.**
-2. **🟠 Epic 2 — Code-Health:** Auth-Helper (`lib/auth.ts`), Queries parallelisieren, Role-Enum, Provisions-/Company-Daten entdoppeln, etc.
-3. **🟡 Epic 3 — UX:** Lösch-Bestätigung, Button-Ladezustand, Paginierung, AuditLog, Fahrer-Filter im Provision-Tab.
+## 7. Git / Jira
+- Solo-Dev, direkter Merge (kein PR). Remote `github.com/aydasYa/dm-webapp`. `tsc` läuft sauber.
+- Für Epic 5 wurde vorgeschlagen, auf einem eigenen Branch von `main` zu arbeiten.
+- Jira Cloud `dmsbielefeld.atlassian.net`, Key **`WEBAPP`**. Atlassian-Verbindung in den Sessions oft **offline** → Tickets/Status setzt der User manuell; ich liefere paste-fertige Inhalte. Verbundener Account = **Rahmi Kaya**.
 
-Epics 1–3 sind in Jira angelegt (Nummern beim User; Atlassian-Verbindung war in der Session offline). Alle Task-Details in `notes/tech-debt.md`.
+## 8. Arbeitsweise mit dem User (WICHTIG!)
+- **Starkes ADHS:** zuerst **klarer Überblick**, dann **kleine Schritte**, **kompakt**.
+- **Jeder Schritt mit Kopf:** `📍 Phase · Epic · Ticket — Titel` + kurze Fortschrittszeile.
+- **Mentor-Modus (Default): der User tippt selbst.** Code geben **mit dem Warum erklären**, Kernteile selbst tippen lassen. **Nur bei „mach das für mich" direkt umsetzen.**
+- Nach jedem Schritt `tsc` (Sandbox) grün halten, dann Commit-Befehl geben (User committet selbst).
+- **Mini-Hinweise / Tech-Debt IMMER in `notes/` eintragen**, nicht nur im Chat sagen.
+
+## 9. Nächstes — Epic 5 „UI-Feinschliff (Mockup)" (Details: `notes/epic-5-ui-feinschliff.md`)
+Nur Optik/Styling ans vom User geschickte Dashboard-Mockup angleichen (Funktion steht):
+1. **KPI-Karten im Mockup-Look** — farbige Icon-Badges (blau/grün/lila/amber), Trend-Pille.
+2. **Donut mit „Gesamt" in der Mitte** — Zahl + „Gesamt" zentriert, Legende feinschleifen.
+3. **Lead-Entwicklung-Chart polieren** — Gradient-Fläche, schönerer Tooltip, Achsen.
+4. **Karten-Header mit Zeitraum-Dropdown** — „Täglich"/Monatswahl.
+5. **Sidebar: Konto-Name umplatzieren** — Name unten über „Abmelden" raus, oben (Kopf) anzeigen.
+6. **Layout & Spacing an Mockup angleichen.**
+
+## 10. Offene Nachzügler / Backlog (in `notes/tech-debt.md` & `notes/open-questions.md`)
+- Toter Code entfernen: `lib/lead-status.ts`, `calculateCommissionAmount`.
+- AuditLog: Ansicht bauen; Provisions-Actions (`approveCommission`/`markCommissionAsPaid`) auch loggen.
+- Komponenten verschlanken (Logik vor `return` → `lib/`).
+- Echte Salesforce-Anbindung (JSON → `fetch`), Demo-Leads nur für Berlin.
+- Produktfragen (`open-questions.md`): Admin-eigene-Provision, REJECTED reaktivieren, echtes Löschen (Supabase-Auth).
+- E-Mail-System (WEBAPP-48) pausiert; `nodemailer` installiert, `lib/email.ts` offen.
