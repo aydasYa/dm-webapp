@@ -50,7 +50,14 @@ Erlaubt: **4 · 8 · 12 · 16 · 24 · 32** — nichts dazwischen.
 4. ✅ **KPI-Karten (StatCard)** — farbige Icon-Badges, große Zahl, grüne Trend-Pille. Auf alle StatCards ausgerollt.
 5. ✅ **Charts** — Leads: Gradient-Fläche, Datums-Achse, saubere Y-Ticks, Tooltip, Legende, Täglich/Wöchentlich-Toggle. Donut: „Gesamt" mittig + farbige Legende mit %.
 6. ⏭️ **Tabellen + Filterzeile + Badges/Status** — *(neu geschnitten 01.07., siehe unten)* bestehende Listen → shadcn-Tabellen, Token-Badges, Filterzeile + Datepicker. **Keine** Leads-Tabelle, **keine** Marken-Logos/Glocke.
-7. ⏳ **Formulare/Felder + Login/Signup/QR-Seiten** — Inputs, Selects, Buttons, Header-Pattern; Auth- und QR-Seiten.
+7. ✅ **Formulare/Felder + Login/Signup/QR-Seiten** — Inputs/Buttons via Tokens ok; `PageHeader`-Muster; Login-Card; QR-Seiten; Toasts (sonner).
+
+### ✅ Story 7 — Formulare + Auth/QR + Toasts
+- **Eingabefelder/Buttons**: bereits shadcn/Token-basiert → automatisch korrekt (kein Umbau nötig).
+- **`components/PageHeader.tsx`** (neu): Titel + Untertitel + Aktion. Angewandt: Fahrer, Unternehmen, Provisionen, QR-Codes, Profil.
+- **Auth**: Login-Formular in Card gefasst (konsistent mit Signup/set-password); Signup-Pflichtstern `text-red-600` → `text-destructive`.
+- **QR-Seiten**: `PageHeader`; „Generieren" zeigt Toast.
+- **Toasts (`sonner`)**: themed `<Toaster />` im Layout (next-themes-aware). Toasts bei: Fahrer/Unternehmen deaktivieren+löschen (`ConfirmActionButton.successMessage`), Fahrer aktivieren, Unternehmen freigeben/ablehnen/aktivieren, QR generieren, **Profil speichern** (Flash-Muster: `redirect(?saved=1)` + `components/FlashToast.tsx`).
 
 ### Story 6 — Entscheidungen (01.07.2026)
 - **„Letzte Leads"-Tabelle: weggelassen.** Leads bleiben nur als Charts (App = „nur Auswertungen", Lead-Mgmt in Epic 4 entfernt).

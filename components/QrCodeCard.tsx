@@ -3,6 +3,7 @@
 import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { toast } from "sonner"
 
 type Props = {
     driver: {
@@ -12,7 +13,7 @@ type Props = {
         qrCode: string | null
         company: { name: string } | null
     }
-    generateAction: (formData: FormData) => void
+    generateAction: (formData: FormData) => void | Promise<void>
 }
 
 export default function QrCodeCard({ driver, generateAction }: Props) {
@@ -36,7 +37,7 @@ export default function QrCodeCard({ driver, generateAction }: Props) {
                         </p>
                     </>
                 ) : (
-                    <form action={generateAction}>
+                    <form action={async (fd) => { await generateAction(fd); toast.success("QR-Code generiert") }}>
                         <input type="hidden" name="userId" value={driver.id} />
                         <Button type="submit" variant="outline" size="sm">Generieren</Button>
                     </form>

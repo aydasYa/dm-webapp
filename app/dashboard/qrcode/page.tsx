@@ -2,6 +2,7 @@ import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { QRCodeSVG } from "qrcode.react"
 import { requireUser } from "@/lib/auth"
+import { PageHeader } from "@/components/PageHeader"
 
 export const dynamic = "force-dynamic"
 
@@ -10,7 +11,7 @@ export default async function QrCodePage() {
 
   return (
     <div className="space-y-6 max-w-sm">
-      <h1 className="text-2xl font-bold">Dein QR-Code</h1>
+      <PageHeader title="Dein QR-Code" />
 
       <Card>
         <CardHeader>

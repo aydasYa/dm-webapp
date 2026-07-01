@@ -49,6 +49,6 @@ export async function updateProfile(formData: FormData) {
     })
   }
 
-  // 5. Redirect zurück zum Dashbaord
-  redirect("/dashboard/profile")
+  // 5. Redirect zurück zum Profil (mit Flash für Toast)
+  redirect("/dashboard/profile?saved=1")
 }

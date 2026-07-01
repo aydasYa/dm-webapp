@@ -4,6 +4,7 @@ import { generateQrCode } from "@/app/actions/drivers"
 import QrCodeCard from "@/components/QrCodeCard"
 import { Card, CardContent } from "@/components/ui/card"
 import { requireUser } from "@/lib/auth"
+import { PageHeader } from "@/components/PageHeader"
 
 export const dynamic = "force-dynamic"
 
@@ -28,10 +29,7 @@ export default async function QrCodesPage() {
 
     return (
         <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold">QR-Codes</h1>
-                <p className="text-muted-foreground">{drivers.length} aktive Abschlepper</p>
-            </div>
+            <PageHeader title="QR-Codes" subtitle={`${drivers.length} aktive Abschlepper`} />
 
             <div>
                 <h2 className="font-semibold mb-2">Mein QR-Code</h2>

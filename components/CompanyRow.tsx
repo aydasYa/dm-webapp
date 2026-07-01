@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { ConfirmActionButton } from "./ConfirmActionButton"
 import { SubmitButton } from "./SubmitButton"
+import { toast } from "sonner"
 import type { CompanyCardUser } from "./CompanyCard"
 
 export function CompanyRow({ user }: { user: CompanyCardUser }) {
@@ -69,12 +70,12 @@ export function CompanyRow({ user }: { user: CompanyCardUser }) {
         <div className="flex justify-end gap-2">
           {isPending ? (
             <>
-              <form action={updateCompanyAdminStatus}>
+              <form action={async (fd) => { await updateCompanyAdminStatus(fd); toast.success("Unternehmen freigegeben") }}>
                 <input type="hidden" name="userId" value={user.id} />
                 <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
                 <SubmitButton size="sm">Freigeben</SubmitButton>
               </form>
-              <form action={updateCompanyAdminStatus}>
+              <form action={async (fd) => { await updateCompanyAdminStatus(fd); toast.success("Unternehmen abgelehnt") }}>
                 <input type="hidden" name="userId" value={user.id} />
                 <input type="hidden" name="newStatus" value={UserStatus.REJECTED} />
                 <SubmitButton size="sm" variant="outline">Ablehnen</SubmitButton>
@@ -83,7 +84,7 @@ export function CompanyRow({ user }: { user: CompanyCardUser }) {
           ) : (
             <>
               {isInactive ? (
-                <form action={updateCompanyAdminStatus}>
+                <form action={async (fd) => { await updateCompanyAdminStatus(fd); toast.success("Unternehmen aktiviert") }}>
                   <input type="hidden" name="userId" value={user.id} />
                   <input type="hidden" name="newStatus" value={UserStatus.ACTIVE} />
                   <SubmitButton size="sm" variant="outline">Aktivieren</SubmitButton>

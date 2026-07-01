@@ -7,6 +7,7 @@ import { TableCell, TableRow } from "@/components/ui/table"
 import { StatusBadge, DRIVER_STATUS } from "@/components/StatusBadge"
 import { ConfirmActionButton } from "./ConfirmActionButton"
 import { SubmitButton } from "./SubmitButton"
+import { toast } from "sonner"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
@@ -74,7 +75,7 @@ export function DriverRow({ user }: { user: DriverCardUser }) {
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
           {isInactive ? (
-            <form action={updateUserStatus}>
+            <form action={async (fd) => { await updateUserStatus(fd); toast.success("Fahrer aktiviert") }}>
               <input type="hidden" name="userId" value={user.id} />
               <input type="hidden" name="newStatus" value="ACTIVE" />
               <SubmitButton size="sm" variant="outline">Aktivieren</SubmitButton>

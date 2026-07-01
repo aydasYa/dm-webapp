@@ -4,20 +4,30 @@ import { QRCodeSVG } from "qrcode.react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Role } from "@/src/generated/prisma/enums"
+import { PageHeader } from "@/components/PageHeader"
+import { FlashToast } from "@/components/FlashToast"
 
 export const dynamic = "force-dynamic"
 
-export default async function ProfilePage() {
+export default async function ProfilePage({
+    searchParams,
+}: {
+    searchParams: Promise<{ saved?: string }>
+}) {
     const user = await requireUser()
+    const { saved } = await searchParams
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold">Profil</h1>
-                <Button asChild>
-                    <Link href="/dashboard/profile/edit">Bearbeiten</Link>
-                </Button>
-            </div>
+            {saved && <FlashToast message="Profil gespeichert" />}
+            <PageHeader
+                title="Profil"
+                action={
+                    <Button asChild>
+                        <Link href="/dashboard/profile/edit">Bearbeiten</Link>
+                    </Button>
+                }
+            />
 
             <Card>
                 <CardHeader>
