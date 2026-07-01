@@ -96,7 +96,9 @@ export default async function CommissionOverview({
 			const d = new Date(l.createdAt)
 			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
 		}).length
-		return { day: String(day).padStart(2, "0"), count }
+		const mm = String(now.getMonth() + 1).padStart(2, "0")
+		const dd = String(day).padStart(2, "0")
+		return { date: `${currentYear}-${mm}-${dd}`, count }
 	})
 	const leadStatusData = [
 		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "#059669" },
@@ -145,11 +147,8 @@ export default async function CommissionOverview({
 				<h2 className="font-semibold mb-2">Meine Leads ({now.toLocaleDateString("de-DE", { month: "long" })})</h2>
 				<div className="grid gap-4 md:grid-cols-2">
 					<Card>
-						<CardHeader>
-							<CardTitle className="text-base font-semibold">Lead-Entwicklung</CardTitle>
-						</CardHeader>
 						<CardContent>
-							<LeadsChart data={leadTrendData} />
+							<LeadsChart data={leadTrendData} title="Lead-Entwicklung" />
 						</CardContent>
 					</Card>
 					<Card>

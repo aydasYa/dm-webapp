@@ -80,7 +80,9 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			const d = new Date(l.createdAt)
 			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
 		}).length
-		return { day: String(day).padStart(2, "0"), count }
+		const mm = String(now.getMonth() + 1).padStart(2, "0")
+		const dd = String(day).padStart(2, "0")
+		return { date: `${currentYear}-${mm}-${dd}`, count }
 	})
 
 	// Lead-Status-Verteilung für den Donut (Anzahl je Status)
@@ -174,13 +176,8 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 
 			<div className="grid gap-4 md:grid-cols-2">
 				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">
-							Lead-Entwicklung ({now.toLocaleDateString("de-DE", { month: "long" })})
-						</CardTitle>
-					</CardHeader>
 					<CardContent>
-						<LeadsChart data={leadTrendData} />
+						<LeadsChart data={leadTrendData} title={`Lead-Entwicklung (${now.toLocaleDateString("de-DE", { month: "long" })})`} />
 					</CardContent>
 				</Card>
 
