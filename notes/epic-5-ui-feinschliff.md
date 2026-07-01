@@ -44,13 +44,34 @@ Erlaubt: **4 · 8 · 12 · 16 · 24 · 32** — nichts dazwischen.
 | Elemente in einer Karte | 8–12 | `space-y-2`/`space-y-3` |
 
 ## Fahrplan / Tickets (neu geordnet: Fundament zuerst, dann je Komponente)
-1. **Farb-Tokens** — `:root` + `.dark` in `globals.css`, `@theme inline`-Registrierung (`bg-success` etc.). *Basis für alles.*
-2. **Theme-Umschalter + Font-Fix** — `next-themes`, `ThemeProvider`, Toggle-Button; Geist wirklich anwenden.
-3. **Sidebar** — Aktiv-Pille, Logo-Kopf, QR-Karte, Profil unten. Nav-Struktur besprechen.
-4. **KPI-Karten (StatCard)** — farbige Icon-Badges, große Zahl, grüne Trend-Pille (vs. Vormonat).
-5. **Charts** — Leads: Gradient-Fläche, Tooltip, Achsen. Donut: „Gesamt" mittig + farbige Legende mit %.
-6. **Tabelle + Filterzeile + Badges/Status** — Letzte-Leads-Tabelle, Filter (Datum/Fahrer/Status/Suche), Status-Badges farbig. Marken-Logos klären.
-7. **Formulare/Felder + Login/Signup/QR-Seiten** — Inputs, Selects, Buttons, Header-Pattern; Auth- und QR-Seiten.
+1. ✅ **Farb-Tokens** — `:root` + `.dark` in `globals.css`, `@theme inline`-Registrierung (`bg-success` etc.). *Basis für alles.*
+2. ✅ **Theme-Umschalter + Font-Fix** — `next-themes`, `ThemeProvider`, Toggle-Button; Geist wirklich anwenden.
+3. ✅ **Sidebar** — Aktiv-Pille, Logo-Kopf, QR-Karte, Profil-Dropdown. Nav = reale Routen (nur umgestylt).
+4. ✅ **KPI-Karten (StatCard)** — farbige Icon-Badges, große Zahl, grüne Trend-Pille. Auf alle StatCards ausgerollt.
+5. ✅ **Charts** — Leads: Gradient-Fläche, Datums-Achse, saubere Y-Ticks, Tooltip, Legende, Täglich/Wöchentlich-Toggle. Donut: „Gesamt" mittig + farbige Legende mit %.
+6. ⏭️ **Tabelle + Filterzeile + Badges/Status** — Letzte-Leads-Tabelle, Filter (Datum/Fahrer/Status/Suche), Status-Badges farbig. Marken-Logos klären.
+7. ⏳ **Formulare/Felder + Login/Signup/QR-Seiten** — Inputs, Selects, Buttons, Header-Pattern; Auth- und QR-Seiten.
+
+## Umsetzungs-Log (was konkret gebaut wurde)
+
+### ✅ Story 1 — Farb-Tokens
+`globals.css`: `:root` (hell) + `.dark` (dunkel) mit semantischen Tokens (primary blau, success/info/warning/destructive/accent-purple je + `-foreground`), in `@theme inline` registriert (→ `bg-success` etc.), `--chart-1..5` = Blau/Grün/Amber/Lila/Rot, `--ring` blau.
+
+### ✅ Story 2 — Theme-Umschalter + Font
+`next-themes` installiert; `components/theme-provider.tsx` + `ThemeProvider` in `app/layout.tsx` (`attribute="class"`, `defaultTheme="system"`, `suppressHydrationWarning`); `components/theme-toggle.tsx` (Hell/Dunkel/System, Sonne/Mond). Font-Fix: `--font-sans` → `--font-geist-sans`, `Arial`-Override im `body` entfernt.
+
+### ✅ Story 3 — Sidebar (`components/AppSidebar.tsx`)
+Logo + Untertitel „Partner Network"; Aktiv-Pille blau über Sidebar-Tokens (`--sidebar-accent`/`-accent-foreground`/`-primary`/`-ring` in `:root`+`.dark`); QR-Karte im Karten-Look; Profil-**Dropdown** (Avatar + Name + Firma + Chevron; Menü „Profil"/„Abmelden"). Neue Prop `companyName` durchgereicht: `layout.tsx` → `DashboardShell` → `AppSidebar`.
+
+### ✅ Story 4 — KPI-Karten (`components/StatCard.tsx`)
+Optionales Icon-Badge (`LucideIcon`-Prop, Token-Farbe `bg-<token>/10 text-<token>`), großes value, grüne Trend-Pille (`text-success` + `TrendingUp`). `colorMap` blue/green/purple/amber. Auf **alle** StatCards ausgerollt (Dashboard-KPIs, Provisionen, Fahrer, Super-Admin) mit passenden Lucide-Icons.
+
+### ✅ Story 5 — Charts
+- **`components/LeadsChart.tsx`**: Gradient-Fläche (`linearGradient` + `fill="url(#fillLeads)"`), Linie `strokeWidth 2`, X-Achse als **Datum** (`tickFormatter`, `minTickGap`), Y-Achse feste Ticks (Domain aufs nächste Vielfache gerundet, adaptive Schrittweite), shadcn-Tooltip mit vollem Datum, shadcn-Legende, **Täglich/Wöchentlich**-Umschalter (`Select`, 7-Tage-Aggregation). Titel + Dropdown wohnen jetzt in der Komponente (Prop `title`); doppelte Karten-Header in Admin- + Fahrer-Ansicht entfernt.
+- **Datenshape**: `{ day }` → `{ date }` (ISO) in `AdminDashboard` **und** `CommissionOverview`.
+- **`components/DonutChart.tsx`**: „Gesamt"-Zahl mittig via recharts `<Label>` (Token-Farben `fill-foreground`/`fill-muted-foreground`), Legende poliert (runde Punkte, Wert + % rechtsbündig, `tabular-nums`).
+- **Donut-Farben token-basiert**: alle hart codierten Hex (`#059669` etc.) → `var(--success/info/warning/destructive/muted-foreground)` in AdminDashboard, CommissionOverview, SuperAdminDashboard, commissions/page.
+- **Demo-Daten** (`data/demo-leads.json`): pro Firma mit Fahrern (Berlin/Hamburg/München) ~44–52 Leads im **aktuellen Monat**, Wellen-Verteilung → sichtbarer Verlauf. ⚠️ **Gotcha**: nutzt echte DB-IDs (companyId/driverId) und den *aktuellen Monat* — nach `seed-demo` oder Monatswechsel neu generieren (Skript nutzt `now`). Firmen ohne Fahrer (Köln, Stuttgart) haben bewusst keine Leads.
 
 ## shadcn-Komponenten (Entscheidung 01.07.2026)
 Config: `style: radix-nova`, `baseColor: neutral`, `iconLibrary: lucide` ✅, CSS-Variablen an.

@@ -60,10 +60,10 @@ export default async function CommissionOverview({
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
 	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(pendingAmount), color: "#ca8a04" },
-		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "#2563eb" },
-		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "#059669" },
-		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "#dc2626" },
+		{ name: "Offen", value: Math.round(pendingAmount), color: "var(--warning)" },
+		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "var(--info)" },
+		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "var(--success)" },
+		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "var(--destructive)" },
 	].filter((d) => d.value > 0)
 
 	// Provision pro Monat (dieses Jahr) — ungefiltert
@@ -101,10 +101,10 @@ export default async function CommissionOverview({
 		return { date: `${currentYear}-${mm}-${dd}`, count }
 	})
 	const leadStatusData = [
-		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "#059669" },
-		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "#2563eb" },
-		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "#ca8a04" },
-		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "#dc2626" },
+		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "var(--success)" },
+		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "var(--info)" },
+		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "var(--warning)" },
+		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "var(--destructive)" },
 	].filter((d) => d.value > 0)
 
 	return (

@@ -1,6 +1,6 @@
 "use client"
 
-import { Pie, PieChart, Cell } from "recharts"
+import { Pie, PieChart, Cell, Label } from "recharts"
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart"
 
 // Generic donut: each slice carries its own color so filtering out zeros keeps colors aligned
@@ -19,19 +19,39 @@ export default function DonutChart({ data, unit }: { data: Slice[]; unit?: strin
             {data.map((d) => (
               <Cell key={d.name} fill={d.color} />
             ))}
+            <Label
+              content={({ viewBox }) => {
+                if (viewBox && "cx" in viewBox) {
+                  return (
+                    <text x={viewBox.cx} y={viewBox.cy} textAnchor="middle" dominantBaseline="middle">
+                      <tspan x={viewBox.cx} y={viewBox.cy} className="fill-foreground text-3xl font-bold">
+                        {total.toLocaleString("de-DE")}
+                      </tspan>
+                      <tspan x={viewBox.cx} y={(viewBox.cy ?? 0) + 22} className="fill-muted-foreground text-sm">
+                        Gesamt
+                      </tspan>
+                    </text>
+                  )
+                }
+              }}
+            />
           </Pie>
         </PieChart>
       </ChartContainer>
 
-      <ul className="space-y-2 text-sm">
+      <ul className="space-y-2 text-sm sm:min-w-[190px]">
         {data.map((d) => (
           <li key={d.name} className="flex items-center gap-2">
-            <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: d.color }} />
+            <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: d.color }} />
             <span className="font-medium">{d.name}</span>
-            <span className="text-muted-foreground">
+            <span className="ml-auto tabular-nums font-medium">
               {d.value.toLocaleString("de-DE")}{unit ? ` ${unit}` : ""}
-              {total > 0 ? ` (${Math.round((d.value / total) * 100)} %)` : ""}
             </span>
+            {total > 0 && (
+              <span className="w-12 text-right tabular-nums text-muted-foreground">
+                {Math.round((d.value / total) * 100)} %
+              </span>
+            )}
           </li>
         ))}
       </ul>

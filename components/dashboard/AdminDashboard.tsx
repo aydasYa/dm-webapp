@@ -87,10 +87,10 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 
 	// Lead-Status-Verteilung für den Donut (Anzahl je Status)
 	const leadStatusData = [
-		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "#059669" },
-		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "#2563eb" },
-		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "#ca8a04" },
-		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "#dc2626" },
+		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "var(--success)" },
+		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "var(--info)" },
+		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "var(--warning)" },
+		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "var(--destructive)" },
 	].filter((d) => d.value > 0)
 
 	// KPI-Kennzahlen für die Karten-Reihe oben
@@ -100,10 +100,10 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 
 	// Commission distribution by status for the donut (amounts, color per slice)
 	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(comOpen), color: "#ca8a04" },
-		{ name: "Genehmigt", value: Math.round(comApproved), color: "#2563eb" },
-		{ name: "Ausbezahlt", value: Math.round(comPaid), color: "#059669" },
-		{ name: "Abgelehnt", value: Math.round(comRejected), color: "#dc2626" },
+		{ name: "Offen", value: Math.round(comOpen), color: "var(--warning)" },
+		{ name: "Genehmigt", value: Math.round(comApproved), color: "var(--info)" },
+		{ name: "Ausbezahlt", value: Math.round(comPaid), color: "var(--success)" },
+		{ name: "Abgelehnt", value: Math.round(comRejected), color: "var(--destructive)" },
 	].filter((d) => d.value > 0)
 
 	return (

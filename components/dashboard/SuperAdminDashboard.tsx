@@ -44,10 +44,10 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
 
   // Status-Verteilung der Firmen-Admins für den Donut
   const statusData = [
-    { name: "Aktiv", value: activeAdmins, color: "#059669" },
-    { name: "Ausstehend", value: pendingAdmins, color: "#ca8a04" },
-    { name: "Deaktiviert", value: inactiveAdmins, color: "#6b7280" },
-    { name: "Abgelehnt", value: rejectedCompanies, color: "#dc2626" },
+    { name: "Aktiv", value: activeAdmins, color: "var(--success)" },
+    { name: "Ausstehend", value: pendingAdmins, color: "var(--warning)" },
+    { name: "Deaktiviert", value: inactiveAdmins, color: "var(--muted-foreground)" },
+    { name: "Abgelehnt", value: rejectedCompanies, color: "var(--destructive)" },
   ].filter((d) => d.value > 0)
 
   // Neue Firmen pro Monat (aktuelles Jahr) für das Balkendiagramm

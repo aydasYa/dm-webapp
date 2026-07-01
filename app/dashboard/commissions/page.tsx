@@ -70,10 +70,10 @@ export default async function CommissionsPage({
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
 	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(pendingAmount), color: "#ca8a04" },
-		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "#2563eb" },
-		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "#059669" },
-		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "#dc2626" },
+		{ name: "Offen", value: Math.round(pendingAmount), color: "var(--warning)" },
+		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "var(--info)" },
+		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "var(--success)" },
+		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "var(--destructive)" },
 	].filter((d) => d.value > 0)
 
 	// Provision pro Monat (dieses Jahr) — ungefiltert
