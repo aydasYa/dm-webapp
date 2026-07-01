@@ -66,7 +66,7 @@ export function FormField({ field }: FormFieldProps) {
       {field.label}
       {field.required && (
         <>
-          <span className="text-red-600">*</span>
+          <span className="text-destructive">*</span>
           <span className="sr-only">Pflichtfeld</span>
         </>
       )}

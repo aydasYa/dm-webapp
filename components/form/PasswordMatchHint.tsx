@@ -40,7 +40,7 @@ export function PasswordMatchHint() {
   if (!message) return null
 
   return (
-    <p className={isError ? "text-sm text-red-600" : "text-sm text-green-700"}>
+    <p className={isError ? "text-sm text-destructive" : "text-sm text-success"}>
       {message}
     </p>
   )

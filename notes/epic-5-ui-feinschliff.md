@@ -102,9 +102,10 @@ Config: `style: radix-nova`, `baseColor: neutral`, `iconLibrary: lucide` ✅, CS
   - Befehl (lokal): `pnpm dlx shadcn@latest add popover calendar sonner`
 - **Bewusst NICHT:** `command`/Combobox — Fahrer-Filter bleibt `select`, Textsuche deckt das vorhandene Suchfeld ab.
 
-## Feinschliff-Backlog (später, nach den Stories)
-- **Tabellen-Größe/Lesbarkeit:** Zeilen der Tabellen (v.a. Fahrer-Liste) etwas **größer** — mehr Zeilenhöhe + größerer Text pro Zeile, damit's nicht so gedrängt wirkt. Dabei klären: Fahrer-Tabelle nur im eigenen Tab oder **auch in der Übersicht** anzeigen?
-- **Border-Konsistenz (global):** *jede* Border soll denselben, dezenten Ton nutzen — **nicht** hart weiß/schwarz, sondern der `--border`-Token passend zum Theme (hell/dunkel), so leicht wie ein Schatten. Audit: alle Komponenten auf `border-border` (bzw. Token) prüfen, hart codierte/zu kräftige Ränder ersetzen. Ggf. `--border` noch dezenter einstellen.
+## Feinschliff-Backlog
+- ✅ **Tabellen-Größe/Lesbarkeit:** `components/ui/table.tsx` — Zellen `px-4 py-3.5`, Header `h-12 px-4` + `text-muted-foreground`, Tabellen-Text `text-[0.9375rem]`. Wirkt global auf alle Tabellen. **Offen:** Entscheidung, ob Fahrer-Tabelle auch in der Übersicht erscheinen soll.
+- ✅ **Border-Konsistenz (global):** `@layer base { * { @apply border-border … } }` in `globals.css` → jede `border`/`border-t` nutzt den `--border`-Token statt `currentColor` (war die Ursache für „mal schwarz/weiß"). Zusätzlich die letzten harten Farben (`FormField`, `PasswordMatchHint`: `text-red-600`/`text-green-700`) auf `text-destructive`/`text-success`. **Keine hart codierten Farben mehr außerhalb `ui/`.**
+- 🧹 Rest-Aufräumen: alte `DriverCard`/`CompanyCard` (toter Code, nur Typ genutzt) noch mit `bg-emerald-100`-Styles → beim Entfernen mit weg.
 
 ## Offene Struktur-Fragen (je Komponente entscheiden)
 - Benachrichtigungs-Glocke (Badge „3") — echtes Feature oder erstmal Deko/weglassen?
