@@ -2,13 +2,14 @@
 
 import { Button } from "@/components/ui/button"
 import { SubmitButton } from "./SubmitButton"
+import { toast } from "sonner"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader,
   DialogTitle, DialogDescription, DialogFooter, DialogClose,
 } from "@/components/ui/dialog"
 
 type Props = {
-  action: (formData: FormData) => void
+  action: (formData: FormData) => void | Promise<void>
   fields: Record<string, string>        // versteckte Felder, z.B. { userId } oder { userId, newStatus }
   triggerLabel: string                  // Text auf dem öffnenden Button
   confirmLabel?: string                 // Text auf dem Bestätigen-Button
@@ -16,6 +17,7 @@ type Props = {
   description?: string
   triggerVariant?: "outline" | "destructive"
   confirmVariant?: "outline" | "destructive" | "default"
+  successMessage?: string               // wenn gesetzt: Toast nach erfolgreicher Aktion
 }
 
 export function ConfirmActionButton({
@@ -27,7 +29,15 @@ export function ConfirmActionButton({
   description = "Diese Aktion kann nicht rückgängig gemacht werden.",
   triggerVariant = "destructive",
   confirmVariant = "destructive",
+  successMessage,
 }: Props) {
+  const submit = successMessage
+    ? async (formData: FormData) => {
+        await action(formData)
+        toast.success(successMessage)
+      }
+    : action
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -42,7 +52,7 @@ export function ConfirmActionButton({
           <DialogClose asChild>
             <Button type="button" variant="outline">Abbrechen</Button>
           </DialogClose>
-          <form action={action}>
+          <form action={submit}>
             {Object.entries(fields).map(([name, value]) => (
               <input key={name} type="hidden" name={name} value={value} />
             ))}
