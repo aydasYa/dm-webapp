@@ -102,21 +102,30 @@ body {
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.17 0.02 260);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.22 0.02 260);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.22 0.02 260);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
+  --primary: oklch(0.62 0.19 259);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.27 0.02 260);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
+  --muted: oklch(0.27 0.02 260);
+  --muted-foreground: oklch(0.71 0.02 260);
+  --accent: oklch(0.27 0.02 260);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: oklch(0.64 0.21 25);
+  --destructive-foreground: oklch(0.985 0 0);
+  --success: oklch(0.72 0.19 149);
+  --success-foreground: oklch(0.985 0 0);
+  --info: oklch(0.62 0.19 259);
+  --info-foreground: oklch(0.985 0 0);
+  --warning: oklch(0.79 0.16 85);
+  --warning-foreground: oklch(0.21 0 0);
+  --accent-purple: oklch(0.60 0.20 293);
+  --accent-purple-foreground: oklch(0.985 0 0);
 
   /* 🔥 auch im Dark Mode sichtbar */
   --border: oklch(0.4 0 0);
@@ -164,7 +173,7 @@ body {
   }
 
   button:not(:disabled):hover,
-   [role="button"]:not(:disabled) {
+  [role="button"]:not(:disabled) {
     cursor: pointer;
   }
 }
