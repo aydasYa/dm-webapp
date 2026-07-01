@@ -27,7 +27,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
     }
 
     return (
-        <DashboardShell role={user.role} firstname={user.firstname} lastname={user.lastname} qrCode={user.qrCode}>
+        <DashboardShell role={user.role} firstname={user.firstname} lastname={user.lastname} qrCode={user.qrCode} companyName={user.company?.name ?? null}>
             {children}
         </DashboardShell>
     )

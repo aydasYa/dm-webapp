@@ -12,7 +12,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboard, Users, QrCode, User, LogOut, Euro, Building2 } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { LayoutDashboard, Users, QrCode, User, LogOut, Euro, Building2, ChevronsUpDown } from "lucide-react"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { QRCodeSVG } from "qrcode.react"
 import { signout } from "@/app/actions/account"
@@ -28,9 +36,10 @@ type Props = {
   firstname: string
   lastname: string
   qrCode: string | null
+  companyName: string | null
 }
 
-export default function AppSidebar({ role, firstname, lastname, qrCode }: Props) {
+export default function AppSidebar({ role, firstname, lastname, qrCode, companyName }: Props) {
   const pathname = usePathname()
   const initials = `${firstname?.[0] ?? ""}${lastname?.[0] ?? ""}`.toUpperCase()
 
@@ -111,33 +120,51 @@ export default function AppSidebar({ role, firstname, lastname, qrCode }: Props)
                 href={qrCode}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-primary underline-offset-2 hover:underline break-all"
+                className="text-xs text-primary underline-offset-2 hover:underline"
               >
-                {/* {qrCode.replace(/^https?:\/\//, "")} */}
-                QR-Code Link öffnen
+                Link öffnen
               </a>
             </div>
           </div>
         )}
-        <div className="flex items-center gap-2 px-2 py-1.5">
-          <Avatar size="sm">
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
-          <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
-          <div className="ml-auto">
-            <ThemeToggle />
-          </div>
+        <div className="flex items-center gap-1 px-1 pb-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-left outline-none hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 focus-visible:ring-sidebar-ring">
+                <Avatar size="sm">
+                  <AvatarFallback>{initials}</AvatarFallback>
+                </Avatar>
+                <div className="flex min-w-0 flex-col">
+                  <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
+                  {companyName && (
+                    <span className="truncate text-xs text-muted-foreground">{companyName}</span>
+                  )}
+                </div>
+                <ChevronsUpDown className="ml-auto size-4 shrink-0 text-muted-foreground" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent side="top" align="start" className="w-56">
+              <DropdownMenuLabel className="truncate">{firstname} {lastname}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/dashboard/profile">
+                  <User />
+                  Profil
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <form action={signout}>
+                <DropdownMenuItem asChild>
+                  <button type="submit" className="w-full">
+                    <LogOut />
+                    Abmelden
+                  </button>
+                </DropdownMenuItem>
+              </form>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <ThemeToggle />
         </div>
-        <form action={signout}>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton type="submit">
-                <LogOut />
-                <span>Abmelden</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </form>
       </SidebarFooter>
     </Sidebar>
   )
