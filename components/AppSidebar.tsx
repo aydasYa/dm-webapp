@@ -70,6 +70,9 @@ return (
             className="h-10 w-auto object-contain"
           />
         </Link>
+        <span className="text-xs font-medium text-muted-foreground">
+          Partner Network
+        </span>
       </div>
     </SidebarHeader>
     <SidebarContent>
