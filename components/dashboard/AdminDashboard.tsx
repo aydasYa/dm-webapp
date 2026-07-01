@@ -114,7 +114,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			</div>
 
 			{/* GET form -> filter via URL (?driver=...) */}
-			<form method="get" className="flex items-end gap-3">
+			<form method="get" className="flex flex-wrap items-end gap-3 rounded-xl bg-card p-4 ring-[2px] ring-foreground/15 shadow-[0_3px_7px_-1px_rgb(0_0_0/0.1)]">
 				<div className="flex flex-col gap-1">
 					<label htmlFor="driver" className="text-sm font-medium">Fahrer</label>
 					<select id="driver" name="driver" defaultValue={selectedDriverId ?? ""} className="h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm">
@@ -129,10 +129,10 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			</form>
 
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-				<StatCard label="Leads gesamt" value={String(totalLeads)} icon={Users} color="blue" />
-				<StatCard label="Abschlüsse" value={String(completedLeads)} icon={CircleCheckBig} color="green" />
-				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} icon={TrendingUp} color="purple" />
-				<StatCard label="Provision verdient" value={`${comSum.toFixed(2)} €`} icon={Wallet} color="amber" trend={commissionTrend} />
+				<StatCard label="Leads gesamt" value={String(totalLeads)} icon={Users} color="blue" compact />
+				<StatCard label="Abschlüsse" value={String(completedLeads)} icon={CircleCheckBig} color="green" compact />
+				<StatCard label="Conversion Rate" value={`${conversionRate.toFixed(1)} %`} icon={TrendingUp} color="purple" compact />
+				<StatCard label="Provision verdient" value={`${comSum.toFixed(2)} €`} icon={Wallet} color="amber" trend={commissionTrend} compact />
 			</div>
 
 			<div>
@@ -171,7 +171,7 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} icon={UserCheck} color="green" />
 				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} icon={UserX} color="amber" />
 				<StatCard label="Alle registrierten" value={String(registeredDrivers)} icon={Users} color="blue" />
-				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" />
+				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" compact />
 			</div>
 
 			<div className="grid gap-6 md:grid-cols-2">

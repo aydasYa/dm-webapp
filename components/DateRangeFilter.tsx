@@ -24,7 +24,7 @@ export default function DateRangeFilter({
   adminName?: string
 }) {
   return (
-    <form method="get" className="flex flex-wrap items-end gap-3 rounded-xl border bg-card p-4">
+    <form method="get" className="flex flex-wrap items-end gap-3 rounded-xl bg-card p-4 ring-[2px] ring-foreground/15 shadow-[0_3px_7px_-1px_rgb(0_0_0/0.1)]">
       <div className="flex flex-col gap-1">
         <label htmlFor="from" className="text-xs font-medium text-muted-foreground">Von Datum</label>
         <input type="date" id="from" name="from" defaultValue={from ?? ""} className={field} />
