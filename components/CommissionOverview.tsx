@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { summarizeCommissions } from "@/lib/commission"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
+import { Wallet, Clock, CircleCheckBig } from "lucide-react"
 import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { resolveRange, inRange } from "@/lib/dateRange"
@@ -112,9 +113,9 @@ export default async function CommissionOverview({
 					<DateRangeFilter preset={preset} from={from} to={to} />
 				</div>
 				<div className="grid gap-4 md:grid-cols-3">
-					<StatCard label="Provision verdient" value={`${totalAmount.toFixed(2)} €`} trend={trendProvision} />
-					<StatCard label="Offen" value={`${pendingAmount.toFixed(2)} €`} />
-					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} />
+					<StatCard label="Provision verdient" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" trend={trendProvision} />
+					<StatCard label="Offen" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
+					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
 				</div>
 
 				<Card>

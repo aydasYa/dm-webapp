@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import DonutChart from "@/components/DonutChart"
 import CommissionsChart from "@/components/CommissionsChart"
 import { getCommissions } from "@/lib/getCommissions"
-import { Users, CircleCheckBig, TrendingUp, Wallet } from "lucide-react"
+import { Users, CircleCheckBig, TrendingUp, Wallet, Clock, UserCheck, UserX } from "lucide-react"
 
 
 // Short, user-facing status labels (UI is German)
@@ -136,9 +136,9 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			<div>
 				<h2 className="font-semibold mb-2">Provisionen</h2>
 				<div className="grid gap-4 md:grid-cols-3">
-					<StatCard label="Gesamt" value={`${comSum.toFixed(2)} €`} trend={commissionTrend} />
-					<StatCard label="Offen" value={`${comOpen.toFixed(2)} €`} />
-					<StatCard label="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} />
+					<StatCard label="Gesamt" value={`${comSum.toFixed(2)} €`} icon={Wallet} color="blue" trend={commissionTrend} />
+					<StatCard label="Offen" value={`${comOpen.toFixed(2)} €`} icon={Clock} color="amber" />
+					<StatCard label="Ausbezahlt" value={`${comPaid.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
 				</div>
 			</div>
 
@@ -166,10 +166,10 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} />
-				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} />
-				<StatCard label="Alle registrierten" value={String(registeredDrivers)} />
-				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} />
+				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} icon={UserCheck} color="green" />
+				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} icon={UserX} color="amber" />
+				<StatCard label="Alle registrierten" value={String(registeredDrivers)} icon={Users} color="blue" />
+				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" />
 			</div>
 
 			<div className="grid gap-4 md:grid-cols-2">

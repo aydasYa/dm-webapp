@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { StatCard } from "@/components/StatCard"
+import { Clock, Building2 } from "lucide-react"
 import DonutChart from "@/components/DonutChart"
 import CompaniesChart from "@/components/CompaniesChart"
 
@@ -69,9 +70,9 @@ export default async function SuperAdminDashboard({ firstname }: { firstname: st
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <StatCard label="Warten auf Freigabe" value={String(pendingAdmins)} />
-        <StatCard label="Aktive Unternehmen" value={String(activeAdmins)} />
-        <StatCard label="Unternehmen gesamt" value={String(totalCompanies)} trend={companyTrend} />
+        <StatCard label="Warten auf Freigabe" value={String(pendingAdmins)} icon={Clock} color="amber" />
+        <StatCard label="Aktive Unternehmen" value={String(activeAdmins)} icon={Building2} color="green" />
+        <StatCard label="Unternehmen gesamt" value={String(totalCompanies)} icon={Building2} color="blue" trend={companyTrend} />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { summarizeCommissions } from "@/lib/commission"
 import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
+import { Wallet, Clock, CircleCheckBig } from "lucide-react"
 import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { Pagination } from "@/components/Pagination"
@@ -101,9 +102,9 @@ export default async function CommissionsPage({
 					/>
 				</div>
 				<div className="grid gap-4 md:grid-cols-3">
-					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} />
-					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} />
-					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} />
+					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" />
+					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
+					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
 				</div>
 
 				<div className="flex">
