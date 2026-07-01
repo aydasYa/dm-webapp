@@ -18,7 +18,16 @@ export const COMMISSION_STATUS: Record<string, { tone: Tone; label: string }> = 
   REJECTED: { tone: "destructive", label: "Abgelehnt" },
 }
 
-export const USER_STATUS: Record<string, { tone: Tone; label: string }> = {
+// Fahrer werden nicht „abgelehnt" — REJECTED zeigt „Deaktiviert"
+export const DRIVER_STATUS: Record<string, { tone: Tone; label: string }> = {
+  ACTIVE: { tone: "success", label: "Aktiv" },
+  PENDING: { tone: "warning", label: "Ausstehend" },
+  INACTIVE: { tone: "muted", label: "Deaktiviert" },
+  REJECTED: { tone: "muted", label: "Deaktiviert" },
+}
+
+// Firmen-Admins: REJECTED = „Abgelehnt" (roter Ton)
+export const COMPANY_STATUS: Record<string, { tone: Tone; label: string }> = {
   ACTIVE: { tone: "success", label: "Aktiv" },
   PENDING: { tone: "warning", label: "Ausstehend" },
   INACTIVE: { tone: "muted", label: "Deaktiviert" },
