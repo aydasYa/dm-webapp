@@ -13,6 +13,7 @@ import { getCommissions } from "@/lib/getCommissions"
 import { requireUser } from "@/lib/auth"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { StatusBadge, COMMISSION_STATUS } from "@/components/StatusBadge"
+import { PageHeader } from "@/components/PageHeader"
 
 export const dynamic = "force-dynamic"
 
@@ -84,18 +85,7 @@ export default async function CommissionsPage({
 	return (
 		<div className="space-y-6">
 			<div>
-				<h1 className="text-2xl font-bold">{isAdmin ? "Alle Provisionen" : "Meine Provisionen"}</h1>
-				<div className="mt-4">
-					<DateRangeFilter
-						preset={preset}
-						from={from}
-						to={to}
-						drivers={isAdmin ? drivers : undefined}
-						selectedDriver={driver}
-						adminId={user.id}
-						adminName={`${user.firstname} ${user.lastname}`}
-					/>
-				</div>
+				<PageHeader title={isAdmin ? "Alle Provisionen" : "Meine Provisionen"} />
 				<div className="grid gap-4 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" />
 					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
@@ -123,6 +113,17 @@ export default async function CommissionsPage({
 							)}
 						</CardContent>
 					</Card>
+				</div>
+				<div className="mt-4">
+					<DateRangeFilter
+						preset={preset}
+						from={from}
+						to={to}
+						drivers={isAdmin ? drivers : undefined}
+						selectedDriver={driver}
+						adminId={user.id}
+						adminName={`${user.firstname} ${user.lastname}`}
+					/>
 				</div>
 				<p className="text-muted-foreground">{summaryCommissions.length} Einträge insgesamt</p>
 			</div>

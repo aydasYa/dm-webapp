@@ -1,8 +1,10 @@
 import prisma from "@/lib/prisma"
 import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent } from "@/components/ui/card"
-import { CompanyCard } from "@/components/CompanyCard"
+import { CompanyRow } from "@/components/CompanyRow"
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { requireUser } from "@/lib/auth"
+import { PageHeader } from "@/components/PageHeader"
 
 export const dynamic = "force-dynamic"
 
@@ -38,10 +40,7 @@ export default async function CompaniesPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Unternehmen</h1>
-        <p className="text-muted-foreground">{admins.length} Firmen-Admins</p>
-      </div>
+      <PageHeader title="Unternehmen" subtitle={`${admins.length} Firmen-Admins`} />
 
       {admins.length === 0 ? (
         <Card>
@@ -50,11 +49,26 @@ export default async function CompaniesPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="flex flex-col gap-3">
-          {admins.map((a) => (
-            <CompanyCard key={a.id} user={a} />
-          ))}
-        </div>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Unternehmen</TableHead>
+                  <TableHead>Admin</TableHead>
+                  <TableHead>Registriert</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Aktionen</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {admins.map((a) => (
+                  <CompanyRow key={a.id} user={a} />
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       )}
     </div>
   )

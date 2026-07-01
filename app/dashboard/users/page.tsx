@@ -1,11 +1,13 @@
 import prisma from "@/lib/prisma"
 import { Role } from "@/src/generated/prisma/enums"
 import { Card, CardContent } from "@/components/ui/card"
-import { DriverCard } from "@/components/DriverCard"
+import { DriverRow } from "@/components/DriverRow"
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import Link from "next/link"
 import { Pagination } from "@/components/Pagination"
 import { Button } from "@/components/ui/button"
 import { requireUser } from "@/lib/auth"
+import { PageHeader } from "@/components/PageHeader"
 
 export const dynamic = "force-dynamic"
 
@@ -60,15 +62,15 @@ export default async function UsersPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Fahrer-Verwaltung</h1>
-          <p className="text-muted-foreground">{total} Fahrer</p>
-        </div>
-        <Button asChild>
-          <Link href="/dashboard/users/new">Fahrer anlegen</Link>
-        </Button>
-      </div>
+      <PageHeader
+        title="Fahrer-Verwaltung"
+        subtitle={`${total} Fahrer`}
+        action={
+          <Button asChild>
+            <Link href="/dashboard/users/new">Fahrer anlegen</Link>
+          </Button>
+        }
+      />
 
       {drivers.length === 0 ? (
         
@@ -78,11 +80,26 @@ export default async function UsersPage({
           </CardContent>
         </Card>
       ) : (
-        <div className="flex flex-col gap-3">
-          {drivers.map((u) => (
-            <DriverCard key={u.id} user={u} />
-          ))}
-        </div>
+        <Card>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>E-Mail</TableHead>
+                  <TableHead>Registriert</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="text-right">Aktionen</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {drivers.map((u) => (
+                  <DriverRow key={u.id} user={u} />
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
       )}
       <Pagination page={page} totalPages={totalPages} basePath="/dashboard/users" />
     </div>

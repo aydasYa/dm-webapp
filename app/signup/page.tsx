@@ -53,7 +53,7 @@ export default async function SignUp({
             <CardTitle className="text-2xl font-bold">Registrieren</CardTitle>
             <CardDescription>Erstelle deinen Account</CardDescription>
             <p className="text-sm text-muted-foreground">
-              Felder mit <span className="font-medium text-red-600">*</span> sind Pflichtfelder.
+              Felder mit <span className="font-medium text-destructive">*</span> sind Pflichtfelder.
             </p>
             {errorMessage && (
               <p className="text-sm font-medium text-destructive">{errorMessage}</p>
