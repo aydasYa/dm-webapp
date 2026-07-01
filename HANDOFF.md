@@ -8,7 +8,7 @@
 ## 1. Projekt
 **DeinMotorschaden WebApp** — Plattform für ein Abschlepper-Netzwerk. Multi-Tenant: jedes **Abschleppunternehmen** hat einen **Admin**, der **Fahrer** einlädt. Fahrer haben persönliche **QR-Codes** (UTM → Lead-Tracking auf der Angebotsseite) und verdienen **Provisionen**. Leads & Provisionen kommen aus **Salesforce** (aktuell per JSON simuliert), die WebApp **zeigt nur Auswertungen** — kein Lead-Management mehr.
 
-**Tech-Stack:** Next.js 16 (App Router), Prisma 7 + PostgreSQL (Supabase), Supabase Auth, shadcn/Radix UI + Tailwind, recharts, qrcode.react. **Package-Manager: `pnpm`.** UI-Sprache Deutsch, Code Englisch. Theme: **nur hell** (kein Dark Mode).
+**Tech-Stack:** Next.js 16 (App Router), Prisma 7 + PostgreSQL (Supabase), Supabase Auth, shadcn/Radix UI + Tailwind, recharts, qrcode.react. **Package-Manager: `pnpm`.** UI-Sprache Deutsch, Code Englisch. Theme: **Hell + Dunkel umschaltbar** (Entscheidung 01.07.2026, Epic 5 — kehrt das frühere „nur hell" um; Umsetzung via `next-themes`).
 
 ## 2. Rollen & Datenmodell
 - **Hierarchie:** `SUPER_ADMIN` (DeinMotorschaden) → `ADMIN` (Firma) → `TOW_TRUCK_DRIVER` (Fahrer).
