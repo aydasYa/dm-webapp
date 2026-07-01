@@ -41,95 +41,104 @@ export default function AppSidebar({ role, firstname, lastname, qrCode }: Props)
     { title: "Profil", url: "/dashboard/profile", icon: User },
   ]
 
-const adminItems = [
-  { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Fahrer", url: "/dashboard/users", icon: Users },
-  { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
-  { title: "Profil", url: "/dashboard/profile", icon: User },
-  { title: "Provisionen", url: "/dashboard/commissions", icon: Euro },
-]
+  const adminItems = [
+    { title: "Übersicht", url: "/dashboard", icon: LayoutDashboard },
+    { title: "Fahrer", url: "/dashboard/users", icon: Users },
+    { title: "QR-Codes", url: "/dashboard/qrcodes", icon: QrCode },
+    { title: "Profil", url: "/dashboard/profile", icon: User },
+    { title: "Provisionen", url: "/dashboard/commissions", icon: Euro },
+  ]
 
-const driverItems = [
-  { title: "Profil", url: "/dashboard/profile", icon: User },
-  { title: "Provisionen", url: "/dashboard", icon: Euro },
-  { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
-]
+  const driverItems = [
+    { title: "Profil", url: "/dashboard/profile", icon: User },
+    { title: "Provisionen", url: "/dashboard", icon: Euro },
+    { title: "QR-Code", url: "/dashboard/qrcode", icon: QrCode },
+  ]
 
   const items = role === Role.ADMIN ? adminItems : role === Role.SUPER_ADMIN ? superAdminItems : driverItems
 
-return (
-  <Sidebar>
-    <SidebarHeader>
-      <div className="flex flex-col items-center gap-1 px-2 py-3">
-        <Link href="/dashboard">
-          <Image
-            src="/logo.png"
-            alt="DeinMotorschaden Logo"
-            width={160}
-            height={48}
-            className="h-10 w-auto object-contain"
-          />
-        </Link>
-        <span className="text-xs font-medium text-muted-foreground">
-          Partner Network
-        </span>
-      </div>
-    </SidebarHeader>
-    <SidebarContent>
-      <SidebarGroup>
-        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {items.map((item) => (
-              <SidebarMenuItem key={item.url}>
-                <SidebarMenuButton asChild isActive={item.url === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(item.url)}>
-                  <Link href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup>
-    </SidebarContent>
-    <SidebarFooter>
-       {qrCode && (
+  return (
+    <Sidebar>
+      <SidebarHeader>
+        <div className="flex flex-col items-center gap-1 px-2 py-3">
+          <Link href="/dashboard">
+            <Image
+              src="/logo.png"
+              alt="DeinMotorschaden Logo"
+              width={160}
+              height={48}
+              className="h-10 w-auto object-contain"
+            />
+          </Link>
+          <span className="text-xs font-medium text-muted-foreground">
+            Partner Network
+          </span>
+        </div>
+      </SidebarHeader>
+      <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="justify-center">Mein QR-Code</SidebarGroupLabel>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
-            <div className="flex flex-col items-center gap-2 px-2 py-2">
+            <SidebarMenu>
+              {items.map((item) => (
+                <SidebarMenuItem key={item.url}>
+                  <SidebarMenuButton asChild isActive={item.url === "/dashboard" ? pathname === "/dashboard" : pathname.startsWith(item.url)}>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        {qrCode && (
+          <div className="mx-2 mb-2 rounded-xl border border-sidebar-border bg-sidebar-accent/40 p-3">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <div>
+                <p className="text-sm font-semibold">Mein QR-Code</p>
+                <p className="text-xs text-muted-foreground">
+                  Scannen lassen und Provision verdienen.
+                </p>
+              </div>
               <div className="rounded-lg border bg-white p-2">
                 <QRCodeSVG value={qrCode} size={120} />
               </div>
-              <a href={qrCode} target="_blank" rel="noopener noreferrer" className="text-xs text-muted-foreground underline-offset-2 hover:underline">
-                Link öffnen
+              <a
+                href={qrCode}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-primary underline-offset-2 hover:underline break-all"
+              >
+                {/* {qrCode.replace(/^https?:\/\//, "")} */}
+                QR-Code Link öffnen
               </a>
             </div>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      )}
-      <div className="flex items-center gap-2 px-2 py-1.5">
-        <Avatar size="sm">
-          <AvatarFallback>{initials}</AvatarFallback>
-        </Avatar>
-        <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
-        <div className="ml-auto">
-          <ThemeToggle />
+          </div>
+        )}
+        <div className="flex items-center gap-2 px-2 py-1.5">
+          <Avatar size="sm">
+            <AvatarFallback>{initials}</AvatarFallback>
+          </Avatar>
+          <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
+          <div className="ml-auto">
+            <ThemeToggle />
+          </div>
         </div>
-      </div>
-      <form action={signout}>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton type="submit">
-              <LogOut />
-              <span>Abmelden</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </form>
-    </SidebarFooter>
-  </Sidebar>
-)
+        <form action={signout}>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton type="submit">
+                <LogOut />
+                <span>Abmelden</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </form>
+      </SidebarFooter>
+    </Sidebar>
+  )
 }
