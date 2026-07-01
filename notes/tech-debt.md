@@ -37,6 +37,10 @@ Stand: 26.06.2026.
 ## 🟠 Komponenten verschlanken (offen)
 - **Logik vor dem `return` auslagern** — Server-Komponenten (`commissions/page.tsx`, `AdminDashboard`, `CommissionOverview`) haben viel Aufbereitung (Mappings, Filter, Summen, Paginierung, Chart-Daten) im Body. In `lib/`-Helper auslagern, damit die Komponente nur noch rendert (schlanker, wiederverwendbar, testbar).
 
+## 📝 AuditLog — Nachzügler (offen)
+- **Ansicht fehlt** — wir schreiben ins AuditLog, aber es gibt keine In-App-Ansicht. Später „Verlauf"-Seite (z.B. im Super-Admin-Dashboard) zum Lesen der Einträge. Zum Testen aktuell nur via `pnpm prisma studio` (Tabelle `audit_logs`).
+- **Provisions-Actions loggen noch nicht** — `approveCommission` / `markCommissionAsPaid` könnten ebenfalls `logAudit(...)` aufrufen.
+
 ## 🔌 Salesforce / Daten (offen)
 - **Echte Salesforce-Anbindung** — `getLeads` (und `getCommissions`) lesen aktuell aus JSON. Später nur das Innere auf `fetch()` umstellen; Signatur bleibt gleich, Aufrufer unverändert.
 - **Demo-Leads nur für Berlin** — `data/demo-leads.json` hat nur Datensätze für Abschlepp Berlin (Markus Weber + Tom Schulz). Andere Firmen/Fahrer zeigen leere Lead-Charts, bis sie Lead-Daten bekommen.
