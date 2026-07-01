@@ -20,6 +20,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Role } from "@/src/generated/prisma/enums"
+import { ThemeToggle } from "@/components/theme-toggle"
 
 
 type Props = {
@@ -111,6 +112,9 @@ return (
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
         <span className="truncate text-sm font-medium">{firstname} {lastname}</span>
+        <div className="ml-auto">
+          <ThemeToggle />
+        </div>
       </div>
       <form action={signout}>
         <SidebarMenu>
