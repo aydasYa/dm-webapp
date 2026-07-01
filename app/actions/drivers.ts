@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { NAME_PATTERN, EMAIL_PATTERN, str } from '@/app/actions/validation'
 import { createQrCode } from '@/lib/qr'
 import { assertSameCompany, requireUser } from '@/lib/auth'
+import { logAudit } from "@/lib/audit"
 
 
 // Admin-Aktion: neuen Fahrer anlegen + Einladungslink (Magic Link) verschicken
@@ -25,7 +26,6 @@ export async function createDriver(formData: FormData) {
   if (!EMAIL_PATTERN.test(email)) redirect('/dashboard/users/new?error=invalid_email')
 
   // 3. Supabase-Einladung: legt den Account an UND verschickt den Magic Link
-  // (E-Mail-Versand läuft über das in Supabase konfigurierte Resend-SMTP)
   const { createAdminClient } = await import('@/lib/supabase/admin')
   const admin = createAdminClient()
   const { data: invite, error } = await admin.auth.admin.inviteUserByEmail(email, {
@@ -37,7 +37,7 @@ export async function createDriver(formData: FormData) {
     redirect('/dashboard/users/new?error=invite_failed')
   }
 
-  // 4. DB-Datensatz: Fahrer der eigenen Firma, direkt ACTIVE (vom Admin angelegt)
+  // 4. DB-Datensatz: Fahrer der eigenen Firma
   try {
     await prisma.user.create({
       data: {
@@ -47,12 +47,10 @@ export async function createDriver(formData: FormData) {
         lastname,
         role: Role.TOW_TRUCK_DRIVER,
         status: UserStatus.PENDING,
-        // Fahrer erbt die Firma über die companyId-Relation (keine flachen Kopien mehr)
         companyId: caller.companyId,
       },
     })
   } catch (prismaError) {
-    // Rollback: eingeladenen Supabase-Nutzer wieder löschen – kein verwaister Account
     console.error('Prisma Fehler, eingeladener Nutzer wird zurückgesetzt:', prismaError)
     await admin.auth.admin.deleteUser(invite.user.id)
     redirect('/dashboard/users/new?error=db_failed')
@@ -63,7 +61,7 @@ export async function createDriver(formData: FormData) {
 }
 
 
-// Admin-Aktion: Fahrer löschen (Soft-Delete – Daten bleiben wegen Leads/Provisionen erhalten)
+// Admin-Aktion: Fahrer löschen (Soft-Delete)
 export async function deleteDriver(formData: FormData) {
   const caller = await requireUser()
   if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
@@ -77,12 +75,17 @@ export async function deleteDriver(formData: FormData) {
     data: { deletedAt: new Date(), status: UserStatus.INACTIVE },
   })
 
+  await logAudit({
+    action: "USER_DELETED",
+    actorId: caller.id,
+    details: `Fahrer ${userId} gelöscht (Soft-Delete)`,
+  })
+
   revalidatePath("/dashboard/users")
 }
 
 
 // Admin-Aktion: Nutzer freigeben (ACTIVE) oder ablehnen (REJECTED)
-// Wird direkt aus dem Admin-Dashboard aufgerufen
 export async function updateUserStatus(formData: FormData) {
   const caller = await requireUser()
   if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
@@ -95,11 +98,17 @@ export async function updateUserStatus(formData: FormData) {
   }
 
   // IDOR-Schutz: Ziel muss zur Firma des Aufrufers gehören
-   await assertSameCompany(caller.companyId, userId)
+  await assertSameCompany(caller.companyId, userId)
 
   await prisma.user.update({
     where: { id: userId },
     data: { status: newStatus },
+  })
+
+  await logAudit({
+    action: "USER_STATUS_CHANGED",
+    actorId: caller.id,
+    details: `Fahrer ${userId} → ${newStatus}`,
   })
 
   if (newStatus === UserStatus.ACTIVE) await createQrCode(userId)
@@ -109,10 +118,7 @@ export async function updateUserStatus(formData: FormData) {
 
 
 // QR-Code für einen Abschlepper generieren
-// Der Code ist eine UTM-URL zur Angebotsseite – damit kann später nachverfolgt werden,
-// welcher Abschlepper den Kunden gebracht hat (utm_medium = userId, utm_source = Firmenname)
 export async function generateQrCode(formData: FormData) {
-  // Gleiche Admin-Prüfung wie bei updateUserStatus
   const caller = await requireUser()
   if(caller.role !== Role.ADMIN) throw new Error("Keine Berechtigung")
 
@@ -124,5 +130,3 @@ export async function generateQrCode(formData: FormData) {
 
   revalidatePath("/dashboard")
 }
-
-

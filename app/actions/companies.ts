@@ -4,6 +4,7 @@ import prisma from '@/lib/prisma'
 import { Role, UserStatus } from '@/src/generated/prisma/enums'
 import { revalidatePath } from 'next/cache'
 import { requireUser } from '@/lib/auth'
+import { logAudit } from '@/lib/audit'
 
 
 // Super-Admin-Aktion: Status eines Firmen-Admins setzen
@@ -28,6 +29,12 @@ export async function updateCompanyAdminStatus(formData: FormData) {
     data: { status: newStatus },
   })
 
+  await logAudit({
+    action: "COMPANY_STATUS_CHANGED",
+    actorId: caller.id,
+    details: `Firmen-Admin ${userId} → ${newStatus}`,
+  })
+
   revalidatePath("/dashboard/companies")
 }
 
@@ -44,6 +51,12 @@ export async function deleteCompanyAdmin(formData: FormData) {
   await prisma.user.update({
     where: { id: userId },
     data: { deletedAt: new Date(), status: UserStatus.INACTIVE },
+  })
+
+  await logAudit({
+    action: "COMPANY_DELETED",
+    actorId: caller.id,
+    details: `Firmen-Admin ${userId} gelöscht (Soft-Delete)`,
   })
 
   revalidatePath("/dashboard/companies")
