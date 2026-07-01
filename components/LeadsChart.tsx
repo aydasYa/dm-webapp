@@ -58,8 +58,8 @@ export default function LeadsChart({ data, title = "Lead-Entwicklung" }: Props) 
   } satisfies ChartConfig
 
   // Saubere Y-Achse: Schrittweite passend wählen, Maximum aufrunden → gleichmäßige Ticks
-  const maxCount = Math.max(5, ...series.map((d) => d.count))
-  const step = maxCount <= 20 ? 5 : maxCount <= 60 ? 10 : 20
+  const maxCount = Math.max(10, ...series.map((d) => d.count))
+  const step = maxCount <= 20 ? 2 : maxCount <= 60 ? 10 : 20
   const top = Math.ceil(maxCount / step) * step
   const ticks = Array.from({ length: top / step + 1 }, (_, i) => i * step)
 
@@ -78,7 +78,7 @@ export default function LeadsChart({ data, title = "Lead-Entwicklung" }: Props) 
         </Select>
       </div>
       <ChartContainer config={chartConfig} className="h-[300px] w-full">
-        <AreaChart data={series} margin={{ left: 4, right: 12, top: 8 }}>
+        <AreaChart data={series} margin={{ left: 12, right: 12, top: 8 }}>
           <defs>
             <linearGradient id="fillLeads" x1="0" y1="0" x2="0" y2="1">
               <stop offset="5%" stopColor="var(--color-count)" stopOpacity={0.4} />
@@ -88,14 +88,15 @@ export default function LeadsChart({ data, title = "Lead-Entwicklung" }: Props) 
           <CartesianGrid vertical={false} />
           <XAxis
             dataKey="date"
-            tickLine={false}
+            tickLine={true}
             axisLine={false}
             tickMargin={8}
             minTickGap={24}
+            padding={{ left: 12, right: 8 }}
             tickFormatter={formatShort}
           />
           <YAxis
-            tickLine={false}
+            tickLine={true}
             axisLine={false}
             width={28}
             domain={[0, top]}
