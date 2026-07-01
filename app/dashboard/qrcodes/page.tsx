@@ -2,7 +2,9 @@ import prisma from "@/lib/prisma"
 import { Role, UserStatus } from "@/src/generated/prisma/enums"
 import { generateQrCode } from "@/app/actions/drivers"
 import QrCodeCard from "@/components/QrCodeCard"
+import { QrCodeRow } from "@/components/QrCodeRow"
 import { Card, CardContent } from "@/components/ui/card"
+import { Table, TableBody, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { requireUser } from "@/lib/auth"
 import { PageHeader } from "@/components/PageHeader"
 
@@ -47,11 +49,25 @@ export default async function QrCodesPage() {
                         </CardContent>
                     </Card>
                 ) : (
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        {drivers.map((d) => (
-                            <QrCodeCard key={d.id} driver={d} generateAction={generateQrCode} />
-                        ))}
-                    </div>
+                    <Card>
+                        <CardContent className="p-0">
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Fahrer</TableHead>
+                                        <TableHead>Status</TableHead>
+                                        <TableHead>Link</TableHead>
+                                        <TableHead className="text-right">Aktion</TableHead>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                    {drivers.map((d) => (
+                                        <QrCodeRow key={d.id} driver={d} generateAction={generateQrCode} />
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
                 )}
             </div>
         </div>
