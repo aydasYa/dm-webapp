@@ -42,6 +42,8 @@ export default async function CompaniesPage() {
     <div className="space-y-6">
       <PageHeader title="Unternehmen" subtitle={`${admins.length} Firmen-Admins`} />
 
+      <p className="text-sm text-muted-foreground">{admins.length} Einträge insgesamt</p>
+
       {admins.length === 0 ? (
         <Card>
           <CardContent className="pt-6">

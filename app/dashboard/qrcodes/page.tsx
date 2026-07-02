@@ -42,6 +42,7 @@ export default async function QrCodesPage() {
 
             <div>
                 <h2 className="font-semibold mb-2">QR-Codes aller Fahrer</h2>
+                <p className="text-sm text-muted-foreground">{drivers.length} Einträge insgesamt</p>
                 {drivers.length === 0 ? (
                     <Card>
                         <CardContent className="pt-6">

@@ -72,6 +72,8 @@ export default async function UsersPage({
         }
       />
 
+      <p className="text-sm text-muted-foreground">{total} Einträge insgesamt</p>
+
       {drivers.length === 0 ? (
         
         <Card>

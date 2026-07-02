@@ -161,6 +161,8 @@ export default async function CommissionOverview({
 				</div>
 			</div>
 
+			<p className="text-sm text-muted-foreground">{summaryCommissions.length} Einträge insgesamt</p>
+
 			{summaryCommissions.length === 0 ? (
 				<Card>
 					<CardContent className="pt-6">
