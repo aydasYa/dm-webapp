@@ -33,15 +33,15 @@ export default async function QrCodesPage() {
         <div className="space-y-6">
             <PageHeader title="QR-Codes" subtitle={`${drivers.length} aktive Abschlepper`} />
 
-            <div>
-                <h2 className="font-semibold mb-2">Mein QR-Code</h2>
+            <div className="space-y-3">
+                <h2 className="font-semibold">Mein QR-Code</h2>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     <QrCodeCard driver={caller} generateAction={generateQrCode}/>
                 </div>
             </div>
 
-            <div>
-                <h2 className="font-semibold mb-2">QR-Codes aller Fahrer</h2>
+            <div className="space-y-3">
+                <h2 className="font-semibold">QR-Codes aller Fahrer</h2>
                 <p className="text-sm text-muted-foreground">{drivers.length} Einträge insgesamt</p>
                 {drivers.length === 0 ? (
                     <Card>
