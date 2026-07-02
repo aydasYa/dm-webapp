@@ -18,6 +18,6 @@ export default async function DashboardPage({
   if (user.role === Role.SUPER_ADMIN) return <SuperAdminDashboard firstname={user.firstname} />
 
   return user.role === Role.ADMIN
-    ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} selectedDriverId={driver} adminId={user.id} adminName={`${user.firstname} ${user.lastname}`} />
+    ? <AdminDashboard firstname={user.firstname} companyId={user.companyId} selectedDriverId={driver} adminId={user.id} adminName={`${user.firstname} ${user.lastname}`} preset={preset} from={from} to={to} />
     : <CommissionOverview userId={user.id} companyId={user.companyId} preset={preset} from={from} to={to} page={page} />
 }

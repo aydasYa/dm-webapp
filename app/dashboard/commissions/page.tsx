@@ -86,6 +86,17 @@ export default async function CommissionsPage({
 		<div className="space-y-6">
 			<div className="space-y-6">
 				<PageHeader title={isAdmin ? "Alle Provisionen" : "Meine Provisionen"} />
+				<div>
+					<DateRangeFilter
+						preset={preset}
+						from={from}
+						to={to}
+						drivers={isAdmin ? drivers : undefined}
+						selectedDriver={driver}
+						adminId={user.id}
+						adminName={`${user.firstname} ${user.lastname}`}
+					/>
+				</div>
 				<div className="grid gap-6 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" />
 					<StatCard label="Offen (Pending)" value={`${pendingAmount.toFixed(2)} €`} icon={Clock} color="amber" />
@@ -113,17 +124,6 @@ export default async function CommissionsPage({
 							)}
 						</CardContent>
 					</Card>
-				</div>
-				<div>
-					<DateRangeFilter
-						preset={preset}
-						from={from}
-						to={to}
-						drivers={isAdmin ? drivers : undefined}
-						selectedDriver={driver}
-						adminId={user.id}
-						adminName={`${user.firstname} ${user.lastname}`}
-					/>
 				</div>
 				<p className="text-muted-foreground">{summaryCommissions.length} Einträge insgesamt</p>
 			</div>
