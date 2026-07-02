@@ -84,7 +84,7 @@ export default async function CommissionsPage({
 
 	return (
 		<div className="space-y-6">
-			<div>
+			<div className="space-y-6">
 				<PageHeader title={isAdmin ? "Alle Provisionen" : "Meine Provisionen"} />
 				<div className="grid gap-6 md:grid-cols-3">
 					<StatCard label="Gesamt" value={`${totalAmount.toFixed(2)} €`} icon={Wallet} color="blue" />
@@ -92,7 +92,7 @@ export default async function CommissionsPage({
 					<StatCard label="Ausbezahlt" value={`${paidAmount.toFixed(2)} €`} icon={CircleCheckBig} color="green" />
 				</div>
 
-				<div className="flex">
+				<div className="grid gap-6 md:grid-cols-2">
 					<Card className="flex-grow">
 						<CardHeader>
 							<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
@@ -114,7 +114,7 @@ export default async function CommissionsPage({
 						</CardContent>
 					</Card>
 				</div>
-				<div className="mt-4">
+				<div>
 					<DateRangeFilter
 						preset={preset}
 						from={from}

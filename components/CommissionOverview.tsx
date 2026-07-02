@@ -104,9 +104,9 @@ export default async function CommissionOverview({
 
 	return (
 		<div className="space-y-6">
-			<div>
+			<div className="space-y-6">
 				<h1 className="text-2xl font-bold">Meine Provisionen</h1>
-				<div className="mt-4">
+				<div>
 					<DateRangeFilter preset={preset} from={from} to={to} />
 				</div>
 				<div className="grid gap-6 md:grid-cols-3">
