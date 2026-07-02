@@ -144,55 +144,60 @@ export default async function AdminDashboard({ firstname, companyId, selectedDri
 				</div>
 			</div>
 
-			<div className="grid gap-6 md:grid-cols-2">
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
-					</CardHeader>
-					<CardContent>
-						<CommissionsChart data={chartData} />
-					</CardContent>
-				</Card>
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
-					</CardHeader>
-					<CardContent>
-						{provisionStatusData.length === 0 ? (
-							<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
-						) : (
-							<DonutChart data={provisionStatusData} unit="€" />
-						)}
-					</CardContent>
-				</Card>
+			<div>
+				<h2 className="font-semibold mb-2">Provisionen-Diagramme</h2>
+				<div className="grid gap-6 md:grid-cols-2">
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Provisionen {currentYear} (pro Monat)</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<CommissionsChart data={chartData} />
+						</CardContent>
+					</Card>
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Provisionen nach Status</CardTitle>
+						</CardHeader>
+						<CardContent>
+							{provisionStatusData.length === 0 ? (
+								<p className="text-center text-muted-foreground">Keine Provisionen vorhanden</p>
+							) : (
+								<DonutChart data={provisionStatusData} unit="€" />
+							)}
+						</CardContent>
+					</Card>
+				</div>
 			</div>
 
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 				<StatCard label="Aktive Abschlepper" value={String(totalActiveDrivers)} icon={UserCheck} color="green" />
 				<StatCard label="Inaktive Abschlepper" value={String(totalInactiveDrivers)} icon={UserX} color="amber" />
 				<StatCard label="Alle registrierten" value={String(registeredDrivers)} icon={Users} color="blue" />
-				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" compact />
+				<StatCard label="Warten auf Freigabe" value={String(pendingUsers)} icon={Clock} color="purple" />
 			</div>
 
-			<div className="grid gap-6 md:grid-cols-2">
-				<Card>
-					<CardContent>
-						<LeadsChart data={leadTrendData} title={`Lead-Entwicklung (${now.toLocaleDateString("de-DE", { month: "long" })})`} />
-					</CardContent>
-				</Card>
-
-				<Card>
-					<CardHeader>
-						<CardTitle className="text-base font-semibold">Lead-Status-Verteilung</CardTitle>
-					</CardHeader>
-					<CardContent>
-						{leadStatusData.length === 0 ? (
-							<p className="text-center text-muted-foreground">Keine Leads vorhanden</p>
-						) : (
-							<DonutChart data={leadStatusData} />
-						)}
-					</CardContent>
-				</Card>
+			<div>
+				<h2 className="font-semibold mb-2">Leads</h2>
+				<div className="grid gap-6 md:grid-cols-2">
+					<Card>
+						<CardContent>
+							<LeadsChart data={leadTrendData} title={`Lead-Entwicklung (${now.toLocaleDateString("de-DE", { month: "long" })})`} />
+						</CardContent>
+					</Card>
+					<Card>
+						<CardHeader>
+							<CardTitle className="text-base font-semibold">Lead-Status-Verteilung</CardTitle>
+						</CardHeader>
+						<CardContent>
+							{leadStatusData.length === 0 ? (
+								<p className="text-center text-muted-foreground">Keine Leads vorhanden</p>
+							) : (
+								<DonutChart data={leadStatusData} />
+							)}
+						</CardContent>
+					</Card>
+				</div>
 			</div>
 
 			<div>
