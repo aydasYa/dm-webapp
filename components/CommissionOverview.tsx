@@ -4,10 +4,12 @@ import CommissionsChart from "@/components/CommissionsChart"
 import { StatCard } from "@/components/StatCard"
 import { Wallet, Clock, CircleCheckBig } from "lucide-react"
 import DonutChart from "@/components/DonutChart"
+import { buildMonthlyCommissions, buildCommissionTrend, buildCommissionStatus } from "@/lib/commissionStats"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { resolveRange, inRange } from "@/lib/dateRange"
 import { getCommissions } from "@/lib/getCommissions"
 import { getLeads } from "@/lib/getLeads"
+import { buildLeadStatus, buildLeadTrend } from "@/lib/leadStats"
 import LeadsChart from "@/components/LeadsChart"
 import { Pagination } from "@/components/Pagination"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -54,53 +56,17 @@ export default async function CommissionOverview({
 	const { total: totalAmount, pending: pendingAmount, paid: paidAmount, approved: approvedAmount, rejected: rejectedAmount } = summarizeCommissions(summaryCommissions)
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
-	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(pendingAmount), color: "var(--warning)" },
-		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "var(--info)" },
-		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "var(--success)" },
-		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "var(--destructive)" },
-	].filter((d) => d.value > 0)
+	const provisionStatusData = buildCommissionStatus({ pending: pendingAmount, approved: approvedAmount, paid: paidAmount, rejected: rejectedAmount })
 
-	// Provision pro Monat (dieses Jahr) — ungefiltert
-	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 	const currentYear = new Date().getFullYear()
-	const chartData = monthNames.map((month, idx) => ({
-		month,
-		amount: commissions
-			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
-			.reduce((sum, c) => sum + c.amount, 0),
-	}))
+	const chartData = buildMonthlyCommissions(commissions, currentYear)
 
-	// Vormonats-Trend
 	const now = new Date()
-	const sumForMonth = (year: number, month: number) =>
-		commissions
-			.filter((c) => c.createdAt.getFullYear() === year && c.createdAt.getMonth() === month)
-			.reduce((sum, c) => sum + c.amount, 0)
-	const thisMonthSum = sumForMonth(now.getFullYear(), now.getMonth())
-	const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-	const lastMonthSum = sumForMonth(lastMonthDate.getFullYear(), lastMonthDate.getMonth())
-	const diff = thisMonthSum - lastMonthSum
-	const trendProvision = `${diff >= 0 ? "↑" : "↓"} ${Math.abs(diff).toFixed(0)} € vs. ${monthNames[lastMonthDate.getMonth()]}`
+	const trendProvision = buildCommissionTrend(commissions, now)
 
-	// Eigene Leads: pro Tag (Liniendiagramm) + Status-Verteilung (Donut)
-	const daysInMonth = new Date(currentYear, now.getMonth() + 1, 0).getDate()
-	const leadTrendData = Array.from({ length: daysInMonth }, (_, i) => {
-		const day = i + 1
-		const count = leadRecords.filter((l) => {
-			const d = new Date(l.createdAt)
-			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
-		}).length
-		const mm = String(now.getMonth() + 1).padStart(2, "0")
-		const dd = String(day).padStart(2, "0")
-		return { date: `${currentYear}-${mm}-${dd}`, count }
-	})
-	const leadStatusData = [
-		{ name: "Abgeschlossen", value: leadRecords.filter((l) => l.status === "COMPLETED").length, color: "var(--success)" },
-		{ name: "In Bearbeitung", value: leadRecords.filter((l) => l.status === "IN_PROGRESS").length, color: "var(--info)" },
-		{ name: "Offen", value: leadRecords.filter((l) => l.status === "OPEN").length, color: "var(--warning)" },
-		{ name: "Storniert", value: leadRecords.filter((l) => l.status === "CANCELLED").length, color: "var(--destructive)" },
-	].filter((d) => d.value > 0)
+	// Eigene Leads: Verlauf + Status-Verteilung
+	const leadTrendData = buildLeadTrend(leadRecords, now)
+	const leadStatusData = buildLeadStatus(leadRecords)
 
 	return (
 		<div className="space-y-6">

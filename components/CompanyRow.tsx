@@ -10,7 +10,27 @@ import {
 import { ConfirmActionButton } from "./ConfirmActionButton"
 import { SubmitButton } from "./SubmitButton"
 import { toast } from "sonner"
-import type { CompanyCardUser } from "./CompanyCard"
+
+export type CompanyCardUser = {
+  id: string
+  firstname: string
+  lastname: string
+  email: string
+  phone: string | null
+  status: UserStatus
+  createdAt: Date
+  company: {
+    name: string
+    address: string | null
+    postcode: string | null
+    city: string | null
+    phone: string | null
+    email: string | null
+    website: string | null
+    contactFirstname: string | null
+    contactLastname: string | null
+  } | null
+}
 
 export function CompanyRow({ user }: { user: CompanyCardUser }) {
   const isPending = user.status === UserStatus.PENDING

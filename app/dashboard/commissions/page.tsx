@@ -9,6 +9,7 @@ import DonutChart from "@/components/DonutChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { Pagination } from "@/components/Pagination"
 import { resolveRange, inRange } from "@/lib/dateRange"
+import { buildMonthlyCommissions, buildCommissionStatus } from "@/lib/commissionStats"
 import { getCommissions } from "@/lib/getCommissions"
 import { requireUser } from "@/lib/auth"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -65,22 +66,10 @@ export default async function CommissionsPage({
 	const { total: totalAmount, pending: pendingAmount, paid: paidAmount, approved: approvedAmount, rejected: rejectedAmount } = summarizeCommissions(summaryCommissions)
 
 	// Verteilung nach Status für den Donut (Beträge, Farbe pro Slice)
-	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(pendingAmount), color: "var(--warning)" },
-		{ name: "Genehmigt", value: Math.round(approvedAmount), color: "var(--info)" },
-		{ name: "Ausbezahlt", value: Math.round(paidAmount), color: "var(--success)" },
-		{ name: "Abgelehnt", value: Math.round(rejectedAmount), color: "var(--destructive)" },
-	].filter((d) => d.value > 0)
+	const provisionStatusData = buildCommissionStatus({ pending: pendingAmount, approved: approvedAmount, paid: paidAmount, rejected: rejectedAmount })
 
-	// Provision pro Monat (dieses Jahr) — ungefiltert
-	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 	const currentYear = new Date().getFullYear()
-	const chartData = monthNames.map((month, idx) => ({
-		month,
-		amount: commissions
-			.filter((c) => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
-			.reduce((sum, c) => sum + c.amount, 0),
-	}))
+	const chartData = buildMonthlyCommissions(commissions, currentYear)
 
 	return (
 		<div className="space-y-6">

@@ -4,7 +4,6 @@ import prisma from "@/lib/prisma"
 export async function createQrCode(userId: string) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { companyId: true } })
   if (!user) return
-  const firmenId = user.companyId ?? "unbekannt"
-  const url = `https://angebot.deinmotorschaden.de?utm_medium=${userId}&utm_source=${firmenId}`
+  const url = `https://angebot.deinmotorschaden.de?user_id=${userId}&company_id=${user.companyId ?? "unbekannt"}`
   await prisma.user.update({ where: { id: userId }, data: { qrCode: url } })
-}
+} 

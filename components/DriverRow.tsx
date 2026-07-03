@@ -11,7 +11,27 @@ import { toast } from "sonner"
 import {
   Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle,
 } from "@/components/ui/dialog"
-import type { DriverCardUser } from "./DriverCard"
+
+export type DriverCardUser = {
+  id: string
+  firstname: string
+  lastname: string
+  email: string
+  status: UserStatus
+  qrCode: string | null
+  createdAt: Date
+  company: {
+    name: string
+    address: string | null
+    postcode: string | null
+    city: string | null
+    phone: string | null
+    email: string | null
+    contactFirstname: string | null
+    contactLastname: string | null
+  } | null
+  phone: string | null
+}
 
 export function DriverRow({ user }: { user: DriverCardUser }) {
   const isInactive = user.status === UserStatus.INACTIVE

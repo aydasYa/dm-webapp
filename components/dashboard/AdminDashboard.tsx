@@ -10,6 +10,8 @@ import DonutChart from "@/components/DonutChart"
 import CommissionsChart from "@/components/CommissionsChart"
 import DateRangeFilter from "@/components/DateRangeFilter"
 import { getCommissions } from "@/lib/getCommissions"
+import { buildLeadStatus, buildLeadTrend } from "@/lib/leadStats"
+import { buildMonthlyCommissions, buildCommissionTrend, buildCommissionStatus } from "@/lib/commissionStats"
 import { Users, CircleCheckBig, TrendingUp, Wallet, Clock } from "lucide-react"
 
 export default async function AdminDashboard({
@@ -56,56 +58,18 @@ export default async function AdminDashboard({
 	}))
 	const commissions = allCommissions.filter((c) => inRange(c.createdAt, range))
 	const { total: comSum, pending: comOpen, paid: comPaid, approved: comApproved, rejected: comRejected } = summarizeCommissions(commissions)
+	const commissionTrend = buildCommissionTrend(allCommissions, now)
+	const commissionChartData = buildMonthlyCommissions(allCommissions, currentYear)
 
-	const sumForMonth = (year: number, month: number) =>
-		allCommissions
-			.filter(c => c.createdAt.getFullYear() === year && c.createdAt.getMonth() === month)
-			.reduce((s, c) => s + Number(c.amount), 0)
-	const thisMonthSum = sumForMonth(now.getFullYear(), now.getMonth())
-	const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-	const diff = thisMonthSum - sumForMonth(lastMonth.getFullYear(), lastMonth.getMonth())
-	const commissionTrend = `${diff >= 0 ? "↑" : "↓"} ${Math.abs(diff).toFixed(0)} € vs. ${lastMonth.toLocaleDateString("de-DE", { month: "short" })}`
-
-	const monthNames = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
-	const commissionChartData = monthNames.map((month, idx) => ({
-		month,
-		amount: allCommissions
-			.filter(c => c.createdAt.getFullYear() === currentYear && c.createdAt.getMonth() === idx)
-			.reduce((s, c) => s + Number(c.amount), 0),
-	}))
-
-	const provisionStatusData = [
-		{ name: "Offen", value: Math.round(comOpen), color: "var(--warning)" },
-		{ name: "Genehmigt", value: Math.round(comApproved), color: "var(--info)" },
-		{ name: "Ausbezahlt", value: Math.round(comPaid), color: "var(--success)" },
-		{ name: "Abgelehnt", value: Math.round(comRejected), color: "var(--destructive)" },
-	].filter((d) => d.value > 0)
+	const provisionStatusData = buildCommissionStatus({ pending: comOpen, approved: comApproved, paid: comPaid, rejected: comRejected })
 
 	// Leads (nach Zeitraum gefiltert für KPIs/Donut)
 	const leads = leadRecords.filter((l) => inRange(new Date(l.createdAt), range))
 	const totalLeads = leads.length
 	const completedLeads = leads.filter((l) => l.status === "COMPLETED").length
 	const conversionRate = totalLeads > 0 ? (completedLeads / totalLeads) * 100 : 0
-
-	const leadStatusData = [
-		{ name: "Abgeschlossen", value: leads.filter((l) => l.status === "COMPLETED").length, color: "var(--success)" },
-		{ name: "In Bearbeitung", value: leads.filter((l) => l.status === "IN_PROGRESS").length, color: "var(--info)" },
-		{ name: "Offen", value: leads.filter((l) => l.status === "OPEN").length, color: "var(--warning)" },
-		{ name: "Storniert", value: leads.filter((l) => l.status === "CANCELLED").length, color: "var(--destructive)" },
-	].filter((d) => d.value > 0)
-
-	// Lead-Entwicklung (aktueller Monat, nach Fahrer gefiltert)
-	const daysInMonth = new Date(currentYear, now.getMonth() + 1, 0).getDate()
-	const leadTrendData = Array.from({ length: daysInMonth }, (_, i) => {
-		const day = i + 1
-		const count = leadRecords.filter((l) => {
-			const d = new Date(l.createdAt)
-			return d.getFullYear() === currentYear && d.getMonth() === now.getMonth() && d.getDate() === day
-		}).length
-		const mm = String(now.getMonth() + 1).padStart(2, "0")
-		const dd = String(day).padStart(2, "0")
-		return { date: `${currentYear}-${mm}-${dd}`, count }
-	})
+	const leadStatusData = buildLeadStatus(leads)
+	const leadTrendData = buildLeadTrend(leadRecords, now)
 
 	return (
 		<div className="space-y-6">
